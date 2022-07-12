@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Sign up {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="../static/css/signup.css">
+    <style>
+        label {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block bodyContent %}
+{% from "includes/formHelper.html" import render_field %}
+<br>
+<br>
+<div class="container-login">
+  <div class="col">
+    <form method="POST" class="form-login">
+      <h1>Register</h1>
+      <br><br>
+
+      <div class="form-login-field">
+        {{ render_field(form.name, class="form-login-field") }}
+      </div>
+      <div class="form-login-field">
+        {{ render_field(form.email, class="form-login-field") }}
+      </div>
+      <br><br><br>
+      <div class="form-login-field">
+        {{ render_field(form.phno, class="form-login-field") }}
+      </div>
+      <br><br><br>
+      <div class="form-login-field">
+        {{ render_field(form.register_password, class="form-login-field") }}
+      </div>
+      <br><br><br>
+      <div class="form-login-field">
+        {{ render_field(form.confirm_password, class="form-login-field") }}
+      </div>
+      <br><br><br>
+      <input type="submit" value="Sign Up">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

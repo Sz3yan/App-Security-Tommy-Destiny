@@ -1,0 +1,2876 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <style>
+            :root {
+                --brandcolor: #00a3d7
+            }
+        
+            /* Colors
+            /* ----------------------------------------------------- */
+            :root {
+                --black: #000;
+                --grey0: #1d1d1d;
+                --grey1: #333;
+                --grey2: #3d3d3d;
+                --grey3: #474747;
+                --grey4: #515151;
+                --grey5: #686868;
+                --grey6: #7f7f7f;
+                --grey7: #979797;
+                --grey8: #aeaeae;
+                --grey9: #c5c5c5;
+                --grey10: #dcdcdc;
+                --grey11: #e1e1e1;
+                --grey12: #eaeaea;
+                --grey13: #f9f9f9;
+                --grey14: #fbfbfb;
+                --white: #fff;
+                --red: #f02525;
+                --yellow: #FFDC15;
+                --green: #7FC724;
+            }
+
+            /* Globals
+            /* ----------------------------------------------------- */
+            html {
+                font-size: 62.5%;
+                height: 100%;
+            }
+
+            body {
+                margin: 0px;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+                font-size: 1.6rem;
+                height: 100%;
+                line-height: 1.6em;
+                font-weight: 400;
+                font-style: normal;
+                color: var(--grey2);
+                box-sizing: border-box;
+                overflow: hidden;
+            }
+
+            button,
+            button span {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            }
+
+            *, ::after, ::before {
+                box-sizing: border-box;
+            }
+
+            h1, h2, h3, h4, h5, h6, p {
+                line-height: 1.15em;
+                padding: 0;
+                margin: 0;
+            }
+
+            h1 {
+                font-size: 35px;
+                font-weight: 700;
+                letter-spacing: -0.022em;
+            }
+
+            h2 {
+                font-size: 32px;
+                font-weight: 700;
+                letter-spacing: -0.021em;
+            }
+
+            h3 {
+                font-size: 24px;
+                font-weight: 700;
+                letter-spacing: -0.019em;
+            }
+
+            p {
+                font-size: 15px;
+                line-height: 1.5em;
+                margin-bottom: 24px;
+            }
+
+            strong {
+                font-weight: 600;
+            }
+
+            a,
+            .tom-destiny-portal-link {
+                cursor: pointer;
+            }
+
+            svg {
+                box-sizing: content-box;
+            }
+
+            input,
+            textarea {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+                font-size: 1.5rem;
+            }
+
+            textarea {
+                padding: 10px;
+                line-height: 1.5em;
+            }
+
+            @media (max-width: 1440px) {
+                h1 {
+                    font-size: 32px;
+                    letter-spacing: -0.022em;
+                }
+
+                h2 {
+                    font-size: 28px;
+                    letter-spacing: -0.021em;
+                }
+
+                h3 {
+                    font-size: 26px;
+                    letter-spacing: -0.02em;
+                }
+            }
+
+            @media (max-width: 480px) {
+                h1 {
+                    font-size: 30px;
+                    letter-spacing: -0.021em;
+                }
+
+                h2 {
+                    font-size: 26px;
+                    letter-spacing: -0.02em;
+                }
+
+                h3 {
+                    font-size: 24px;
+                    letter-spacing: -0.019em;
+                }
+            }
+
+        .tom-destiny-portal-main-title {
+            text-align: center;
+            color: var(--grey0);
+            line-height: 1.1em;
+        }
+
+        .tom-destiny-portal-text-disabled {
+            color: var(--grey3);
+            font-weight: normal;
+            opacity: 0.35;
+        }
+
+        .tom-destiny-portal-text-center {
+            text-align: center;
+        }
+
+        .tom-destiny-portal-input-label {
+            color: var(--grey1);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            letter-spacing: 0px;
+        }
+
+        .tom-destiny-portal-setting-data {
+            color: var(--grey6);
+            font-size: 1.3rem;
+            line-height: 1.15em;
+        }
+
+        .tom-destiny-portal-error {
+            color: var(--red);
+            font-size: 1.4rem;
+            line-height: 1.6em;
+            margin: 12px 0;
+        }
+
+        /* Buttons
+        /* ----------------------------------------------------- */
+        .tom-destiny-portal-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1em;
+            letter-spacing: 0.2px;
+            text-align: center;
+            white-space: nowrap;
+            text-decoration: none;
+            color: var(--grey0);
+            background: var(--white);
+            border: 1px solid var(--grey12);
+            min-width: 80px;
+            height: 44px;
+            padding: 0 1.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all .25s ease;
+            box-shadow: none;
+            user-select: none;
+            outline: none;
+        }
+
+        .tom-destiny-portal-btn:hover {
+            border-color: var(--grey10);
+        }
+
+        .tom-destiny-portal-btn:disabled {
+            opacity: 0.5 !important;
+            cursor: auto;
+        }
+
+        .tom-destiny-portal-btn-container.sticky {
+            transition: none;
+            position: sticky;
+            bottom: 0;
+            margin: 0 0 -32px;
+            padding: 32px 0 32px;
+            background: linear-gradient(0deg, rgba(255,255,255,1) 75%, rgba(255,255,255,0) 100%);
+        }
+
+        .tom-destiny-portal-btn-container.sticky.m28 {
+            margin: 0 0 -28px;
+            padding: 28px 0 28px;
+        }
+
+        .tom-destiny-portal-btn-container.sticky.m24 {
+            margin: 0 0 -24px;
+            padding: 24px 0 24px;
+        }
+
+        .tom-destiny-portal-btn-container .tom-destiny-portal-btn {
+            margin: 0;
+        }
+
+        .tom-destiny-portal-btn-icon svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            stroke: currentColor;
+        }
+
+        .tom-destiny-portal-btn-icon svg path {
+            stroke: currentColor;
+        }
+
+        .tom-destiny-portal-btn-link {
+            line-height: 1;
+            background: none;
+            padding: 0;
+            height: unset;
+            min-width: unset;
+            box-shadow: none;
+            border: none;
+        }
+
+        .tom-destiny-portal-btn-link:hover {
+            box-shadow: none;
+            opacity: 0.85;
+        }
+
+        .tom-destiny-portal-btn-branded {
+            color: var(--brandcolor);
+        }
+
+        .tom-destiny-portal-btn-list {
+            font-size: 1.5rem;
+            color: var(--brandcolor);
+            height: 38px;
+            width: unset;
+            min-width: unset;
+            padding: 0 4px;
+            margin: 0 -4px;
+            box-shadow: none;
+            border: none;
+        }
+
+        .tom-destiny-portal-btn-list:hover {
+            box-shadow: none;
+            opacity: 0.75;
+        }
+
+        .tom-destiny-portal-btn-logout {
+            position: absolute;
+            top: 22px;
+            left: 24px;
+            background: none;
+            border: none;
+            height: unset;
+            color: var(--grey3);
+            padding: 0;
+            margin: 0;
+            z-index: 999;
+            box-shadow: none;
+        }
+
+        .tom-destiny-portal-btn-logout .label {
+            opacity: 0;
+            transform: translateX(-6px);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .tom-destiny-portal-btn-logout:hover {
+            padding: 0;
+            margin: 0;
+            background: none;
+            border: none;
+            height: unset;
+            box-shadow: none;
+        }
+
+        .tom-destiny-portal-btn-logout:hover .label {
+            opacity: 1.0;
+            transform: translateX(-4px);
+        }
+
+        .tom-destiny-portal-btn-site-title-back {
+            transition: transform 0.25s ease-in-out;
+            z-index: 10000;
+        }
+
+        .tom-destiny-portal-btn-site-title-back span {
+            margin-right: 4px;
+            transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
+        }
+
+
+        .tom-destiny-portal-btn-site-title-back:hover span {
+            transform: translateX(-3px);
+        }
+
+        @media (max-width: 960px) {
+            .tom-destiny-portal-btn-site-title-back {
+                display: none;
+            }
+        }
+
+        .tom-destiny-portal-logouticon {
+            color: var(--grey9);
+            cursor: pointer;
+            width: 23px;
+            height: 23px;
+            padding: 6px;
+            transform: translateX(0);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .tom-destiny-portal-logouticon path {
+            stroke: var(--grey9);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .tom-destiny-portal-btn-logout:hover .tom-destiny-portal-logouticon {
+            transform: translateX(-2px);
+        }
+
+        .tom-destiny-portal-btn-logout:hover .tom-destiny-portal-logouticon path {
+            stroke: var(--grey3);
+        }
+
+        /* Global layout styles
+        /* ----------------------------------------------------- */
+        .tom-destiny-portal-popup-background {
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            animation: fadein 0.2s;
+            background: linear-gradient(315deg , rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 100%);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            -webkit-transform: translate3d(0, 0, 0);
+            -moz-transform: translate3d(0, 0, 0);
+            -ms-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+
+        .tom-destiny-portal-popup-background.preview {
+            background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(249,249,250,1) 100%);
+            animation: none;
+            pointer-events: none;
+        }
+
+        @keyframes fadein {
+            0% { opacity: 0; }
+            100%{ opacity: 1.0; }
+        }
+
+        .tom-destiny-portal-popup-wrapper {
+            position: relative;
+            padding: 5vmin 0 0;
+            height: 100%;
+            max-height: 100vh;
+            overflow: scroll;
+        }
+
+        /* Hiding scrollbars */
+        .tom-destiny-portal-popup-wrapper {
+            padding-right: 30px !important;
+            margin-right: -30px !important;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tom-destiny-portal-popup-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tom-destiny-portal-popup-wrapper.full-size {
+            height: 100vh;
+            padding: 0;
+        }
+
+        .tom-destiny-portal-popup-container {
+            outline: none;
+            position: relative;
+            display: flex;
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: flex-start;
+            font-size: 1.5rem;
+            text-align: left;
+            letter-spacing: 0;
+            text-rendering: optimizeLegibility;
+            background: var(--white);
+            width: 500px;
+            margin: 0 auto 40px;
+            padding: 32px;
+            transform: translateY(0px);
+            border-radius: 10px;
+            box-shadow: 0 3.8px 2.2px rgba(0, 0, 0, 0.028), 0 9.2px 5.3px rgba(0, 0, 0, 0.04), 0 17.3px 10px rgba(0, 0, 0, 0.05), 0 30.8px 17.9px rgba(0, 0, 0, 0.06), 0 57.7px 33.4px rgba(0, 0, 0, 0.072), 0 138px 80px rgba(0, 0, 0, 0.1);
+            animation: popup 0.25s ease-in-out;
+            z-index: 9999;
+        }
+
+        .tom-destiny-portal-popup-container.full-size {
+            width: 100vw;
+            min-height: 100vh;
+            justify-content: flex-start;
+            animation: popup-full-size 0.25s ease-in-out;
+            margin: 0;
+            border-radius: 0;
+            transform: translateY(0px);
+            transform-origin: top;
+            padding: 2vmin 6vmin;
+            padding-bottom: 4vw;
+        }
+
+        .tom-destiny-portal-popup-container.full-size.account-plan {
+            justify-content: flex-start;
+            padding-top: 4vw;
+        }
+
+        .tom-destiny-portal-popup-container.preview {
+            animation: none !important;
+        }
+
+        @keyframes popup {
+            0% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            1% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            100%{
+                transform: translateY(0);
+                opacity: 1.0;
+            }
+        }
+
+        @keyframes popup-full-size {
+            0% {
+                transform: translateY(0px);
+                opacity: 0;
+            }
+            1% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            100%{
+                transform: translateY(0);
+                opacity: 1.0;
+            }
+        }
+
+        .tom-destiny-portal-powered {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            z-index: 9999;
+        }
+
+        .tom-destiny-portal-powered a {
+            border: none;
+            display: flex;
+            align-items: center;
+            line-height: 0;
+            border-radius: 4px;
+            background: #ffffff;
+            padding: 6px 8px 6px 7px;
+            color: #303336;
+            font-size: 1.25rem;
+            letter-spacing: -0.2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.5s ease-in-out;
+            width: 146px;
+            height: 28px;
+            line-height: 28px;
+        }
+
+        .tom-destiny-portal-powered a:hover {
+            color: #15171A;
+        }
+
+        @keyframes powered-fade-in {
+            0% {
+                transform: scale(0.98);
+                opacity: 0;
+            }
+            75% {
+                opacity: 1.0;
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+
+        .tom-destiny-portal-powered a svg {
+            height: 16px;
+            width: 16px;
+            margin: 0 6px 0 0;
+        }
+
+        .tom-destiny-portal-powered.outside.full-size {
+            display: none;
+        }
+
+        /* Sets the main content area of the popup scrollable.
+        /* 12vw is the sum horizontal padding of the popup container
+        */
+        .tom-destiny-portal-content {
+            position: relative;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .tom-destiny-portal-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .tom-destiny-portal-content {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .tom-destiny-portal-closeicon-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10000;
+        }
+
+        .tom-destiny-portal-closeicon {
+            color: var(--grey10);
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            padding: 12px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .tom-destiny-portal-closeicon:hover {
+            color: var(--grey5);
+        }
+
+        .tom-destiny-portal-popup-wrapper.full-size .tom-destiny-portal-closeicon-container,
+        .tom-destiny-portal-popup-container.full-size .tom-destiny-portal-closeicon-container {
+            top: 20px;
+            right: 20px;
+        }
+
+        .tom-destiny-portal-popup-wrapper.full-size .tom-destiny-portal-closeicon,
+        .tom-destiny-portal-popup-container.full-size .tom-destiny-portal-closeicon {
+            color: var(--grey6);
+            width: 24px;
+            height: 24px;
+        }
+
+        .tom-destiny-portal-logout-container {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+        }
+
+        .tom-destiny-portal-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 24px;
+        }
+
+        .tom-destiny-portal-section {
+            margin-bottom: 40px;
+        }
+
+        .tom-destiny-portal-section.form {
+            margin-bottom: 20px;
+        }
+
+        .tom-destiny-portal-detail-header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: -2px 0 40px;
+        }
+
+        .tom-destiny-portal-detail-footer .tom-destiny-portal-btn {
+            min-width: 90px;
+        }
+
+        .tom-destiny-portal-action-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tom-destiny-portal-list-header {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--grey3);
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+            line-height: 1.7em;
+            margin-bottom: 4px;
+        }
+
+        .tom-destiny-portal-list + .tom-destiny-portal-list-header {
+            margin-top: 28px;
+        }
+
+        .tom-destiny-portal-list + .tom-destiny-portal-action-footer {
+            margin-top: 40px;
+        }
+
+        .tom-destiny-portal-list {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--grey12);
+        }
+
+        .tom-destiny-portal-newsletter-selection {
+            max-width: 460px;
+            margin: 0 auto;
+        }
+
+        .tom-destiny-portal-newsletter-selection .tom-destiny-portal-list {
+            margin-bottom: 40px;
+        }
+
+        .tom-destiny-portal-lock-icon-container {
+            display: flex;
+            justify-content: center;
+            flex: 44px 0 0;
+            padding-top: 6px;
+        }
+
+        .tom-destiny-portal-lock-icon {
+            width: 14px;
+            height: 14px;
+            overflow: visible;
+        }
+
+        .tom-destiny-portal-lock-icon path {
+            color: var(--grey2);
+        }
+
+        .tom-destiny-portal-text-large {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .tom-destiny-portal-list section {
+            display: flex;
+            align-items: center;
+            margin: 0 -20px 20px;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--grey12);
+        }
+
+        .tom-destiny-portal-list section:last-of-type {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border: none;
+        }
+
+        .tom-destiny-portal-list-detail {
+            flex-grow: 1;
+        }
+
+        .tom-destiny-portal-list-detail h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .tom-destiny-portal-list-detail.tom-destiny-portal-list-big h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .tom-destiny-portal-list-detail p {
+            font-size: 1.45rem;
+            letter-spacing: 0.3px;
+            line-height: 1.3em;
+            padding: 0;
+            margin: 5px 8px 0 0;
+            color: var(--grey6);
+            word-break: break-word;
+        }
+
+        .tom-destiny-portal-list-detail.tom-destiny-portal-list-big p {
+            font-size: 1.5rem;
+        }
+
+        .tom-destiny-portal-list-toggle-wrapper {
+            align-items: flex-start !important;
+            justify-content: space-between;
+        }
+
+        .tom-destiny-portal-list-toggle-wrapper .tom-destiny-portal-list-detail {
+            padding: 4px 24px 4px 0px;
+        }
+
+        .tom-destiny-portal-list-detail .old-price {
+            text-decoration: line-through;
+        }
+
+        .tom-destiny-portal-right-arrow {
+            line-height: 1;
+            color: var(--grey8);
+        }
+
+        .tom-destiny-portal-right-arrow svg {
+            width: 17px;
+            height: 17px;
+            margin-top: 1px;
+            margin-right: -6px;
+        }
+
+        .tom-destiny-portal-expire-warning {
+            text-align: center;
+            color: var(--red);
+            font-weight: 500;
+            font-size: 1.4rem;
+            margin: 12px 0;
+        }
+
+        .tom-destiny-portal-cookiebanner {
+            background: var(--red);
+            color: var(--white);
+            text-align: center;
+            font-size: 1.4rem;
+            letter-spacing: 0.2px;
+            line-height: 1.4em;
+            padding: 8px;
+        }
+
+        .tom-destiny-portal-publication-title {
+            text-align: center;
+            font-size: 1.6rem;
+            letter-spacing: -.1px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #15212a;
+            margin-top: 6px;
+        }
+
+        /* Icons
+        /* ----------------------------------------------------- */
+        .tom-destiny-portal-icon {
+            color: var(--brandcolor);
+        }
+
+        /* Spacing modifiers
+        /* ----------------------------------------------------- */
+        .tom-destiny-portal-strong { font-weight: 600; }
+
+        .mt1 { margin-top: 4px; }
+        .mt2 { margin-top: 8px; }
+        .mt3 { margin-top: 12px; }
+        .mt4 { margin-top: 16px; }
+        .mt5 { margin-top: 20px; }
+        .mt6 { margin-top: 24px; }
+        .mt7 { margin-top: 28px; }
+        .mt8 { margin-top: 32px; }
+        .mt9 { margin-top: 36px; }
+        .mt10 { margin-top: 40px; }
+
+        .mr1 { margin-right: 4px; }
+        .mr2 { margin-right: 8px; }
+        .mr3 { margin-right: 12px; }
+        .mr4 { margin-right: 16px; }
+        .mr5 { margin-right: 20px; }
+        .mr6 { margin-right: 24px; }
+        .mr7 { margin-right: 28px; }
+        .mr8 { margin-right: 32px; }
+        .mr9 { margin-right: 36px; }
+        .mr10 { margin-right: 40px; }
+
+        .mb1 { margin-bottom: 4px; }
+        .mb2 { margin-bottom: 8px; }
+        .mb3 { margin-bottom: 12px; }
+        .mb4 { margin-bottom: 16px; }
+        .mb5 { margin-bottom: 20px; }
+        .mb6 { margin-bottom: 24px; }
+        .mb7 { margin-bottom: 28px; }
+        .mb8 { margin-bottom: 32px; }
+        .mb9 { margin-bottom: 36px; }
+        .mb10 { margin-bottom: 40px; }
+
+        .ml1 { margin-left: 4px; }
+        .ml2 { margin-left: 8px; }
+        .ml3 { margin-left: 12px; }
+        .ml4 { margin-left: 16px; }
+        .ml5 { margin-left: 20px; }
+        .ml6 { margin-left: 24px; }
+        .ml7 { margin-left: 28px; }
+        .ml8 { margin-left: 32px; }
+        .ml9 { margin-left: 36px; }
+        .ml10 { margin-left: 40px; }
+
+        .pt1 { padding-top: 4px; }
+        .pt2 { padding-top: 8px; }
+        .pt3 { padding-top: 12px; }
+        .pt4 { padding-top: 16px; }
+        .pt5 { padding-top: 20px; }
+        .pt6 { padding-top: 24px; }
+        .pt7 { padding-top: 28px; }
+        .pt8 { padding-top: 32px; }
+        .pt9 { padding-top: 36px; }
+        .pt10 { padding-top: 40px; }
+
+        .pr1 { padding-right: 4px; }
+        .pr2 { padding-right: 8px; }
+        .pr3 { padding-right: 12px; }
+        .pr4 { padding-right: 16px; }
+        .pr5 { padding-right: 20px; }
+        .pr6 { padding-right: 24px; }
+        .pr7 { padding-right: 28px; }
+        .pr8 { padding-right: 32px; }
+        .pr9 { padding-right: 36px; }
+        .pr10 { padding-right: 40px; }
+
+        .pb1 { padding-bottom: 4px; }
+        .pb2 { padding-bottom: 8px; }
+        .pb3 { padding-bottom: 12px; }
+        .pb4 { padding-bottom: 16px; }
+        .pb5 { padding-bottom: 20px; }
+        .pb6 { padding-bottom: 24px; }
+        .pb7 { padding-bottom: 28px; }
+        .pb8 { padding-bottom: 32px; }
+        .pb9 { padding-bottom: 36px; }
+        .pb10 { padding-bottom: 40px; }
+
+        .pl1 { padding-left: 4px; }
+        .pl2 { padding-left: 8px; }
+        .pl3 { padding-left: 12px; }
+        .pl4 { padding-left: 16px; }
+        .pl5 { padding-left: 20px; }
+        .pl6 { padding-left: 24px; }
+        .pl7 { padding-left: 28px; }
+        .pl8 { padding-left: 32px; }
+        .pl9 { padding-left: 36px; }
+        .pl10 { padding-left: 40px; }
+
+        .hidden { display: none !important; }
+
+            .tom-destiny-portal-account-header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 0 0 32px;
+            }
+
+            .tom-destiny-portal-account-header .tom-destiny-portal-avatar {
+                margin: 6px 0 8px !important;
+            }
+
+            .tom-destiny-portal-account-data {
+                margin-bottom: 40px;
+            }
+
+            footer.tom-destiny-portal-account-footer {
+                display: flex;
+            }
+
+            .tom-destiny-portal-account-footer.paid {
+                margin-top: 12px;
+            }
+
+            .tom-destiny-portal-account-footermenu {
+                display: flex;
+                align-items: center;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .tom-destiny-portal-account-footerright {
+                display: flex;
+                flex-grow: 1;
+                align-items: center;
+                justify-content: flex-end;
+            }
+
+            .tom-destiny-portal-account-footermenu li {
+                margin-right: 16px;
+            }
+
+            .tom-destiny-portal-account-footermenu li:last-of-type {
+                margin-right: 0;
+            }
+
+            .tom-destiny-portal-freeaccount-newsletter {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 24px;
+            }
+
+            .tom-destiny-portal-freeaccount-newsletter .label {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+            }
+
+            .tom-destiny-portal-free-ctatext {
+                margin-top: -12px;
+            }
+
+            .tom-destiny-portal-cancelcontinue-container {
+                margin: 24px 0 32px;
+            }
+
+            .tom-destiny-portal-billing-button-loader {
+                width: 32px;
+                height: 32px;
+                margin-right: -3px;
+                opacity: 0.6;
+            }
+
+            .tom-destiny-portal-product-icon {
+                width: 52px;
+                margin-right: 12px;
+                border-radius: 2px;
+            }
+
+            .tom-destiny-portal-account-discountcontainer {
+                position: relative;
+                display: flex;
+                align-items: center;
+            }
+
+            .tom-destiny-portal-account-old-price {
+                text-decoration: line-through;
+                color: var(--grey9) !important;
+            }
+
+            .tom-destiny-portal-account-tagicon {
+                width: 16px;
+                height: 16px;
+                color: var(--brandcolor);
+                margin-right: 5px;
+                z-index: 999;
+            }
+
+            @media (max-width: 390px) {
+                .tom-destiny-portal-account-footer {
+                    padding: 0 !important;
+                }
+            }
+
+            @media (max-width: 340px) {
+                .tom-destiny-portal-account-footer {
+                    padding: 0 !important;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                }
+
+                .tom-destiny-portal-account-footer .tom-destiny-portal-account-footerright {
+                    justify-content: flex-start;
+                }
+            }
+
+            .account-plan.full-size .tom-destiny-portal-main-title {
+                font-size: 3.2rem;
+                margin-top: 44px;
+            }
+
+            .tom-destiny-portal-accountplans-main {
+                margin-top: 24px;
+                margin-bottom: 0;
+            }
+
+            .tom-destiny-portal-expire-container {
+                margin: 32px 0 0;
+            }
+
+            .tom-destiny-portal-cancellation-form p {
+                margin-bottom: 12px;
+            }
+
+            .tom-destiny-portal-cancellation-form .tom-destiny-portal-input-section {
+                margin-bottom: 20px;
+            }
+
+            .tom-destiny-portal-cancellation-form .tom-destiny-portal-input {
+                resize: none;
+                width: 100%;
+                height: 62px;
+                padding: 6px 12px;
+            }
+
+            .tom-destiny-portal-input {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+
+                display: block;
+                box-sizing: border-box;
+                font-size: 1.5rem;
+                color: inherit;
+                background: transparent;
+                outline: none;
+                border: 1px solid var(--grey11);
+                border-radius: 6px;
+                width: 100%;
+                height: 44px;
+                padding: 0 12px;
+                margin-bottom: 18px;
+                letter-spacing: 0.2px;
+                transition: border-color 0.25s ease-in-out;
+            }
+
+            .tom-destiny-portal-input-labelcontainer {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .tom-destiny-portal-input-labelcontainer p {
+                color: var(--red);
+                font-size: 1.3rem;
+                letter-spacing: 0.35px;
+                line-height: 1.6em;
+                margin-bottom: 0;
+            }
+
+            .tom-destiny-portal-input-label.hidden {
+                display: none;
+            }
+
+            .tom-destiny-portal-input:focus {
+                border-color: var(--grey8);
+            }
+
+            .tom-destiny-portal-input.error {
+                border-color: var(--red);
+            }
+
+            .tom-destiny-portal-input::placeholder {
+                color: var(--grey8);
+            }
+
+            .tom-destiny-portal-popup-container:not(.preview) .tom-destiny-portal-input:disabled {
+                background: var(--grey13);
+                color: var(--grey9);
+                box-shadow: none;
+            }
+
+            .tom-destiny-portal-popup-container:not(.preview) .tom-destiny-portal-input:disabled::placeholder {
+                color: var(--grey9);
+            }
+
+            .tom-destiny-portal-plans-container {
+                display: flex;
+                align-items: stretch;
+                border: 1px solid var(--grey11);
+                border-radius: 5px;
+            }
+
+            .tom-destiny-portal-plan-section {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                position: relative;
+                align-items: center;
+                justify-items: center;
+                font-size: 1.4rem;
+                line-height: 1.35em;
+                border-right: 1px solid var(--grey11);
+                padding: 24px 10px;
+                cursor: pointer;
+                user-select: none;
+            }
+
+            .tom-destiny-portal-change-plan-section {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+
+            .tom-destiny-portal-plans-container.disabled .tom-destiny-portal-plan-section {
+                cursor: auto;
+            }
+
+            .tom-destiny-portal-plan-section.checked::before {
+                position: absolute;
+                display: block;
+                top: -1px;
+                right: -1px;
+                bottom: -1px;
+                left: -1px;
+                content: "";
+                z-index: 999;
+                border: 2px solid var(--brandcolor);
+                pointer-events: none;
+            }
+
+            .tom-destiny-portal-plan-section:first-of-type::before {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+
+            .tom-destiny-portal-plan-section:last-of-type::before {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+
+            .tom-destiny-portal-plan-section:last-of-type {
+                border-right: none;
+            }
+
+            .tom-destiny-portal-plans-container:not(.empty-selected-benefits) .tom-destiny-portal-plan-section::before {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .tom-destiny-portal-plans-container.has-discount {
+                margin-top: 40px;
+            }
+
+            .tom-destiny-portal-plans-container.has-discount,
+            .tom-destiny-portal-plans-container.has-discount .tom-destiny-portal-plan-section:last-of-type::before {
+                border-top-right-radius: 0;
+            }
+
+            .tom-destiny-portal-plans-container.is-change-plan .tom-destiny-portal-plan-section::before {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+
+            .tom-destiny-portal-plans-container.disabled .tom-destiny-portal-plan-section.checked::before {
+                opacity: 0.3;
+            }
+
+            .tom-destiny-portal-plan-pricelabel {
+                display: flex;
+                flex-direction: row;
+                min-height: 28px;
+                margin-top: 2px;
+            }
+
+            .tom-destiny-portal-plans-container .tom-destiny-portal-plan-pricelabel {
+                min-height: unset;
+            }
+
+            .tom-destiny-portal-plan-pricecontainer {
+                display: flex;
+            }
+
+            .tom-destiny-portal-plan-priceinterval {
+                font-size: 1.25rem;
+                line-height: 2;
+                color: var(--grey7);
+            }
+
+            .tom-destiny-portal-plan-name {
+                display: flex;
+                align-items: center;
+                font-size: 1.2rem;
+                font-weight: 500;
+                line-height: 1.0em;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+                margin-top: 4px;
+                text-align: center;
+                min-height: 24px;
+                word-break: break-word;
+            }
+
+            .tom-destiny-portal-plan-currency {
+                position: relative;
+                bottom: 2px;
+                font-size: 1.4rem;
+                font-weight: 500;
+                letter-spacing: 0.4px;
+            }
+
+            .tom-destiny-portal-plan-currency-code {
+                margin-right: 2px;
+                font-size: 1.15rem;
+            }
+
+            .tom-destiny-portal-plan-price {
+                font-size: 2.2rem;
+                font-weight: 500;
+                letter-spacing: 0.1px;
+            }
+
+            .tom-destiny-portal-plan-type {
+                color: var(--grey7);
+            }
+
+            .tom-destiny-portal-plan-featurewrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border-top: 1px solid var(--grey12);
+                padding-top: 12px;
+                width: 100%;
+            }
+
+            .tom-destiny-portal-plan-feature {
+                font-size: 1.25rem;
+                font-weight: 500;
+                line-height: 1.25em;
+                text-align: center;
+                letter-spacing: 0.2px;
+                word-break: break-word;
+            }
+
+            .tom-destiny-portal-content.signup.singleplan .tom-destiny-portal-plan-section {
+                cursor: auto;
+            }
+
+            .tom-destiny-portal-content.signup.singleplan .tom-destiny-portal-plan-section.checked::before {
+                display: none;
+            }
+
+            .tom-destiny-portal-content.signup.singleplan .tom-destiny-portal-plan-name {
+                margin-top: 0;
+            }
+
+            .tom-destiny-portal-plan-section:not(.checked)::before {
+                position: absolute;
+                display: block;
+                top: -1px;
+                right: -1px;
+                bottom: -1px;
+                left: -1px;
+                content: "";
+                z-index: 999;
+                border: 1px solid var(--brandcolor);
+                pointer-events: none;
+                opacity: 0;
+                transition: all 0.2s ease-in-out;
+            }
+
+            .tom-destiny-portal-plans-container.disabled .tom-destiny-portal-plan-section:not(.checked):hover::before {
+                opacity: 0;
+            }
+
+            .tom-destiny-portal-plans-container.hide-checkbox .tom-destiny-portal-plan-section {
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+
+            .tom-destiny-portal-plan-current {
+                display: block;
+                font-size: 1.25rem;
+                letter-spacing: 0.2px;
+                line-height: 1.25em;
+                color: var(--brandcolor);
+                margin: 3px 0 -2px;
+            }
+
+            .tom-destiny-portal-plans-container:not(.empty-selected-benefits) {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .tom-destiny-portal-plans-container.is-change-plan {
+                border-radius: 0 0 5px 5px;
+                border-top: none;
+            }
+
+            .tom-destiny-portal-plans-container.is-change-plan .tom-destiny-portal-plan-section {
+                min-height: 90px;
+            }
+
+            .tom-destiny-portal-plan-product {
+                border: 1px solid var(--grey11);
+                border-radius: 5px;
+            }
+
+            .tom-destiny-portal-plan-product:not(:last-of-type) {
+                margin-bottom: 20px;
+            }
+
+            .tom-destiny-portal-plan-productname {
+                border-radius: 5px 5px 0 0;
+                padding: 2px 10px;
+                font-size: 1.25rem;
+                letter-spacing: 0.3px;
+                text-transform: uppercase;
+                font-weight: 600;
+                border-bottom: 1px solid var(--grey12);
+            }
+
+            .tom-destiny-portal-accountplans-main .tom-destiny-portal-plan-section:hover:not(.checked) {
+                background: var(--grey14);
+            }
+
+            .tom-destiny-portal-accountplans-main .tom-destiny-portal-plan-section:last-of-type {
+                border-radius: 0 0 5px 5px;
+            }
+
+            .tom-destiny-portal-singleproduct-benefits {
+                display: flex;
+                flex-direction: column;
+                border: 1px solid var(--grey11);
+                border-top: none !important;
+                margin: 0 0 4px !important;
+                padding: 16px 24px 12px !important;
+                border-radius: 0 0 5px 5px;
+            }
+
+            .tom-destiny-portal-singleproduct-benefits.onlyfree {
+                border-top: 1px solid var(--grey11) !important;
+                border-radius: 5px;
+                margin-top: 30px !important;
+            }
+
+            .tom-destiny-portal-singleproduct-benefits .tom-destiny-portal-product-benefit {
+                padding: 0 8px;
+            }
+
+            .tom-destiny-portal-singleproduct-benefits .tom-destiny-portal-product-benefit:last-of-type {
+                margin-bottom: 16px;
+            }
+
+            .tom-destiny-portal-singleproduct-benefits.onlyfree .tom-destiny-portal-product-benefit:last-of-type {
+                margin-bottom: 4px;
+            }
+
+            .tom-destiny-portal-singleproduct-benefits:not(.no-benefits) .tom-destiny-portal-product-description {
+                border-bottom: 1px solid var(--grey12);
+                padding-bottom: 20px;
+                margin-bottom: 16px;
+            }
+
+                .tom-destiny-portal-products {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .tom-destiny-portal-products-pricetoggle {
+                    position: relative;
+                    display: flex;
+                    background: #F3F3F3;
+                    width: 100%;
+                    border-radius: 999px;
+                    padding: 4px;
+                    height: 44px;
+                    margin: 0 0 40px;
+                }
+
+                .tom-destiny-portal-products-pricetoggle:before {
+                    position: absolute;
+                    content: "";
+                    display: block;
+                    width: 50%;
+                    top: 4px;
+                    bottom: 4px;
+                    right: 4px;
+                    background: #fff;
+                    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08);
+                    border-radius: 999px;
+                    transition: all 0.15s ease-in-out;
+                }
+
+                .tom-destiny-portal-products-pricetoggle.left:before {
+                    transform: translateX(calc(-100% + 8px));
+                }
+
+                .tom-destiny-portal-products-pricetoggle .tom-destiny-portal-btn {
+                    border: 0;
+                    height: 100% !important;
+                    width: 50%;
+                    border-radius: 999px;
+                    color: var(--grey7);
+                    background: transparent;
+                    font-size: 1.5rem;
+                }
+
+                .tom-destiny-portal-products-pricetoggle .tom-destiny-portal-btn.active {
+                    border: 0;
+                    height: 100%;
+                    width: 50%;
+                    color: var(--grey0);
+                    /*background: white;
+                    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08);*/
+                }
+
+                .tom-destiny-portal-priceoption-label {
+                    font-size: 1.4rem;
+                    font-weight: 400;
+                    letter-spacing: 0.3px;
+                    margin: 0 6px;
+                    min-width: 180px;
+                }
+
+                .tom-destiny-portal-priceoption-label.monthly {
+                    text-align: right;
+                }
+
+                .tom-destiny-portal-priceoption-label.inactive {
+                    color: var(--grey8);
+                }
+
+                .tom-destiny-portal-products-grid {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: stretch;
+                    justify-content: center;
+                    gap: 40px;
+                    margin: 0 auto;
+                    padding: 0;
+                    width: 100%;
+                }
+
+                .tom-destiny-portal-product-card {
+                    flex: 1;
+                    max-width: 420px;
+                    min-width: 320px;
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: stretch;
+                    background: white;
+                    padding: 32px;
+                    border-radius: 7px;
+                    border: 1px solid var(--grey11);
+                    min-height: 200px;
+                    transition: border-color 0.25s ease-in-out;
+                }
+
+                .tom-destiny-portal-product-card.top {
+                    border-bottom: none;
+                    border-radius: 7px 7px 0 0;
+                    padding-bottom: 0;
+                }
+
+                .tom-destiny-portal-product-card.bottom {
+                    border-top: none;
+                    border-radius: 0 0 7px 7px;
+                    padding-top: 0;
+                }
+
+                .tom-destiny-portal-product-card:not(.disabled):hover {
+                    border-color: var(--grey9);
+                }
+
+                .tom-destiny-portal-product-card.checked::before {
+                    position: absolute;
+                    display: block;
+                    top: -2px;
+                    right: -2px;
+                    bottom: -2px;
+                    left: -2px;
+                    content: "";
+                    z-index: 999;
+                    border: 0px solid var(--brandcolor);
+                    pointer-events: none;
+                    border-radius: 7px;
+                }
+
+                .tom-destiny-portal-product-card-header {
+                    width: 100%;
+                    min-height: 56px;
+                }
+
+                .tom-destiny-portal-product-card-details {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                }
+
+                .tom-destiny-portal-product-name {
+                    font-size: 1.8rem;
+                    font-weight: 600;
+                    line-height: 1.3em;
+                    letter-spacing: 0px;
+                    margin-top: -4px;
+                    word-break: break-word;
+                    width: 100%;
+                    color: var(--brandcolor);
+                }
+
+                .tom-destiny-portal-discount-label {
+                    position: relative;
+                    font-size: 1.25rem;
+                    line-height: 1em;
+                    font-weight: 600;
+                    letter-spacing: 0.3px;
+                    color: var(--grey0);
+                    padding: 6px 9px;
+                    text-align: center;
+                    white-space: nowrap;
+                    border-radius: 999px;
+                    margin-right: -4px;
+                    max-height: 24.5px;
+                }
+
+                .tom-destiny-portal-discount-label:before {
+                    position: absolute;
+                    content: "";
+                    display: block;
+                    background: var(--brandcolor);
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    border-radius: 999px;
+                    opacity: 0.2;
+                }
+
+                .tom-destiny-portal-product-card-pricecontainer {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-end;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    row-gap: 10px;
+                    column-gap: 4px;
+                    width: 100%;
+                    margin-top: 16px;
+                }
+
+                .tom-destiny-portal-product-price {
+                    display: flex;
+                    justify-content: center;
+                    color: var(--grey0);
+                }
+
+                .tom-destiny-portal-product-price .currency-sign {
+                    align-self: flex-start;
+                    font-size: 2.7rem;
+                    font-weight: 700;
+                    line-height: 1.135em;
+                }
+
+                .tom-destiny-portal-product-price .currency-sign.long {
+                    margin-right: 5px;
+                }
+
+                .tom-destiny-portal-product-price .amount {
+                    font-size: 3.5rem;
+                    font-weight: 700;
+                    line-height: 1em;
+                    letter-spacing: -1.3px;
+                    color: var(--grey0);
+                }
+
+                .tom-destiny-portal-product-price .billing-period {
+                    align-self: flex-end;
+                    font-size: 1.5rem;
+                    line-height: 1.6em;
+                    color: var(--grey5);
+                    letter-spacing: 0.3px;
+                    margin-left: 5px;
+                }
+
+                .tom-destiny-portal-product-alternative-price {
+                    font-size: 1.3rem;
+                    line-height: 1.6em;
+                    color: var(--grey8);
+                    letter-spacing: 0.3px;
+                    display: none;
+                }
+
+                .tom-destiny-portal-product-card-detaildata {
+                    flex: 1;
+                }
+
+                .tom-destiny-portal-product-description {
+                    font-size: 1.55rem;
+                    font-weight: 600;
+                    line-height: 1.4em;
+                    width: 100%;
+                    margin-top: 16px;
+                }
+
+                .tom-destiny-portal-product-benefits {
+                    font-size: 1.5rem;
+                    line-height: 1.4em;
+                    width: 100%;
+                    margin-top: 16px;
+                }
+
+                .tom-destiny-portal-product-benefit {
+                    display: flex;
+                    align-items: flex-start;
+                    margin-bottom: 10px;
+                }
+
+                .tom-destiny-portal-benefit-checkmark {
+                    width: 14px;
+                    height: 14px;
+                    min-width: 14px;
+                    margin: 3px 10px 0 0;
+                    overflow: visible;
+                }
+
+                .tom-destiny-portal-benefit-checkmark polyline,
+                .tom-destiny-portal-benefit-checkmark g {
+                    stroke-width: 3px;
+                }
+
+                .tom-destiny-portal-products-grid.change-plan {
+                    padding: 0;
+                }
+
+                .tom-destiny-portal-btn-product {
+                    position: sticky;
+                    bottom: 0;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-end;
+                    width: 100%;
+                    justify-self: flex-end;
+                    padding: 40px 0 32px;
+                    margin-bottom: -32px;
+                    /*background: rgb(255,255,255);
+                    background: linear-gradient(0deg, rgba(255,255,255,1) 75%, rgba(255,255,255,0) 100%);*/
+                    background: transparent;
+                }
+
+                .tom-destiny-portal-btn-product::before {
+                    position: absolute;
+                    content: "";
+                    display: block;
+                    top: -16px;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(0deg, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
+                    z-index: 800;
+                }
+
+                .tom-destiny-portal-btn-product .tom-destiny-portal-btn {
+                    background: var(--brandcolor);
+                    color: #fff;
+                    border: none;
+                    width: 100%;
+                    z-index: 900;
+                }
+
+                .tom-destiny-portal-btn-product .tom-destiny-portal-btn:hover {
+                    opacity: 0.9;
+                }
+
+                .tom-destiny-portal-current-plan {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    white-space: nowrap;
+                    width: 100%;
+                    height: 44px;
+                    border-radius: 5px;
+                    color: var(--grey5);
+                    font-size: 1.4rem;
+                    font-weight: 500;
+                    line-height: 1em;
+                    letter-spacing: 0.2px;
+                    font-weight: 500;
+                    background: #f0f0f0;
+                    z-index: 900;
+                }
+
+                .tom-destiny-portal-product-card.only-free {
+                    margin: 0 0 16px;
+                    min-height: unset;
+                }
+
+                .tom-destiny-portal-product-card.only-free .tom-destiny-portal-product-card-header {
+                    min-height: unset;
+                }
+
+                @media (max-width: 670px) {
+                    .tom-destiny-portal-products-grid {
+                        grid-template-columns: unset;
+                        grid-gap: 20px;
+                        width: 100%;
+                        max-width: 440px;
+                    }
+
+                    .tom-destiny-portal-priceoption-label {
+                        font-size: 1.25rem;
+                    }
+
+                    .tom-destiny-portal-products-priceswitch .tom-destiny-portal-discount-label {
+                        display: none;
+                    }
+
+                    .tom-destiny-portal-products-priceswitch {
+                        padding-top: 18px;
+                    }
+
+                    .tom-destiny-portal-product-card {
+                        min-height: unset;
+                    }
+
+                    .tom-destiny-portal-singleproduct-benefits .tom-destiny-portal-product-description {
+                        text-align: center;
+                    }
+
+                    .tom-destiny-portal-product-benefit:last-of-type {
+                        margin-bottom: 0;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .tom-destiny-portal-product-price .amount {
+                        font-size: 3.4rem;
+                    }
+
+                    .tom-destiny-portal-product-card {
+                        min-width: unset;
+                    }
+
+                    .tom-destiny-portal-btn-product {
+                        position: static;
+                    }
+
+                    .tom-destiny-portal-btn-product::before {
+                        display: none;
+                    }
+                }
+
+                @media (max-width: 370px) {
+                    .tom-destiny-portal-product-price .currency-sign {
+                        font-size: 1.8rem;
+                    }
+
+                    .tom-destiny-portal-product-price .amount {
+                        font-size: 2.8rem;
+                    }
+                }
+
+
+                /* Upgrade and change plan*/
+                .tom-destiny-portal-upgrade-product {
+                    margin-top: -70px;
+                    padding-top: 60px;
+                }
+
+                .tom-destiny-portal-upgrade-product .tom-destiny-portal-products-grid {
+                    grid-template-columns: unset;
+                    grid-gap: 20px;
+                    width: 100%;
+                }
+
+                .tom-destiny-portal-upgrade-product .tom-destiny-portal-discount-label {
+                    display: none;
+                }
+
+                .tom-destiny-portal-upgrade-product .tom-destiny-portal-product-card .tom-destiny-portal-plan-current {
+                    display: inline-block;
+                    position: relative;
+                    padding: 2px 8px;
+                    font-size: 1.2rem;
+                    letter-spacing: 0.3px;
+                    text-transform: uppercase;
+                    margin-bottom: 4px;
+                }
+
+                .tom-destiny-portal-upgrade-product .tom-destiny-portal-product-card .tom-destiny-portal-plan-current::before {
+                    position: absolute;
+                    content: "";
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    border-radius: 999px;
+                    background: var(--brandcolor);
+                    opacity: 0.15;
+                }
+
+                @media (max-width: 880px) {
+                    .tom-destiny-portal-products-grid {
+                        flex-direction: column;
+                        margin: 0 auto;
+                        max-width: 420px;
+                    }
+
+                    .tom-destiny-portal-product-card-header {
+                        min-height: unset;
+                    }
+                }
+            
+            .tom-destiny-portal-for-switch label,
+            .tom-destiny-portal-for-switch .container {
+                position: relative;
+                display: inline-block;
+                width: 44px !important;
+                height: 26px !important;
+                cursor: pointer;
+            }
+
+            .tom-destiny-portal-for-switch label p,
+            .tom-destiny-portal-for-switch .container p {
+                overflow: auto;
+                color: var(--grey0);
+                font-weight: normal;
+            }
+
+            .tom-destiny-portal-for-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .tom-destiny-portal-for-switch .input-toggle-component {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: #e9e9e9;
+                transition: .3s;
+                width: 44px !important;
+                height: 26px !important;
+                border-radius: 999px;
+                transition: background 0.15s ease-in-out, border-color 0.15s ease-in-out;
+                cursor: pointer;
+            }
+
+            .tom-destiny-portal-for-switch label:hover input:not(:checked) + .input-toggle-component,
+            .tom-destiny-portal-for-switch .container:hover input:not(:checked) + .input-toggle-component {
+                border-color: var(--grey9);
+            }
+
+            .tom-destiny-portal-for-switch .input-toggle-component:before {
+                position: absolute;
+                content: "";
+                top: 3px !important;
+                left: 3px !important;
+                height: 20px !important;
+                width: 20px !important;
+                background-color: white;
+                transition: .3s;
+                border-radius: 999px;
+            }
+
+            .tom-destiny-portal-for-switch input:checked + .input-toggle-component {
+                background: var(--brandcolor);
+                border-color: transparent;
+            }
+
+            .tom-destiny-portal-for-switch input:checked + .input-toggle-component:before {
+                transform: translateX(18px);
+                box-shadow: none;
+            }
+
+            .tom-destiny-portal-for-switch .container {
+                width: 38px !important;
+                height: 22px !important;
+            }
+
+            .tom-destiny-portal-btn-main {
+                box-shadow: none;
+                position: relative;
+                border: none;
+            }
+
+            .tom-destiny-portal-btn-main:hover,
+            .tom-destiny-portal-btn-main:focus {
+                box-shadow: none;
+                border: none;
+            }
+
+            .tom-destiny-portal-btn-primary:hover,
+            .tom-destiny-portal-btn-primary:focus {
+                opacity: 0.92 !important;
+            }
+
+            .tom-destiny-portal-btn-primary:disabled:hover::before {
+                display: none;
+            }
+
+            .tom-destiny-portal-btn-destructive:not(:disabled):hover {
+                color: var(--red);
+                border-color: var(--red);
+            }
+
+            .tom-destiny-portal-btn-text {
+                padding: 0;
+                font-weight: 500;
+                height: unset;
+                border: none;
+                box-shadow: none;
+            }
+
+            .tom-destiny-portal-loadingicon {
+                position: absolute;
+                left: 50%;
+                display: inline-block;
+                margin-left: -19px;
+                height: 31px;
+            }
+
+            .tom-destiny-portal-loadingicon path,
+            .tom-destiny-portal-loadingicon rect {
+                fill: #fff;
+            }
+
+            .tom-destiny-portal-loadingicon.dark path,
+            .tom-destiny-portal-loadingicon.dark rect {
+                fill: #1d1d1d;
+            }
+
+            .tom-destiny-portal-btn-back,
+            .tom-destiny-portal-btn-back:hover {
+                box-shadow: none;
+                position: relative;
+                height: unset;
+                min-width: unset;
+                position: fixed;
+                top: 29px;
+                left: 25px;
+                background: none;
+                padding: 8px;
+                margin: 0;
+                box-shadow: none;
+                color: var(--grey3);
+                border: none;
+                z-index: 10000;
+            }
+
+            .tom-destiny-portal-btn-back:hover {
+                color: var(--grey1);
+                transform: translateX(-4px);
+            }
+
+            .tom-destiny-portal-btn-back svg {
+                width: 17px;
+                height: 17px;
+                margin-top: 1px;
+                margin-right: 2px;
+            }
+
+            .tom-destiny-portal-avatar {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                margin: 0 0 8px 0;
+                border-radius: 999px;
+            }
+
+            .tom-destiny-portal-avatar img {
+                position: absolute;
+                display: block;
+                top: -2px;
+                right: -2px;
+                bottom: -2px;
+                left: -2px;
+                width: calc(100% + 4px);
+                height: calc(100% + 4px);
+                opacity: 1;
+                max-width: unset;
+            }
+
+            .tom-destiny-portal-icon-envelope {
+                width: 44px;
+                margin: 12px 0 10px;
+            }
+
+            .tom-destiny-portal-inbox-notification {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tom-destiny-portal-inbox-notification p {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+        .tom-destiny-portal-back-sitetitle {
+            position: absolute;
+            top: 35px;
+            left: 32px;
+        }
+
+        .tom-destiny-portal-back-sitetitle .tom-destiny-portal-btn {
+            padding: 0;
+            border: 0;
+            font-size: 1.5rem;
+            height: auto;
+            line-height: 1em;
+            color: var(--grey1);
+        }
+
+        .tom-destiny-portal-popup-wrapper:not(.full-size) .tom-destiny-portal-back-sitetitle,
+        .tom-destiny-portal-popup-wrapper.preview .tom-destiny-portal-back-sitetitle {
+            display: none;
+        }
+
+        .tom-destiny-portal-signup-logo {
+            position: relative;
+            display: block;
+            background-position: 50%;
+            background-size: cover;
+            border-radius: 2px;
+            width: 60px;
+            height: 60px;
+            margin: 12px 0 10px;
+        }
+
+        .tom-destiny-portal-signup-header,
+        .tom-destiny-portal-signin-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 32px;
+            margin-bottom: 32px;
+        }
+
+        .tom-destiny-portal-popup-wrapper.full-size .tom-destiny-portal-signup-header {
+            margin-top: 32px;
+        }
+
+        .tom-destiny-portal-signup-header .tom-destiny-portal-main-title,
+        .tom-destiny-portal-signin-header .tom-destiny-portal-main-title {
+            margin-top: 12px;
+        }
+
+        .tom-destiny-portal-signup-logo + .tom-destiny-portal-main-title {
+            margin: 4px 0 0;
+        }
+
+        .tom-destiny-portal-signup-header .tom-destiny-portal-main-subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            line-height: 1.45em;
+            margin: 4px 0 0;
+            color: var(--grey3);
+        }
+
+        .tom-destiny-portal-logged-out-form-container {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .signup .tom-destiny-portal-input-section:last-of-type {
+            margin-bottom: 40px;
+        }
+
+        .tom-destiny-portal-signup-message {
+            display: flex;
+            justify-content: center;
+            color: var(--grey4);
+            font-size: 1.5rem;
+            margin: 16px 0 0;
+        }
+
+        .tom-destiny-portal-signup-message,
+        .tom-destiny-portal-signup-message * {
+            z-index: 9999;
+        }
+
+        .full-size .tom-destiny-portal-signup-message {
+            margin: 24px 0 40px;
+        }
+
+        @media (max-width: 480px) {
+            .preview .tom-destiny-portal-products + .tom-destiny-portal-signup-message {
+                margin-bottom: 40px;
+            }
+        }
+
+        .tom-destiny-portal-signup-message button {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-left: 4px !important;
+        }
+
+        .tom-destiny-portal-signup-message button span {
+            display: inline-block;
+            padding-bottom: 2px;
+            margin-bottom: -2px;
+        }
+
+        .tom-destiny-portal-content.signup.invite-only {
+            background: none;
+        }
+
+        footer.tom-destiny-portal-signup-footer,
+        footer.tom-destiny-portal-signin-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding-top: 24px;
+            height: unset;
+        }
+
+        .tom-destiny-portal-content.signup,
+        .tom-destiny-portal-content.signin {
+            max-height: unset !important;
+            padding-bottom: 0;
+        }
+
+        .tom-destiny-portal-content.signin {
+            padding-bottom: 4px;
+        }
+
+        .tom-destiny-portal-content.signup .tom-destiny-portal-section {
+            margin-bottom: 0;
+        }
+
+        .tom-destiny-portal-content.signup.single-field {
+            margin-bottom: 4px;
+        }
+
+        .tom-destiny-portal-content.signup.single-field .tom-destiny-portal-input,
+        .tom-destiny-portal-content.signin .tom-destiny-portal-input {
+            margin-bottom: 8px;
+        }
+
+        .tom-destiny-portal-content.signup.single-field + .tom-destiny-portal-signup-footer,
+        footer.tom-destiny-portal-signin-footer {
+            padding-top: 12px;
+        }
+
+        .tom-destiny-portal-content.signin .tom-destiny-portal-section {
+            margin-bottom: 0;
+        }
+
+        footer.tom-destiny-portal-signup-footer.invite-only {
+            height: unset;
+        }
+
+        footer.tom-destiny-portal-signup-footer.invite-only .tom-destiny-portal-signup-message {
+            margin-top: 0;
+        }
+
+        .tom-destiny-portal-invite-only-notification {
+            margin: 8px 32px 24px;
+            padding: 0;
+            text-align: center;
+            color: var(--grey2);
+        }
+
+        .tom-destiny-portal-icon-invitation {
+            width: 44px;
+            height: 44px;
+            margin: 12px 0 2px;
+        }
+
+        .tom-destiny-portal-popup-wrapper.full-size .tom-destiny-portal-popup-container.preview footer.tom-destiny-portal-signup-footer {
+            padding-bottom: 32px;
+        }
+
+        .tom-destiny-portal-invite-only-notification + .tom-destiny-portal-signup-message {
+            margin-bottom: 12px;
+        }
+
+        @media (min-width: 480px) {
+
+        }
+
+        @media (max-width: 480px) {
+            .tom-destiny-portal-signup-logo {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media (min-width: 480px) and (max-width: 820px) {
+            .tom-destiny-portal-powered.outside {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        .tom-destiny-portal-offer {
+            padding-bottom: 0;
+            overflow: unset;
+            max-height: unset;
+        }
+
+        .tom-destiny-portal-offer-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tom-destiny-portal-plans-container.offer {
+            justify-content: space-between;
+            border-color: var(--grey12);
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            padding: 12px 16px;
+            font-size: 1.3rem;
+        }
+
+        .tom-destiny-portal-offer-bar {
+            position: relative;
+            padding: 26px 28px 28px;
+            margin-bottom: 24px;
+            /*border: 1px dashed var(--brandcolor);*/
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='99.9%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23C3C3C3' stroke-width='3' stroke-dasharray='3%2c 9' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+            border-radius: 6px;
+        }
+
+        .tom-destiny-portal-offer-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tom-destiny-portal-offer-title h4 {
+            font-size: 1.8rem;
+            margin: 0 80px 0 0;
+            width: 100%;
+        }
+
+        .tom-destiny-portal-offer-title h4.placeholder {
+            opacity: 0.4;
+        }
+
+        .tom-destiny-portal-offer-bar .tom-destiny-portal-discount-label {
+            position: absolute;
+            top: 23px;
+            right: 25px;
+        }
+
+        .tom-destiny-portal-offer-bar p {
+            padding-bottom: 0;
+            margin: 12px 0 0;
+        }
+
+        .tom-destiny-portal-offer-title h4 + p {
+            margin: 12px 0 0;
+        }
+
+        .tom-destiny-portal-offer-details .tom-destiny-portal-plan-name,
+        .tom-destiny-portal-offer-details p {
+            margin-right: 8px;
+        }
+
+        .tom-destiny-portal-offer .footnote {
+            font-size: 1.35rem;
+            color: var(--grey8);
+            margin: 4px 0 0;
+        }
+
+        .offer .tom-destiny-portal-product-card {
+            max-width: unset;
+            min-height: 0;
+        }
+
+        .offer .tom-destiny-portal-product-card .tom-destiny-portal-product-card-pricecontainer {
+            margin-top: 0px;
+        }
+
+        .offer .tom-destiny-portal-product-card-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .tom-destiny-portal-offer-oldprice {
+            display: flex;
+            position: relative;
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--grey8);
+            line-height: 1;
+            white-space: nowrap;
+            margin: 16px 0 4px;
+        }
+
+        .tom-destiny-portal-offer-oldprice:after {
+            position: absolute;
+            display: block;
+            content: "";
+            left: 0;
+            top: 50%;
+            right: 0;
+            height: 1px;
+            background: var(--grey8);
+        }
+
+        .tom-destiny-portal-offer-details p {
+            margin-bottom: 12px;
+        }
+            
+            .tom-destiny-portal-popupnotification {
+                position: absolute;
+                top: 8px;
+                left: 8px;
+                right: 8px;
+                padding: 12px;
+                background: var(--grey2);
+                z-index: 11000;
+                border-radius: 5px;
+                font-size: 1.5rem;
+                box-shadow: 0px 0.8151839971542358px 0.8151839971542358px 0px rgba(0,0,0,0.01),
+                            0px 2.2538793087005615px 2.2538793087005615px 0px rgba(0,0,0,0.02),
+                            0px 5.426473140716553px 5.426473140716553px 0px rgba(0,0,0,0.03),
+                            0px 18px 18px 0px rgba(0,0,0,0.04);
+                animation: popupnotification-slidein 0.3s ease-in-out;
+            }
+
+            .tom-destiny-portal-popupnotification.slideout {
+                animation: popupnotification-slideout 0.48s ease-in;
+            }
+
+            .tom-destiny-portal-popupnotification p {
+                color: var(--white);
+                margin: 0;
+                padding: 0 20px;
+                font-size: 1.5rem;
+                line-height: 1.5em;
+                letter-spacing: 0.2px;
+                text-align: center;
+            }
+
+            .tom-destiny-portal-popupnotification a {
+                color: var(--white);
+            }
+
+            .tom-destiny-portal-popupnotification-icon {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                width: 20px;
+                height: 20px;
+            }
+
+            .tom-destiny-portal-popupnotification-icon.success {
+                color: var(--green);
+            }
+
+            .tom-destiny-portal-popupnotification-icon.error {
+                color: #FF2828;
+            }
+
+            .tom-destiny-portal-popupnotification .closeicon {
+                position: absolute;
+                top: 3px;
+                bottom: 0;
+                right: 3px;
+                color: var(--white);
+                cursor: pointer;
+                width: 16px;
+                height: 16px;
+                padding: 12px;
+                transition: all 0.15s ease-in-out forwards;
+                opacity: 0.8;
+            }
+
+            .tom-destiny-portal-popupnotification .closeicon:hover {
+                opacity: 1.0;
+            }
+
+            @keyframes popupnotification-slidein {
+                0% { 
+                    transform: translateY(-10px); 
+                    opacity: 0;
+                }
+                60% { transform: translateY(2px); }
+                100% { 
+                    transform: translateY(0); 
+                    opacity: 1.0;
+                }
+            }
+
+            @keyframes popupnotification-slideout {
+                0% { 
+                    transform: translateY(0);
+                    opacity: 1.0;
+                }
+                40% { transform: translateY(2px); }
+                100% { 
+                    transform: translateY(-10px);
+                    opacity: 0;
+                }
+            }
+
+        @media (max-width: 1440px) {
+            .tom-destiny-portal-popup-container:not(.full-size):not(.preview) {
+                width: 460px;
+            }
+
+            .tom-destiny-portal-input {
+                height: 42px;
+                margin-bottom: 16px;
+            }
+
+            button[class="tom-destiny-portal-btn"],
+            .tom-destiny-portal-btn-main,
+            .tom-destiny-portal-btn-primary {
+                height: 42px;
+            }
+        }
+
+        @media (max-width: 960px) {
+            .tom-destiny-portal-powered {
+                display: flex;
+                position: relative;
+                bottom: unset;
+                left: unset;
+                background: var(--white);
+                justify-content: center;
+                width: 100%;
+                padding-top: 32px;
+            }
+        }
+
+        @media (min-width: 520px) {
+            .tom-destiny-portal-popup-wrapper.full-size .tom-destiny-portal-popup-container.preview {
+                box-shadow:
+                    0 0 0 1px rgba(0,0,0,0.02),
+                    0 2.8px 2.2px rgba(0, 0, 0, 0.02),
+                    0 6.7px 5.3px rgba(0, 0, 0, 0.028),
+                    0 12.5px 10px rgba(0, 0, 0, 0.035),
+                    0 22.3px 17.9px rgba(0, 0, 0, 0.042),
+                    0 41.8px 33.4px rgba(0, 0, 0, 0.05),
+                    0 100px 80px rgba(0, 0, 0, 0.07);
+                animation: none;
+                margin: 32px;
+                padding: 32px 32px 0;
+                width: calc(100vw - 64px);
+                height: calc(100vh - 160px);
+                min-height: unset;
+                border-radius: 12px;
+                overflow: auto;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tom-destiny-portal-detail-header {
+                margin-top: 4px;
+            }
+
+            .tom-destiny-portal-popup-wrapper {
+                height: 100%;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                background: var(--white);
+                overflow-y: auto;
+            }
+
+            .tom-destiny-portal-popup-container {
+                width: 100% !important;
+                border-radius: 0;
+                overflow: unset;
+                animation: popup-mobile 0.25s ease-in-out;
+                box-shadow: none !important;
+                transform: translateY(0);
+                padding: 28px !important;
+            }
+
+            .tom-destiny-portal-popup-container.full-size {
+                justify-content: flex-start;
+            }
+
+            .tom-destiny-portal-popup-wrapper.account-home,
+            .tom-destiny-portal-popup-container.account-home {
+                background: var(--grey13);
+            }
+
+            .tom-destiny-portal-popup-wrapper.full-size .tom-destiny-portal-closeicon, 
+            .tom-destiny-portal-popup-container.full-size .tom-destiny-portal-closeicon {
+                width: 16px;
+                height: 16px;
+            }
+
+            /* Small width preview in Admin */
+            .tom-destiny-portal-popup-wrapper.preview:not(.full-size) footer.tom-destiny-portal-signup-footer, 
+            .tom-destiny-portal-popup-wrapper.preview:not(.full-size) footer.tom-destiny-portal-signin-footer {
+                padding-bottom: 32px;
+            }
+
+            .tom-destiny-portal-popup-container.preview:not(.full-size) {
+                max-height: 660px;
+                margin-bottom: 0;
+            }
+
+            .tom-destiny-portal-popup-container.preview:not(.full-size).offer {
+                max-height: 860px;
+                padding-bottom: 0 !important;
+            }
+
+            .tom-destiny-portal-popup-wrapper.preview.full-size {
+                height: unset;
+                max-height: 660px;
+            }
+
+            .tom-destiny-portal-popup-container.preview.full-size {
+                max-height: 660px;
+                margin-bottom: 0;
+            }
+            
+            .preview .tom-destiny-portal-invite-only-notification + .tom-destiny-portal-signup-message {
+                margin-bottom: 16px;
+            }
+
+            .preview .tom-destiny-portal-btn-container.sticky {
+                margin-bottom: 32px;
+                padding-bottom: 0;
+            }
+
+            .tom-destiny-portal-powered {
+                padding-top: 12px;
+                padding-bottom: 24px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .tom-destiny-portal-popup-container:not(.account-plan) .tom-destiny-portal-detail-header .tom-destiny-portal-main-title {
+                font-size: 2.1rem;
+                margin-top: 1px;
+                padding: 0 74px;
+                text-align: center;
+            }
+
+            .tom-destiny-portal-input {
+                margin-bottom: 16px;
+            }
+
+            .tom-destiny-portal-signup-header,
+            .tom-destiny-portal-signin-header {
+                padding-bottom: 16px;
+            }
+        }
+
+        @media (min-width: 480px) and (max-height: 880px) {
+            .tom-destiny-portal-popup-wrapper {
+                padding: 4vmin 0 0;
+            }
+        }
+
+        @keyframes popup-mobile {
+            0% {
+                opacity: 0;
+            }
+            100%{
+                opacity: 1.0;
+            }
+        }
+
+        /* Prevent zoom */
+        @media (hover:none) {
+            select, textarea, input[type="text"], input[type="text"], input[type="password"],
+            input[type="datetime"], input[type="datetime-local"],
+            input[type="date"], input[type="month"], input[type="time"],
+            input[type="week"], input[type="number"], input[type="email"],
+            input[type="url"] {
+                font-size: 16px !important;
+            }
+        }
+
+        .tom-destiny-portal-popup-wrapper.multiple-products .tom-destiny-portal-input-section {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        /* Multiple product signup/signin-only modifications! */
+        .tom-destiny-portal-popup-wrapper.multiple-products {
+            background: #fff;
+            box-shadow: 0 3.8px 2.2px rgba(0, 0, 0, 0.028), 0 9.2px 5.3px rgba(0, 0, 0, 0.04), 0 17.3px 10px rgba(0, 0, 0, 0.05), 0 30.8px 17.9px rgba(0, 0, 0, 0.06), 0 57.7px 33.4px rgba(0, 0, 0, 0.072), 0 138px 80px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            border-radius: 5px;
+            height: calc(100vh - 64px);
+            max-width: calc(100vw - 64px);
+        }
+
+        .tom-destiny-portal-popup-wrapper.multiple-products.signup {
+            overflow-y: scroll;
+            overflow-x: clip;
+            margin: 32px auto !important;
+            padding-right: 0 !important; /* Override scrollbar hiding */
+        }
+
+        .tom-destiny-portal-popup-wrapper.multiple-products.signin {
+            margin: 10vmin auto;
+            max-width: 480px;
+            height: unset;
+        }
+
+        .tom-destiny-portal-popup-wrapper.multiple-products.preview {
+            height: calc(100vh - 150px) !important;
+        }
+
+        .tom-destiny-portal-popup-wrapper.multiple-products .tom-destiny-portal-popup-container {
+            align-items: center;
+            width: 100% !important;
+            box-shadow: none !important;
+            animation: fadein 0.35s ease-in-out;
+            padding: 1vmin 0;
+            transform: translateY(0px);
+            margin-bottom: 0;
+        }
+
+        .tom-destiny-portal-popup-wrapper.multiple-products.signup .tom-destiny-portal-popup-container {
+            min-height: calc(100vh - 64px);
+            position: unset;
+        }
+
+        .tom-destiny-portal-popup-wrapper.multiple-products .tom-destiny-portal-powered {
+            position: relative;
+            display: flex;
+            flex: 1;
+            align-items: flex-end;
+            justify-content: flex-start;
+            bottom: unset;
+            left: unset;
+            width: 100%;
+            z-index: 10000;
+            padding-bottom: 32px;
+        }
+
+        @media (max-width: 670px) {
+            .tom-destiny-portal-popup-wrapper.multiple-products .tom-destiny-portal-powered {
+                justify-content: center;
+            }
+        }
+
+        .tom-destiny-portal-popup-wrapper.multiple-products .tom-destiny-portal-content {
+            position: unset;
+            overflow-y: visible;
+            max-height: unset !important;
+        }
+
+        @media (max-width: 960px) {
+            .tom-destiny-portal-popup-wrapper.multiple-products.signup:not(.preview) {
+                margin: 20px !important;
+                height: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tom-destiny-portal-popup-wrapper.multiple-products {
+                margin: 0 !important;
+                max-width: unset !important;
+                max-height: 100% !important;
+                height: 100% !important;
+                border-radius: 0px;
+                box-shadow: none;
+            }
+
+            .tom-destiny-portal-popup-wrapper.multiple-products.signup:not(.preview) {
+                margin: 0 !important;
+            }
+
+            .tom-destiny-portal-popup-wrapper.multiple-products.preview {
+                height: unset !important;
+                margin: 0 !important;
+            }
+
+            .tom-destiny-portal-popup-wrapper.multiple-products:not(.dev) .tom-destiny-portal-popup-container.preview {
+                max-height: 640px;
+            }
+        }
+
+        .tom-destiny-portal-popup-container.preview * {
+            pointer-events: none !important;
+        }
+
+        .tom-destiny-portal-unsubscribe-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 2px;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        @media (max-width: 480px) {
+            .tom-destiny-portal-unsubscribe-logo {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        .tom-destiny-portal-unsubscribe .tom-destiny-portal-main-title {
+            margin-bottom: 16px;
+            font-size: 2.6rem;
+        }
+
+        .tom-destiny-portal-unsubscribe p {
+            margin-bottom: 16px;
+        }
+
+        .tom-destiny-portal-unsubscribe p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .tom-destiny-portal-btn-inline {
+            display: inline-block;
+            margin-left: 4px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .tom-destiny-portal-toggle-checked {
+            transition: all 0.3s;
+            transition-delay: 2s;
+        }
+
+        .tom-destiny-portal-checkmark-container {
+            display: flex;
+            opacity: 0;
+            margin-right: 8px;
+            transition: opacity ease 0.4s 0.2s;
+        }
+
+        .tom-destiny-portal-checkmark-show {
+            opacity: 1;
+        }
+
+        .tom-destiny-portal-checkmark-icon {
+            height: 22px;
+            color: #30cf43;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .tom-destiny-portal-newsletter-selection {
+            animation: 0.5s ease-in-out fadeIn;
+        }
+
+        .tom-destiny-portal-signup {
+            animation: 0.5s ease-in-out fadeIn;
+        }
+
+        .tom-destiny-portal-btn-different-plan {
+            margin: 0 auto 24px;
+            color: var(--grey6);
+            font-weight: 400;
+        }
+
+        .tom-destiny-portal-hide {
+            display: none;
+        }
+        </style>
+</head>
+
+<body>
+    <div class="tom-destiny-portal-popup-background"></div>
+    <div class="tom-destiny-portal-popup-wrapper signup">
+        <div class="tom-destiny-portal-popup-container  signup" tabindex="-1">
+            <div class="tom-destiny-portal-back-sitetitle"><button class="tom-destiny-portal-btn tom-destiny-portal-btn-site-title-back"><span>←
+                    </span> Back</button></div>
+            <div class="tom-destiny-portal-closeicon-container"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    class="tom-destiny-portal-closeicon" alt="Close">
+                    <defs>
+                        <style>
+                            .a {
+                                fill: none;
+                                stroke: currentColor;
+                                stroke-linecap: round;
+                                stroke-linejoin: round;
+                                stroke-width: 1.2px !important;
+                            }
+                        </style>
+                    </defs>
+                    <path class="a" d="M.75 23.249l22.5-22.5M23.25 23.249L.75.749"></path>
+                </svg></div>
+            <div class="tom-destiny-portal-content signup noplan">
+                <header class="tom-destiny-portal-signup-header">
+                    <h1 class="tom-destiny-portal-main-title">Sz3yan</h1>
+                </header>
+                <section class="tom-destiny-portal-signup">
+                    <div class="tom-destiny-portal-section">
+                        <div class="tom-destiny-portal-logged-out-form-container">
+                            <section class="tom-destiny-portal-input-section">
+                                <div class="tom-destiny-portal-input-labelcontainer"><label for="input-name"
+                                        class="tom-destiny-portal-input-label"> Name </label></div><input id="input-name"
+                                    class="tom-destiny-portal-input" type="text" name="name" placeholder="Jamie Larson"
+                                    autocomplete="off" autocorrect="off" autocapitalize="" aria-label="Name" value="">
+                            </section>
+                            <section class="tom-destiny-portal-input-section">
+                                <div class="tom-destiny-portal-input-labelcontainer"><label for="input-email"
+                                        class="tom-destiny-portal-input-label"> Email </label></div><input id="input-email"
+                                    class="tom-destiny-portal-input" type="email" name="email" placeholder="jamie@example.com"
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" aria-label="Email"
+                                    value="">
+                            </section>
+                        </div>
+                        <div>
+                            <div class="tom-destiny-portal-btn-container">
+                                <div class="tom-destiny-portal-logged-out-form-container"><button
+                                        class="tom-destiny-portal-btn tom-destiny-portal-btn-main tom-destiny-portal-btn-primary" type="submit"
+                                        style="color: rgb(255, 255, 255); background-color: rgb(0, 163, 215); opacity: 1; pointer-events: auto; width: 100%;">Sign
+                                        up</button>
+                                    <div class="tom-destiny-portal-signup-message">
+                                        <div>Already a member?</div><button class="tom-destiny-portal-btn tom-destiny-portal-btn-link"
+                                            style="color: rgb(0, 163, 215);"><a href="/signup"><span>Sign in</span></a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

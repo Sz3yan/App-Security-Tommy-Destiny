@@ -1,0 +1,20 @@
+<div class="tom-destiny-foot-inner tom-destiny-inner">
+    {% autoescape True %}
+    <section class="tom-destiny-subscribe">
+            <h4 class="tom-destiny-subscribe-title">Subscribe to Tom Destiny</h3>
+            <div class="tom-destiny-subscribe-description">Don't miss out on the latest news. Sign up now to get access to the library of members-only articles.</div>
+            <div id="test">
+                {% if formContent != '' %}
+                {{formContent}}
+                {% endif %}
+            </div>
+            
+            <form method="get" action="/email">
+                <button type="button" id="subBtn" class="tom-destiny-subscribe-btn tom-destiny-btn" data-portal="signup">Subscribe now</button>
+            </form>
+    </section>
+    <div class="tom-destiny-copyright">
+        Tom Destiny © 2022. Powered by <a href="https://github.com/Sz3yan/Tommy-Destiny" target="_blank">Sze Yan</a>
+    </div>
+    {% endautoescape %}
+</div>

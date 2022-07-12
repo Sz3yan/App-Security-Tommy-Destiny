@@ -1,0 +1,16 @@
+
+.container-login{
+margin-left: 10%;
+margin-right: 10%;
+margin-bottom: 10%;
+text-align: center;
+}
+
+.form-login-field{
+background-color: transparent;
+border: none;
+width: 50%;
+border-radius: 1px;
+margin: auto;
+}
+
