@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request
-from web.user.static.py.Forms import CreateUser
+from flask import Blueprint, render_template, request, session, redirect, url_for
+from web.user.static.py.Forms import CreateUser, LoginUser
 from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass
 
@@ -15,9 +15,27 @@ def pricing():
     return render_template("pricing.html")
 
 
-@user.route("/login")
+@user.route("/login", methods=["POST", "GET"])
 def login():
-    return render_template('login.html')
+    firebase = FirebaseClass()
+    loginUser = LoginUser(request.form)
+    if "customer_session" in session:
+        return redirect(url_for('customer_logged_in'))
+    else:
+        if request.method == "POST" and loginUser.validate():
+            username = loginUser.name.data
+            email = loginUser.email.data
+            password = loginUser.password.data
+            if firebase.login_user(email, password):
+                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password))) #If user not inside
+    return render_template('login.html', form=loginUser, message="")
+
+
+@user.route('/logout')
+def logout():
+   # remove the username from the session if it is there
+   session.pop('username', None)
+   return redirect(url_for('home'))
 
 
 @user.route("/payment")

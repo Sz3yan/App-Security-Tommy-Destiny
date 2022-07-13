@@ -39,7 +39,7 @@ class FirebaseClass:
             user = self.__auth.sign_in_with_email_and_password(email, password)
             print("Signed in")
         except:
-            print("User not found")
+            return "User not found"
 
     def create_user_info(self, name="", ph_no="", role="customer"):
         detail_dict = {"Name": name, "Phone number": ph_no, "role": role}
