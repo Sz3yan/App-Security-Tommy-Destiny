@@ -49,9 +49,11 @@ class FirebaseClass:
     def create_post(self, post_dict):
         self.__database.child("Post").push(post_dict.__dict__)
 
-
     def get_post(self):
         return self.__database.child("Post").get()
+
+    def update_post(self, post_dict):
+        self.__database.child("Post").child(post_dict.__dict__["_Post__id"]).update(post_dict.__dict__)
     
     # Storage
     def get_image_url(self):

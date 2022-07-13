@@ -6,7 +6,7 @@ from base64 import b64encode, b64decode
 import json, logging
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
-logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+# logging.basicConfig(filename='../../tommy-destiny.log', encoding='utf-8', level=logging.DEBUG)
 
 @admin.route("/dashboard")
 def admin_dashboard():
@@ -74,7 +74,7 @@ def editor_post(id):
 
                 to_json = json.loads(decrypted.decode())
                 data = to_json["blocks"]
-                logging.info(data)
+                print(data)
     except:
         print("No posts found")
 
@@ -107,9 +107,15 @@ def editor_post(id):
         newPost.set_iv(str(b64encode(secure.get_iv())))
         newPost.set_plaintext(str(b64encode(encrypted_content)))
 
-        push_post = FirebaseClass()
-        push_post.create_post(newPost)
-        logging.info(encrypted_content)
+        pushorpull_post = FirebaseClass()
+
+        for i in pushorpull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                pushorpull_post.update_post(newPost)
+                print("Post updated")
+            else:
+                pushorpull_post.create_post(newPost)
+                print("Post created")
 
         return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
