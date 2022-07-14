@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
+from flask_login import login_required, current_user
 from web.user.static.py.Forms import CreateUser, LoginUser
 from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass

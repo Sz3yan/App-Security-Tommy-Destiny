@@ -132,7 +132,9 @@
 
                                                 data: {
                                                     blocks: [
-                                                        {{ data | tojson | safe }}
+                                                        {% for block in data %}
+                                                            {{ block | tojson | safe }},
+                                                        {% endfor %}
                                                     ]
                                                 },
 

@@ -3,10 +3,10 @@ from web.admin.static.py.Post import Post, SubmitPostForm
 from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass
 from base64 import b64encode, b64decode
-import json
+import json, logging
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
-
+# logging.basicConfig(filename='../../tommy-destiny.log', encoding='utf-8', level=logging.DEBUG)
 
 @admin.route("/dashboard")
 def admin_dashboard():
@@ -73,7 +73,7 @@ def editor_post(id):
                 decrypted = s.decrypt(encode_plaintext)
 
                 to_json = json.loads(decrypted.decode())
-                data = to_json["blocks"][0]
+                data = to_json["blocks"]
                 print(data)
     except:
         print("No posts found")
@@ -88,7 +88,6 @@ def editor_post(id):
         htitle = "Post title"
     
     if request.method == "POST" and htitle != "Post title":
-        print("hi")
         content = submit_post.content.data.encode("utf-8")
 
         try:
@@ -108,8 +107,15 @@ def editor_post(id):
         newPost.set_iv(str(b64encode(secure.get_iv())))
         newPost.set_plaintext(str(b64encode(encrypted_content)))
 
-        push_post = FirebaseClass()
-        push_post.create_post(newPost)
+        pushorpull_post = FirebaseClass()
+
+        for i in pushorpull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                pushorpull_post.update_post(newPost)
+                print("Post updated")
+            else:
+                pushorpull_post.create_post(newPost)
+                print("Post created")
 
         return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
