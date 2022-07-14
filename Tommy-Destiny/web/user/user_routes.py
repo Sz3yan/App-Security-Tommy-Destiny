@@ -3,8 +3,11 @@ from flask_login import login_required, current_user
 from web.user.static.py.Forms import CreateUser, LoginUser
 from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
+
+# jwt = JWTManager(app)  
 
 @user.route("/")
 def index():
@@ -23,6 +26,10 @@ def login():
     if "customer_session" in session:
         return redirect(url_for('customer_logged_in'))
     else:
+        # if request.is_json:
+        #     username = request.json["name"]
+
+
         if request.method == "POST" and loginUser.validate():
             username = loginUser.name.data
             email = loginUser.email.data
