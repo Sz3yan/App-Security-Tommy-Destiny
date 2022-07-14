@@ -280,7 +280,7 @@
                                     </div>
                                 </div>
 
-                                <form method="POST" action="/editor/posts/{{ id }}">
+                                <form method="POST" action="editor/posts/{{ id }}">
                                     <button type="submit" id="ember1283"
                                         class="ember-view tom-destiny-btn tom-destiny-btn-primary view-actions-top-row"><span>New
                                             post</span></a>
@@ -301,7 +301,7 @@
 
                             {% for post in posts %}
                                 <li class="tom-destiny-list-row tom-destiny-posts-list-item">
-                                    <a href="/editor/posts/{{ post['_Post__id'] }}" id="ember1284" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-title">
+                                    <a href="editor/posts/{{ post['_Post__id'] }}" id="ember1284" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-title">
                                         <h3 class="tom-destiny-content-entry-title">
                                             {{ post['_Post__title'] }}
                                         </h3>
@@ -313,13 +313,13 @@
                                         </p>
                                     </a>
 
-                                    <a href="/editor/posts/{{ post['_Post__id'] }}" id="ember1285" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-recipients">
+                                    <a href="editor/posts/{{ post['_Post__id'] }}" id="ember1285" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-recipients">
                                         <div class="flex fw4"></div>
                                     </a>
 
-                                    <a href="/editor/posts/{{ post['_Post__id'] }}" id="ember1286" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-opens"></a>
+                                    <a href="editor/posts/{{ post['_Post__id'] }}" id="ember1286" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-opens"></a>
 
-                                    <a href="/editor/posts/{{ post['_Post__id'] }}" id="ember1287" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-status">
+                                    <a href="editor/posts/{{ post['_Post__id'] }}" id="ember1287" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-status">
                                         <div class="flex items-center">
                                             <span class="tom-destiny-content-status-published nowrap">
                                                 {{ post['_Post__status'] }}
