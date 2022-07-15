@@ -17,6 +17,10 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_FILE_THRESHOLD'] = 100
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config["UPLOAD_FOLDER_IMAGE"] = "static/image"
@@ -36,13 +40,6 @@ limiter = Limiter(app, key_func=get_remote_address, default_limits=["30 per seco
 app.register_blueprint(api)
 app.register_blueprint(admin)
 app.register_blueprint(user)
-
-
-#session
-app.config['SESSION_PERMANENT'] = True
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_FILE_THRESHOLD'] = 100
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
 sess = Session()
 sess.init_app(app)
