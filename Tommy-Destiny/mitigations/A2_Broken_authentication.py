@@ -18,8 +18,19 @@ sess.init_app(app)
 @app.before_request
 def before_request():
     firebase = FirebaseClass()
-    detail_dict = firebase.get_user_info()
+    userInfo = firebase.get_user_info()
+    userID = firebase.get_user()
     if 'userID' in session:
-        user = [x for x in detail_dict if x.userID == session["userID"]][0]
-        g.user = user
+        if userID == session['userID']:
+            g.user = userInfo
+        else:
+            g.user = "Hi"
 
+#
+# <div class="container-login">
+#   <div class="col">
+#     {% for item in g.user %}
+#       <h1>{{ item["Name"] }}Profile</h1>
+#     {% endfor %}
+#   </div>
+# </div>

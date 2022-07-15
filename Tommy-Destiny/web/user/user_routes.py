@@ -11,6 +11,8 @@ user = Blueprint('user', __name__, template_folder="templates", static_folder='s
 
 @user.route("/")
 def index():
+    if "userID" in session:
+        session.pop("userID", None)
     return render_template('home.html')
 
 
@@ -24,20 +26,20 @@ def login():
     firebase = FirebaseClass()
     loginUser = LoginUser(request.form)
     if "userID" in session:
-        return redirect(url_for('userLoggedIn'))
+        return redirect(url_for('user.UserLoggedIn'))
     else:
         # if request.is_json:
         #     username = request.json["name"]
 
         if request.method == "POST" and loginUser.validate():
-            session.pop('sessID', None) #auto remove session when trying to login
+            session.pop('userID', None) #auto remove session when trying to login
             email = loginUser.email.data
             password = loginUser.password.data
             #username = loginUser.name.data
             if not firebase.login_user(email, password):
                 userID = firebase.get_user()
                 session['userID'] = userID
-                return redirect(url_for("UserLoggedIn"))
+                return redirect(url_for("user.UserLoggedIn"))
             else:                                           #If user not inside
                 return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
@@ -47,12 +49,14 @@ def login():
 @user.route('/logout')
 def logout():
    # remove the username from the session if it is there
-   session.pop('username', None)
+   session.pop('userID', None)
    return redirect(url_for('home'))
 
 
 @user.route('/UserLoggedIn')
 def UserLoggedIn():
+    # if not g.user:
+    #     return  redirect(url_for("user.login"))
     return render_template('profile.html')
 
 

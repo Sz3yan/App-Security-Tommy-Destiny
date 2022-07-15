@@ -1,12 +1,15 @@
-from flask import Flask
+from flask import Flask, session, g
 from flask_limiter import Limiter # limit the number of requests per IP for differ pricing tier
 from flask_limiter.util import get_remote_address
 from flask_mailman import Mail # sending newsletter
 from api.routes import api
 from web.admin.admin_routes import admin
 from web.user.user_routes import user
-import os# stripe # stripe for payment
+import os, stripe # stripe for payment
 from dotenv import load_dotenv
+from flask_session import Session
+from datetime import timedelta
+from static.py.firebaseConnection import FirebaseClass
 
 
 load_dotenv()
@@ -34,8 +37,31 @@ app.register_blueprint(api)
 app.register_blueprint(admin)
 app.register_blueprint(user)
 
+
+#session
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_FILE_THRESHOLD'] = 100
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
+
+sess = Session()
+sess.init_app(app)
+
+@app.before_request
+def before_request():
+    firebase = FirebaseClass()
+    userInfo = firebase.get_user_info()
+    userID = firebase.get_user()
+    if 'userID' in session:
+        if userID == session['userID']:
+            g.user = userInfo
+        else:
+            g.user = None
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 '''
 Project Structure:

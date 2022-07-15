@@ -16,33 +16,16 @@
 <br>
 <div class="container-login">
   <div class="col">
-    <form method="POST" class="form-login">
-      <h1>{{g.user.name}} Profile</h1>
-      <br><br>
-
-      <div class="form-login-field" id="name">
-        <p>Your current name: {{g.user.name}}</p>
-        {{ render_field(form.name, class="form-login-field") }}
-      </div>
-      <div class="form-login-field" id="number">
-          <p>Your current number: {{g.user.ph_no}}</p>
-        {{ render_field(form.email, class="form-login-field") }}
-      </div>
-      {% if message != "" %}
-      {{ message }}
-      {% endif %}
-      <br><br><br>
-
-      <div class="form-login-field" id="password">
-        {{ render_field(form.password, class="form-login-field") }}
-      </div>
-      <input type="submit" value="Login">
-    </form>
+      <h1>Welcome {{ g.user.get("Name") }}</h1>
+  </div>
+    <div class="col">
+      <p>phonenumber: {{ g.user.get("Phone number") }}</p>
   </div>
 </div>
 
+<br>
 <div>
-    <a href="/signup">Sign Up Here</a>
+    <a href="/">Return to homepage</a>
 </div>
 
 {% endblock %}
