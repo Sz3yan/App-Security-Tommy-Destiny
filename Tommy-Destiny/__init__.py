@@ -5,7 +5,7 @@ from flask_mailman import Mail # sending newsletter
 from api.routes import api
 from web.admin.admin_routes import admin
 from web.user.user_routes import user
-import os, stripe # stripe for payment
+import os# stripe # stripe for payment
 from dotenv import load_dotenv
 
 
@@ -13,7 +13,6 @@ load_dotenv()
 
 
 app = Flask(__name__)
-app.config['SESSION_COOKIE_NAME'] = 'session'
 app.config['SECRET_KEY'] = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024

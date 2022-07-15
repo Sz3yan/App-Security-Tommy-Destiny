@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_login import login_required, current_user
 from web.user.static.py.Forms import CreateUser, LoginUser
-from mitigations.A3_Sensitive_data_exposure import Secure
+from mitigations.A2_Broken_authentication import *
 from static.py.firebaseConnection import FirebaseClass
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
@@ -23,19 +23,24 @@ def pricing():
 def login():
     firebase = FirebaseClass()
     loginUser = LoginUser(request.form)
-    if "customer_session" in session:
-        return redirect(url_for('customer_logged_in'))
+    if "userID" in session:
+        return redirect(url_for('userLoggedIn'))
     else:
         # if request.is_json:
         #     username = request.json["name"]
 
-
         if request.method == "POST" and loginUser.validate():
-            username = loginUser.name.data
+            session.pop('sessID', None) #auto remove session when trying to login
             email = loginUser.email.data
             password = loginUser.password.data
-            if firebase.login_user(email, password):
-                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password))) #If user not inside
+            #username = loginUser.name.data
+            if not firebase.login_user(email, password):
+                userID = firebase.get_user()
+                session['userID'] = userID
+                return redirect(url_for("UserLoggedIn"))
+            else:                                           #If user not inside
+                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
+
     return render_template('login.html', form=loginUser, message="")
 
 
@@ -44,6 +49,11 @@ def logout():
    # remove the username from the session if it is there
    session.pop('username', None)
    return redirect(url_for('home'))
+
+
+@user.route('/UserLoggedIn')
+def UserLoggedIn():
+    return render_template('profile.html')
 
 
 @user.route("/payment")

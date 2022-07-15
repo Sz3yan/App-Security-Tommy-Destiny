@@ -45,6 +45,19 @@ class FirebaseClass:
         detail_dict = {"Name": name, "Phone number": ph_no, "role": role}
         self.__database.child("User").child(self.__User_ID).set(detail_dict)
 
+    def get_user_info(self):
+        users = self.__database.child("User").get()
+        for user in users.each():
+            userval = user.val()
+            #print("Username =", userval.get("Name")) how to get stuff from firebase
+            return userval
+
+    def get_user(self):
+        users = self.__database.child("User").get()
+        for user in users.each():
+            userkey = user.key()
+            return userkey
+
     # Blog Post
     def create_post(self, post_dict):
         self.__database.child("Post").push(post_dict.__dict__)
