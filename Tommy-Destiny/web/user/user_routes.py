@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, session, redirect, url_fo
 from flask_login import login_required, current_user
 from web.user.static.py.Forms import CreateUser, LoginUser
 from mitigations.A2_Broken_authentication import *
+from mitigations.A3_Sensitive_data_exposure import Argon2
 from static.py.firebaseConnection import FirebaseClass
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
@@ -72,6 +73,12 @@ def signup():
         email = createUser.email.data
         phno = createUser.phno.data
         password = createUser.register_password.data
+
+        hashing = Argon2()
+        hash_password = hashing.hash_password(password)
+        # hash_phno = hashing.hash_password(phno)
+        # print(hash_password)            
+
         firebase.create_user(email, password)
         firebase.create_user_info(username, phno, "customer")
     return render_template('signup.html', form=createUser)
