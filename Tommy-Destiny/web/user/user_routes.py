@@ -2,10 +2,12 @@ from argon2 import hash_password
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_login import login_required, current_user
 from web.user.static.py.Forms import CreateUser, LoginUser
+from base64 import b64decode
 from mitigations.A2_Broken_authentication import *
-from mitigations.A3_Sensitive_data_exposure import Argon2
+from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
 from static.py.firebaseConnection import FirebaseClass
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 
@@ -13,7 +15,14 @@ user = Blueprint('user', __name__, template_folder="templates", static_folder='s
 
 @user.route("/")
 def index():
-    return render_template('home.html')
+    try:
+        firebase = FirebaseClass()
+        posts = [post.val() for post in firebase.get_post().each()]
+    except:
+        posts = []
+        print("No posts found")
+
+    return render_template('home.html', posts=posts)
 
 
 @user.route("/pricing")
@@ -93,3 +102,37 @@ def signup():
         firebase.create_user(email, password)
         firebase.create_user_info(username, phno, "customer")
     return render_template('signup.html', form=createUser)
+
+
+@user.route("/post/<id>")
+def post(id):
+    try:
+        pull_post = FirebaseClass()
+
+        for i in pull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                iv = i.val()["_Post__iv"]
+                key = i.val()["_Post__key"]
+                plaintext = i.val()["_Post__plaintext"]
+
+                trimiv = iv[1:-1]
+                trimkey = key[1:-1]
+                trimplaintext = plaintext[1:-1]
+
+                encode_iv = b64decode(trimiv)
+                encode_key = b64decode(trimkey)
+                encode_plaintext = b64decode(trimplaintext)
+
+                s = Secure()
+                s.set_iv(encode_iv)
+                s.set_key(encode_key)
+                decrypted = s.decrypt(encode_plaintext)
+
+                to_json = json.loads(decrypted.decode())
+                data = to_json["blocks"]
+                # print(data)
+    except:
+        print("No posts found")
+        return redirect(url_for("home"))
+
+    return render_template('post.html', id=id, data=data)

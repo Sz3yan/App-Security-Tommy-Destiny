@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
 from web.admin.static.py.Post import Post, SubmitPostForm
 from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass
@@ -74,7 +74,7 @@ def editor_post(id):
 
                 to_json = json.loads(decrypted.decode())
                 data = to_json["blocks"]
-                print(data)
+                # print(data)
     except:
         print("No posts found")
 
@@ -109,13 +109,17 @@ def editor_post(id):
 
         pushorpull_post = FirebaseClass()
 
+        # need fix duplication of post
+        # need have default data template
         for i in pushorpull_post.get_post().each():
             if i.val()["_Post__id"] == id:
                 pushorpull_post.update_post(newPost)
                 print("Post updated")
+                return redirect(url_for('admin.post'))
             else:
                 pushorpull_post.create_post(newPost)
                 print("Post created")
+                return redirect(url_for('admin.post'))
 
         return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
