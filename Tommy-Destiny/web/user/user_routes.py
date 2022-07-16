@@ -1,3 +1,4 @@
+from argon2 import hash_password
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_login import login_required, current_user
 from web.user.static.py.Forms import CreateUser, LoginUser
@@ -30,10 +31,20 @@ def login():
         # if request.is_json:
         #     username = request.json["name"]
 
+        ph = Argon2()
+
         if request.method == "POST" and loginUser.validate():
             session.pop('userID', None) #auto remove session when trying to login
+            # hash = ph.get_hash()
+
             email = loginUser.email.data
             password = loginUser.password.data
+
+            # ph.verify(hash, password)
+
+            # if ph.check_needs_rehash(hash):
+            #     db.set_password_hash_for_user(user, ph.hash(password))
+
             #username = loginUser.name.data
             if not firebase.login_user(email, password):
                 userID = firebase.get_user()
@@ -74,10 +85,10 @@ def signup():
         phno = createUser.phno.data
         password = createUser.register_password.data
 
-        hashing = Argon2()
-        hash_password = hashing.hash_password(password)
-        # hash_phno = hashing.hash_password(phno)
-        # print(hash_password)            
+        # hashing = Argon2()
+        # hash_password = hashing.hash(password)
+        # hash_phno = hashing.hash(phno)
+        # print(f"hashed password: {hash_password}","\n",f"hashed phno: {hash_phno}")       
 
         firebase.create_user(email, password)
         firebase.create_user_info(username, phno, "customer")
