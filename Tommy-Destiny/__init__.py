@@ -35,7 +35,7 @@ app.config["MAIL_USERNAME"] = "tommy-destiny@gmail.com"
 app.config["MAIL_PASSWORD"] = os.getenv("EMAIL_PASS")
 mail = Mail(app)
 
-# limiter = Limiter(app, key_func=get_remote_address, default_limits=["30 per second"])
+limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 
 app.register_blueprint(api)
 app.register_blueprint(admin)
