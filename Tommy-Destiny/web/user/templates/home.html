@@ -31,128 +31,36 @@
                             congue,</div>
 
                         <footer class="tom-destiny-card-footer">
-                            
                             <time class="tom-destiny-card-date" datetime="2022-03-03">Mar 3, 2022</time>
                         </footer>
                     </div>
                 </a>
             </article>
 
-            <article class="tom-destiny-card post featured">
-                <a class="tom-destiny-card-link" href="/how-has-this-complete-original-been-sidelined/">
-                    <figure class="tom-destiny-card-image">
-                        <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDE4fHxhcnR8ZW58MHx8fHwxNjQ2MjgwMTY5&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="How has this complete original been sidelined?">
-                    </figure>
+            {% for post in posts %}
+                <article class="tom-destiny-card post featured">
+                    <a class="tom-destiny-card-link" href="/post/{{ post['_Post__id'] }}">
+                        <figure class="tom-destiny-card-image">
+                            <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDE4fHxhcnR8ZW58MHx8fHwxNjQ2MjgwMTY5&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="How has this complete original been sidelined?">
+                        </figure>
 
-                    <div class="tom-destiny-card-wrapper">
-                        <header class="tom-destiny-card-header">
-                            <h3 class="tom-destiny-card-title">How has this complete original been sidelined?</h3>
-                        </header>
+                        <div class="tom-destiny-card-wrapper">
+                            <header class="tom-destiny-card-header">
+                                <h3 class="tom-destiny-card-title">{{ post['_Post__title'] }}</h3>
+                            </header>
 
-                        <footer class="tom-destiny-card-footer">
-                            
-                            <time class="tom-destiny-card-date" datetime="2022-03-03">Mar 3, 2022</time>
-                        </footer>
-                    </div>
-                </a>
-            </article>
-            <article class="tom-destiny-card post">
-                <a class="tom-destiny-card-link" href="/the-weekly-planet-an-outdated-idea-is-still-shaping-climate-policy/">
-                    <figure class="tom-destiny-card-image">
-                        <img src="https://images.unsplash.com/photo-1570358934836-6802981e481e?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNsaW1hdGV8ZW58MHx8fHwxNjQ2Mjc5NTI5&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="The Weekly Planet: An Outdated Idea Is Still Shaping Climate Policy">
-                    </figure>
-
-                    <div class="tom-destiny-card-wrapper">
-                        <header class="tom-destiny-card-header">
-                            <h3 class="tom-destiny-card-title">The Weekly Planet: An Outdated Idea Is Still Shaping ClimatePolicy</h3>
-                        </header>
-
-                        <footer class="tom-destiny-card-footer">
-                            
-                            <time class="tom-destiny-card-date" datetime="2022-03-03">Mar 3, 2022</time>
-                        </footer>
-                    </div>
-                </a>
-            </article>
-            <article class="tom-destiny-card post">
-                <a class="tom-destiny-card-link" href="/the-subversive-genius-of-extremely-slow-email/">
-                    <figure class="tom-destiny-card-image">
-                        <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDZ8fGVtYWlsfGVufDB8fHx8MTY0NjI3ODIwNg&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="The Subversive Genius of Extremely Slow Email">
-                    </figure>
-
-                    <div class="tom-destiny-card-wrapper">
-                        <header class="tom-destiny-card-header">
-                            <h3 class="tom-destiny-card-title">The Subversive Genius of Extremely Slow Email</h3>
-                        </header>
-
-                        <footer class="tom-destiny-card-footer">
-                            
-                            <time class="tom-destiny-card-date" datetime="2022-03-03">Mar 3, 2022</time>
-                        </footer>
-                    </div>
-                </a>
-            </article>
-
-            <article class="tom-destiny-card post">
-                <a class="tom-destiny-card-link" href="/the-search-for-intelligent-life-heads-underwater/">
-                    <figure class="tom-destiny-card-image">
-                        <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDYwfHx1bmRlcndhdGVyfGVufDB8fHx8MTY0NjI3NzQ3NA&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="The Search for Intelligent Life Heads Underwater">
-                    </figure>
-
-                    <div class="tom-destiny-card-wrapper">
-                        <header class="tom-destiny-card-header">
-                            <h3 class="tom-destiny-card-title">The Search for Intelligent Life Heads Underwater</h3>
-                        </header>
-
-                        <footer class="tom-destiny-card-footer">
-                            
-                            <time class="tom-destiny-card-date" datetime="2022-03-03">Mar 3, 2022</time>
-                        </footer>
-                    </div>
-                </a>
-            </article>
-
-            <article class="tom-destiny-card post">
-                <a class="tom-destiny-card-link" href="/the-new-personal-website-isnt-really-a-website-at-all/">
-                    <figure class="tom-destiny-card-image">
-                        <img src="https://images.unsplash.com/flagged/photo-1594319622311-0b930abb17cf?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDd8fHRpa3Rva3xlbnwwfHx8fDE2NDYyNzgxNTM&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="The New Personal Website Isn’t Really a Website at All">
-                    </figure>
-
-                    <div class="tom-destiny-card-wrapper">
-                        <header class="tom-destiny-card-header">
-                            <h3 class="tom-destiny-card-title">The New Personal Website Isn’t Really a Website at All</h3>
-                        </header>
-
-                        <footer class="tom-destiny-card-footer">
-                            
-                            <time class="tom-destiny-card-date" datetime="2022-03-03">Mar 3, 2022</time>
-                        </footer>
-                    </div>
-                </a>
-            </article>
-
-            <article class="tom-destiny-card post">
-                <a class="tom-destiny-card-link" href="/the-internet-is-just-investment-banking-now/">
-                    <figure class="tom-destiny-card-image">
-                        <img src="https://images.unsplash.com/photo-1591994843349-f415893b3a6b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDExfHxpbnRlcm5ldCUyMGJhbmt8ZW58MHx8fHwxNjQ2Mjc4MDMz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="The Internet Is Just Investment Banking Now">
-                    </figure>
-
-                    <div class="tom-destiny-card-wrapper">
-                        <header class="tom-destiny-card-header">
-                            <h3 class="tom-destiny-card-title">The Internet Is Just Investment Banking Now</h3>
-                        </header>
-
-                        <footer class="tom-destiny-card-footer">
-                            
-                            <time class="tom-destiny-card-date" datetime="2022-03-03">Mar 3, 2022</time>
-                        </footer>
-                    </div>
-                </a>
-            </article>
+                            <footer class="tom-destiny-card-footer">
+                                
+                                <time class="tom-destiny-card-date">{{ post['_Post__published_at'] }}</time>
+                            </footer>
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
         </div>
 
         <footer class="tom-destiny-topic-footer">
-            <a class="tom-destiny-topic-link" href="https://headline.ghost.io/page/2">Show more <svg
+            <a class="tom-destiny-topic-link" href="">Show more <svg
                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Tom Destiny - Post{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/codex.editor.header@2.0.4/dist/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Image -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script><!-- Code -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script><!-- Embed -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script><!-- Table -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script><!-- Link -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script><!-- Warning -->
+
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script><!-- Editor -->
+{% endblock %}
+
+{% block bodyContent %}
+<main class="tom-destiny-main">
+    <article class="tom-destiny-article post">
+        <header class="tom-destiny-article-header tom-destiny-canvas">
+
+            <h1 class="tom-destiny-article-title">Finding that Passion</h1>
+
+                <aside class="tom-destiny-article-sidebar">
+        <figure class="tom-destiny-author-image">
+                <img src="https://www.gravatar.com/avatar/a214c176401cf4f34f4077cf141935c8?s=250&amp;r=x&amp;d=mp" alt="szeyan">
+        </figure>
+
+        <h4 class="tom-destiny-author-name">
+            <a href="/author/szeyan/">szeyan</a>
+        </h4>
+
+    <div class="tom-destiny-article-meta">
+        <time class="tom-destiny-article-date" datetime="2022-03-09">Mar 9, 2022</time>
+
+            <span class="tom-destiny-article-meta-sep"></span>
+            <span class="tom-destiny-article-length">2 min</span>
+    </div>
+</aside>
+
+
+                <figure class="tom-destiny-article-image">
+                    <img srcset="https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 300w,
+                                https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 720w,
+                                https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 960w,
+                                https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 1200w,
+                                https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 2000w" sizes="(max-width: 1200px) 100vw, 1200px" src="https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="Finding that Passion">
+                        <figcaption>Photo by <a href="https://unsplash.com/@randalynhill?utm_source=tom-destinyost&amp;utm_medium=referral&amp;utm_campaign=api-credit">Randalyn Hill</a> / <a href="https://unsplash.com/?utm_source=tom-destinyost&amp;utm_medium=referral&amp;utm_campaign=api-credit">Unsplash</a></figcaption>
+                </figure>
+        </header>
+
+        <section class="tom-destiny-content tom-destiny-canvas">
+            <div id="editorjs"></div>
+            <script>
+                var editor = new EditorJS({
+                holder: 'editorjs',
+                readOnly: true,
+
+                tools: {
+                header: {
+                    class: Header,
+                    inlineToolbar: ['marker', 'link'],
+                    config: {
+                    placeholder: 'Header'
+                    },
+                    shortcut: 'CMD+SHIFT+H'
+                },
+
+                image: SimpleImage,
+
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                    shortcut: 'CMD+SHIFT+L'
+                },
+
+                checklist: {
+                    class: Checklist,
+                    inlineToolbar: true,
+                },
+
+                quote: {
+                    class: Quote,
+                    inlineToolbar: true,
+                    config: {
+                    quotePlaceholder: 'Enter a quote',
+                    captionPlaceholder: 'Quote\'s author',
+                    },
+                    shortcut: 'CMD+SHIFT+O'
+                },
+
+                warning: Warning,
+
+                marker: {
+                    class:  Marker,
+                    shortcut: 'CMD+SHIFT+M'
+                },
+
+                delimiter: Delimiter,
+
+                inlineCode: {
+                    class: InlineCode,
+                    shortcut: 'CMD+SHIFT+C'
+                },
+
+                linkTool: LinkTool,
+
+                embed: Embed,
+
+                table: {
+                    class: Table,
+                    inlineToolbar: true,
+                    shortcut: 'CMD+ALT+T'
+                },
+
+                },
+
+                data: {
+                    blocks: [
+                        {% for block in data %}
+                            {{ block | tojson | safe }},
+                        {% endfor %}
+                    ]
+                },
+
+                onChange: function(api, event) {
+                console.log('something changed', event);
+                }
+            });
+            </script>
+        </section>
+    </article>
+
+</main>
+{% endblock %}

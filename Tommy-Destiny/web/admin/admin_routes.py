@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, redirect, render_template, request, url_for
 from web.admin.static.py.Post import Post, SubmitPostForm
 from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass
@@ -8,164 +8,139 @@ import json, logging
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 # logging.basicConfig(filename='../../tommy-destiny.log', encoding='utf-8', level=logging.DEBUG)
 
-
-
 @admin.route("/dashboard")
 def admin_dashboard():
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        return render_template('admin_dashboard.html')
+    return render_template('admin_dashboard.html')
 
 
 @admin.route("/viewsite")
 def view_admin():
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        return render_template('admin_viewsite.html')
+    return render_template('admin_viewsite.html')
 
 
 @admin.route("/posts")
 def post():
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        newPost = Post("title")
-        new_id = newPost.get_id()
+    newPost = Post("title")
+    new_id = newPost.get_id()
 
-        try:
-            firebase = FirebaseClass()
-            posts = [post.val() for post in firebase.get_post().each()]
-        except:
-            posts = []
-            print("No posts found")
+    try:
+        firebase = FirebaseClass()
+        posts = [post.val() for post in firebase.get_post().each()]
+    except:
+        posts = []
+        print("No posts found")
 
-        return render_template('admin_post.html', id=new_id, posts=posts)
+    return render_template('admin_post.html', id=new_id, posts=posts)
 
 
 @admin.route("/pages")
 def page():
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        return render_template('admin_pages.html')
+    return render_template('admin_pages.html')
 
 
 @admin.route("/editor/posts/<id>", methods=["GET", "POST"])
 def editor_post(id):
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        newPost = Post("title")
-        newPost.set_id(id)
+    newPost = Post("title")
+    newPost.set_id(id)
 
-        data = {
-            "type" : "header",
-            "data" : {
-                "text" : "Post title",
-            }
+    data = {
+        "type" : "header",
+        "data" : {
+            "text" : "Post title",
         }
+    }
+
+    try:
+        pull_post = FirebaseClass()
+
+        for i in pull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                iv = i.val()["_Post__iv"]
+                key = i.val()["_Post__key"]
+                plaintext = i.val()["_Post__plaintext"]
+
+                trimiv = iv[1:-1]
+                trimkey = key[1:-1]
+                trimplaintext = plaintext[1:-1]
+
+                encode_iv = b64decode(trimiv)
+                encode_key = b64decode(trimkey)
+                encode_plaintext = b64decode(trimplaintext)
+
+                s = Secure()
+                s.set_iv(encode_iv)
+                s.set_key(encode_key)
+                decrypted = s.decrypt(encode_plaintext)
+
+                to_json = json.loads(decrypted.decode())
+                data = to_json["blocks"]
+                # print(data)
+    except:
+        print("No posts found")
+
+    submit_post = SubmitPostForm(request.form)
+
+    try:
+        hcontent_string = submit_post.content.data
+        hcontent_to_dict = json.loads(hcontent_string)
+        htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
+    except:
+        htitle = "Post title"
+    
+    if request.method == "POST" and htitle != "Post title":
+        content = submit_post.content.data.encode("utf-8")
 
         try:
-            pull_post = FirebaseClass()
-
-            for i in pull_post.get_post().each():
-                if i.val()["_Post__id"] == id:
-                    iv = i.val()["_Post__iv"]
-                    key = i.val()["_Post__key"]
-                    plaintext = i.val()["_Post__plaintext"]
-
-                    trimiv = iv[1:-1]
-                    trimkey = key[1:-1]
-                    trimplaintext = plaintext[1:-1]
-
-                    encode_iv = b64decode(trimiv)
-                    encode_key = b64decode(trimkey)
-                    encode_plaintext = b64decode(trimplaintext)
-
-                    s = Secure()
-                    s.set_iv(encode_iv)
-                    s.set_key(encode_key)
-                    decrypted = s.decrypt(encode_plaintext)
-
-                    to_json = json.loads(decrypted.decode())
-                    data = to_json["blocks"]
-                    print(data)
+            content_string = submit_post.content.data
+            content_to_dict = json.loads(content_string)
+            title = content_to_dict["blocks"][0]["data"]["text"]
         except:
-            print("No posts found")
+            print("error")
+            title = "title"
+        
+        secure = Secure()
+        encrypted_content = secure.encrypt(content)
 
-        submit_post = SubmitPostForm(request.form)
+        newPost.set_id(id)
+        newPost.set_title(title)
+        newPost.set_key(str(b64encode(secure.get_key())))
+        newPost.set_iv(str(b64encode(secure.get_iv())))
+        newPost.set_plaintext(str(b64encode(encrypted_content)))
 
-        try:
-            hcontent_string = submit_post.content.data
-            hcontent_to_dict = json.loads(hcontent_string)
-            htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
-        except:
-            htitle = "Post title"
+        pushorpull_post = FirebaseClass()
 
-        if request.method == "POST" and htitle != "Post title":
-            content = submit_post.content.data.encode("utf-8")
-
-            try:
-                content_string = submit_post.content.data
-                content_to_dict = json.loads(content_string)
-                title = content_to_dict["blocks"][0]["data"]["text"]
-            except:
-                print("error")
-                title = "title"
-
-            secure = Secure()
-            encrypted_content = secure.encrypt(content)
-
-            newPost.set_id(id)
-            newPost.set_title(title)
-            newPost.set_key(str(b64encode(secure.get_key())))
-            newPost.set_iv(str(b64encode(secure.get_iv())))
-            newPost.set_plaintext(str(b64encode(encrypted_content)))
-
-            pushorpull_post = FirebaseClass()
-
-            for i in pushorpull_post.get_post().each():
-                if i.val()["_Post__id"] == id:
-                    pushorpull_post.update_post(newPost)
-                    print("Post updated")
-                else:
-                    pushorpull_post.create_post(newPost)
-                    print("Post created")
-
-            return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
+        # need fix duplication of post
+        # need have default data template
+        for i in pushorpull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                pushorpull_post.update_post(newPost)
+                print("Post updated")
+                return redirect(url_for('admin.post'))
+            else:
+                pushorpull_post.create_post(newPost)
+                print("Post created")
+                return redirect(url_for('admin.post'))
 
         return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
+
+    return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
 
 @admin.route("/editor/pages/<id>", methods=["POST"])
 def editor_pages(id):
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        return render_template('admin_editor.html')
+    return render_template('admin_editor.html')
 
 
 @admin.route("/tags")
 def tags():
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        return render_template('admin_tags.html')
+    return render_template('admin_tags.html')
 
 
 @admin.route("/members")
 def members():
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        return render_template('admin_members.html')
+    return render_template('admin_members.html')
 
 
 @admin.route("/settings")
 def settings():
-    if "userID" not in session:
-        return redirect(url_for("user.index"))
-    else:
-        return render_template('admin_settings.html')
+    return render_template('admin_settings.html')

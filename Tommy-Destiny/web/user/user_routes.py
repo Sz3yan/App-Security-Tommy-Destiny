@@ -1,20 +1,28 @@
+from argon2 import hash_password
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_login import login_required, current_user
 from web.user.static.py.Forms import CreateUser, LoginUser
+from base64 import b64decode
 from mitigations.A2_Broken_authentication import *
+from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
 from static.py.firebaseConnection import FirebaseClass
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 
 # jwt = JWTManager(app)  
 
-
 @user.route("/")
 def index():
-    session.pop('userID', None)
+    try:
+        firebase = FirebaseClass()
+        posts = [post.val() for post in firebase.get_post().each()]
+    except:
+        posts = []
+        print("No posts found")
 
-    return render_template('home.html')
+    return render_template('home.html', posts=posts)
 
 
 @user.route("/pricing")
@@ -32,10 +40,20 @@ def login():
         # if request.is_json:
         #     username = request.json["name"]
 
+        ph = Argon2()
+
         if request.method == "POST" and loginUser.validate():
             session.pop('userID', None) #auto remove session when trying to login
+            # hash = ph.get_hash()
+
             email = loginUser.email.data
             password = loginUser.password.data
+
+            # ph.verify(hash, password)
+
+            # if ph.check_needs_rehash(hash):
+            #     db.set_password_hash_for_user(user, ph.hash(password))
+
             #username = loginUser.name.data
             if not firebase.login_user(email, password):
                 userID = firebase.get_user()
@@ -75,6 +93,46 @@ def signup():
         email = createUser.email.data
         phno = createUser.phno.data
         password = createUser.register_password.data
+
+        # hashing = Argon2()
+        # hash_password = hashing.hash(password)
+        # hash_phno = hashing.hash(phno)
+        # print(f"hashed password: {hash_password}","\n",f"hashed phno: {hash_phno}")       
+
         firebase.create_user(email, password)
         firebase.create_user_info(username, phno, "customer")
     return render_template('signup.html', form=createUser)
+
+
+@user.route("/post/<id>")
+def post(id):
+    try:
+        pull_post = FirebaseClass()
+
+        for i in pull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                iv = i.val()["_Post__iv"]
+                key = i.val()["_Post__key"]
+                plaintext = i.val()["_Post__plaintext"]
+
+                trimiv = iv[1:-1]
+                trimkey = key[1:-1]
+                trimplaintext = plaintext[1:-1]
+
+                encode_iv = b64decode(trimiv)
+                encode_key = b64decode(trimkey)
+                encode_plaintext = b64decode(trimplaintext)
+
+                s = Secure()
+                s.set_iv(encode_iv)
+                s.set_key(encode_key)
+                decrypted = s.decrypt(encode_plaintext)
+
+                to_json = json.loads(decrypted.decode())
+                data = to_json["blocks"]
+                # print(data)
+    except:
+        print("No posts found")
+        return redirect(url_for("home"))
+
+    return render_template('post.html', id=id, data=data)
