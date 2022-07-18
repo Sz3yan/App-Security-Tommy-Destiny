@@ -81,13 +81,11 @@ def editor_post(id):
         print("No posts found")
 
     submit_post = SubmitPostForm(request.form)
-    new = 1
 
     try:
         hcontent_string = submit_post.content.data
         hcontent_to_dict = json.loads(hcontent_string)
         htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
-        new = 0
     except:
         htitle = "Post title"
     
@@ -111,13 +109,11 @@ def editor_post(id):
         newPost.set_iv(str(b64encode(secure.get_iv())))
         newPost.set_plaintext(str(b64encode(encrypted_content)))
 
-        pushorpull_post = FirebaseClass()
-
         # need fix duplication of post
-        # need have default data template
+        pushorpull_post = FirebaseClass()
         for i in pushorpull_post.get_post().each():
             if i.val()["_Post__id"] == id:
-                pushorpull_post.update_post(newPost)
+                pushorpull_post.update_post(id, newPost)
                 print("Post updated")
                 return redirect(url_for('admin.post'))
             else:
