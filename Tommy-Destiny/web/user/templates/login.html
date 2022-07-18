@@ -1,3 +1,4 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% extends "base.html" %}
 {% block title %}Sign up {% endblock %}
 
@@ -34,7 +35,10 @@
       <div class="form-login-field">
         {{ render_field(form.password, class="form-login-field") }}
       </div>
+        {{form.recaptcha}}
+      <div class="g-recaptcha" data-sitekey="6LdPSO8gAAAAADq9_WWZcX7MhXkx8J4ceGFynwWp">
       <input type="submit" value="Login">
+      </div>
     </form>
   </div>
 </div>

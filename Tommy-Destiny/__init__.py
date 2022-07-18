@@ -22,6 +22,11 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_THRESHOLD'] = 100
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
+app.config["RECAPTCHA_USE_SSL"] = False
+app.config["RECAPTCHA_PUBLIC_KEY"] = '6LdPSO8gAAAAADq9_WWZcX7MhXkx8J4ceGFynwWp'
+app.config["RECAPTCHA_PRIVATE_KEY"] = '6LdPSO8gAAAAAFVKTV67Tchj8hwjQi0P6QKFOKsx'
+app.config["RECAPTCHA_OPTIONS"] = {'theme' : 'white'}
+
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config["UPLOAD_FOLDER_IMAGE"] = "static/image"
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ("png", "jpg", "jpeg")
