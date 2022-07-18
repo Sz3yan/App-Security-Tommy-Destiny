@@ -2,12 +2,14 @@ from flask import Flask, session, g
 from flask_limiter import Limiter # limit the number of requests per IP for differ pricing tier
 from flask_limiter.util import get_remote_address
 from flask_mailman import Mail # sending newsletter
+from flask_session import Session
+from flask_jwt_extended import JWTManager
+from flask_wtf.csrf import CSRFProtect
 from api.routes import api
 from web.admin.admin_routes import admin
 from web.user.user_routes import user
 import os, stripe # stripe for payment
 from dotenv import load_dotenv
-from flask_session import Session
 from datetime import timedelta
 from static.py.firebaseConnection import FirebaseClass
 
@@ -39,6 +41,9 @@ app.config["MAIL_USE_TLS"] = True
 app.config["MAIL_USERNAME"] = "tommy-destiny@gmail.com"
 app.config["MAIL_PASSWORD"] = os.getenv("EMAIL_PASS")
 mail = Mail(app)
+
+jwt = JWTManager(app)
+csrf = CSRFProtect().init_app(app)
 
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 

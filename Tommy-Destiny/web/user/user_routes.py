@@ -6,12 +6,10 @@ from base64 import b64decode
 from mitigations.A2_Broken_authentication import *
 from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
 from static.py.firebaseConnection import FirebaseClass
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 hashing = Argon2()
-# jwt = JWTManager(app)  
 
 @user.route("/")
 def index():
@@ -37,8 +35,6 @@ def login():
     if "userID" in session:
         return redirect(url_for('user.profile'))
     else:
-        # if request.is_json:
-        #     username = request.json["name"]
 
         ph = Argon2()
 

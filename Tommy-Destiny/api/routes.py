@@ -1,6 +1,13 @@
+# from crypt import methods
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import  jwt_required, create_access_token
+import jwt
 
 api = Blueprint('api', __name__, url_prefix='/api')
+
+@api.route("/api/login", methods=["POST"])
+def api_login():
+    pass
 
 @api.route("/api/favourites")
 def api_favourite():
