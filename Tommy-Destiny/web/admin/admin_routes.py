@@ -43,12 +43,12 @@ def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
 
-    data = {
+    data = [{
         "type" : "header",
         "data" : {
             "text" : "Post title",
         }
-    }
+    }]
 
     try:
         pull_post = FirebaseClass()
@@ -74,16 +74,20 @@ def editor_post(id):
 
                 to_json = json.loads(decrypted.decode())
                 data = to_json["blocks"]
-                # print(data)
+                print(data)
+            else: 
+                data = data
     except:
         print("No posts found")
 
     submit_post = SubmitPostForm(request.form)
+    new = 1
 
     try:
         hcontent_string = submit_post.content.data
         hcontent_to_dict = json.loads(hcontent_string)
         htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
+        new = 0
     except:
         htitle = "Post title"
     
