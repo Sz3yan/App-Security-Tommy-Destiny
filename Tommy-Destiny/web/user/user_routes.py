@@ -40,7 +40,6 @@ def login():
 
         if request.method == "POST" and loginUser.validate():
             session.pop('userID', None) #auto remove session when trying to login
-
             email = loginUser.email.data
             password = loginUser.password.data
 
@@ -53,11 +52,12 @@ def login():
             print(ph.verify(password, hash_password))
 
             if ph.verify(password, hash_password):
-                userID = firebase.get_user()
-                session['userID'] = userID
-                return redirect(url_for("user.profile"))
-            else:
-                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
+                if not firebase.login_user(email, password):
+                    userID = firebase.get_user()
+                    session['userID'] = userID
+                    return redirect(url_for("user.profile"))
+                else:
+                    return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
     return render_template('login.html', form=loginUser, message="")
 

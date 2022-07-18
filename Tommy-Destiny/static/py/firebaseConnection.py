@@ -37,6 +37,7 @@ class FirebaseClass:
     def login_user(self, email, password):
         try:
             user = self.__auth.sign_in_with_email_and_password(email, password)
+            self.__User_ID = user["localId"]
             print("Signed in")
         except:
             return "User not found"
@@ -53,10 +54,7 @@ class FirebaseClass:
             return userval
 
     def get_user(self):
-        users = self.__database.child("User").get()
-        for user in users.each():
-            userkey = user.key()
-            return userkey
+        return self.__User_ID
 
     # Blog Post
     def create_post(self, post_dict):
