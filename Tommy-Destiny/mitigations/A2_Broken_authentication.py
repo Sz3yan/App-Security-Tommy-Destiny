@@ -26,11 +26,3 @@ def before_request():
         else:
             g.user = "Hi"
 
-#
-# <div class="container-login">
-#   <div class="col">
-#     {% for item in g.user %}
-#       <h1>{{ item["Name"] }}Profile</h1>
-#     {% endfor %}
-#   </div>
-# </div>

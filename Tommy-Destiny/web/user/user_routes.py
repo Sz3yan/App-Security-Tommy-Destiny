@@ -9,8 +9,11 @@ user = Blueprint('user', __name__, template_folder="templates", static_folder='s
 
 # jwt = JWTManager(app)  
 
+
 @user.route("/")
 def index():
+    session.pop('userID', None)
+
     return render_template('home.html')
 
 
