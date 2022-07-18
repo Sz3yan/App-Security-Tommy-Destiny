@@ -12,6 +12,7 @@ import os, stripe # stripe for payment
 from dotenv import load_dotenv
 from datetime import timedelta
 from static.py.firebaseConnection import FirebaseClass
+import rollbar
 
 
 load_dotenv()
@@ -40,19 +41,22 @@ app.config["MAIL_PORT"] = 587
 app.config["MAIL_USE_TLS"] = True
 app.config["MAIL_USERNAME"] = "tommy-destiny@gmail.com"
 app.config["MAIL_PASSWORD"] = os.getenv("EMAIL_PASS")
+
 mail = Mail(app)
 
 jwt = JWTManager(app)
+
 csrf = CSRFProtect().init_app(app)
 
+sess = Session()
+sess.init_app(app)
+
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
+rollbar.init('3e8138179a2c4be4aec4dcd2a21d1372')
 
 app.register_blueprint(api)
 app.register_blueprint(admin)
 app.register_blueprint(user)
-
-sess = Session()
-sess.init_app(app)
 
 @app.before_request
 def before_request():
@@ -64,6 +68,13 @@ def before_request():
             g.user = userInfo
         else:
             g.user = None
+
+@app.route('/hi')
+def hi():
+    try:
+        b = a + 1
+    except:
+        rollbar.report_exc_info()
 
 
 if __name__ == '__main__':
