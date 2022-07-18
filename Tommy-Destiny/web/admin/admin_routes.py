@@ -43,12 +43,12 @@ def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
 
-    data = {
+    data = [{
         "type" : "header",
         "data" : {
             "text" : "Post title",
         }
-    }
+    }]
 
     try:
         pull_post = FirebaseClass()
@@ -74,7 +74,9 @@ def editor_post(id):
 
                 to_json = json.loads(decrypted.decode())
                 data = to_json["blocks"]
-                # print(data)
+                print(data)
+            else: 
+                data = data
     except:
         print("No posts found")
 
@@ -107,13 +109,11 @@ def editor_post(id):
         newPost.set_iv(str(b64encode(secure.get_iv())))
         newPost.set_plaintext(str(b64encode(encrypted_content)))
 
-        pushorpull_post = FirebaseClass()
-
         # need fix duplication of post
-        # need have default data template
+        pushorpull_post = FirebaseClass()
         for i in pushorpull_post.get_post().each():
             if i.val()["_Post__id"] == id:
-                pushorpull_post.update_post(newPost)
+                pushorpull_post.update_post(id, newPost)
                 print("Post updated")
                 return redirect(url_for('admin.post'))
             else:
