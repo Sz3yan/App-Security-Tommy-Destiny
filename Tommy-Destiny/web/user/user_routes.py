@@ -10,7 +10,7 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
-
+hashing = Argon2()
 # jwt = JWTManager(app)  
 
 @user.route("/")
@@ -44,22 +44,23 @@ def login():
 
         if request.method == "POST" and loginUser.validate():
             session.pop('userID', None) #auto remove session when trying to login
-            # hash = ph.get_hash()
 
             email = loginUser.email.data
             password = loginUser.password.data
 
-            # ph.verify(hash, password)
+            # print(hashing.verify(hashing.get_hash(), password))
 
             # if ph.check_needs_rehash(hash):
             #     db.set_password_hash_for_user(user, ph.hash(password))
 
-            #username = loginUser.name.data
-            if not firebase.login_user(email, password):
+            hash_password = ph.hash(password)
+            print(ph.verify(password, hash_password))
+
+            if ph.verify(password, hash_password):
                 userID = firebase.get_user()
                 session['userID'] = userID
                 return redirect(url_for("user.profile"))
-            else:                                           #If user not inside
+            else:
                 return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
     return render_template('login.html', form=loginUser, message="")
@@ -94,13 +95,12 @@ def signup():
         phno = createUser.phno.data
         password = createUser.register_password.data
 
-        # hashing = Argon2()
-        # hash_password = hashing.hash(password)
-        # hash_phno = hashing.hash(phno)
-        # print(f"hashed password: {hash_password}","\n",f"hashed phno: {hash_phno}")       
+        hash_password = hashing.hash(password)
+        hash_phno = hashing.hash(phno)
+        print(f"hashed password: {hash_password}","\n",f"hashed phno: {hash_phno}")       
 
-        firebase.create_user(email, password)
-        firebase.create_user_info(username, phno, "customer")
+        firebase.create_user(email, hash_password)
+        firebase.create_user_info(username, hash_phno, "customer")
     return render_template('signup.html', form=createUser)
 
 
