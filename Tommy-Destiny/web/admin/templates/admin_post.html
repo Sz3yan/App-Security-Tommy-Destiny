@@ -281,6 +281,7 @@
                                 </div>
 
                                 <form method="POST" action="editor/posts/{{ id }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                     <button type="submit" id="ember1283"
                                         class="ember-view tom-destiny-btn tom-destiny-btn-primary view-actions-top-row"><span>New
                                             post</span></a>

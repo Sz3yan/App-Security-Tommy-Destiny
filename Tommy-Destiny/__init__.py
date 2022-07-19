@@ -1,10 +1,10 @@
-from flask import Flask, session, g
+from flask import Flask, session, render_template
 from flask_limiter import Limiter # limit the number of requests per IP for differ pricing tier
 from flask_limiter.util import get_remote_address
 from flask_mailman import Mail # sending newsletter
 from flask_session import Session
 from flask_jwt_extended import JWTManager
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, CSRFError
 from api.routes import api
 from web.admin.admin_routes import admin
 from web.user.user_routes import user
@@ -43,13 +43,9 @@ app.config["MAIL_USERNAME"] = "tommy-destiny@gmail.com"
 app.config["MAIL_PASSWORD"] = os.getenv("EMAIL_PASS")
 
 mail = Mail(app)
-
 jwt = JWTManager(app)
-
-# csrf = CSRFProtect().init_app(app)
-
-sess = Session()
-sess.init_app(app)
+csrf = CSRFProtect(app)
+sess = Session(app)
 
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 # rollbar.init('3e8138179a2c4be4aec4dcd2a21d1372')
@@ -68,6 +64,10 @@ def before_request():
             g.user = userInfo
         else:
             g.user = None
+
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    return render_template('csrf_error.html', reason=e.description), 400
 
 @app.route('/hi')
 def hi():
