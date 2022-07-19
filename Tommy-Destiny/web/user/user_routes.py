@@ -1,10 +1,9 @@
 from argon2 import hash_password
 from flask import Blueprint, render_template, request, session, redirect, url_for
-from flask_login import login_required, current_user
 from web.user.static.py.Forms import CreateUser, LoginUser
 from base64 import b64decode
 from mitigations.A2_Broken_authentication import *
-from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
+from mitigations.A3_Sensitive_data_exposure import AES_GCM, Argon2
 from static.py.firebaseConnection import FirebaseClass
 import json
 
@@ -102,31 +101,31 @@ def signup():
 
 @user.route("/post/<id>")
 def post(id):
+    aes_gcm = AES_GCM()
+    secret_key = "yourSecretKey"
+
+    data = [{
+        "type" : "header",
+        "data" : {
+            "text" : "Post title",
+        }
+    }]
+
     try:
         pull_post = FirebaseClass()
 
         for i in pull_post.get_post().each():
             if i.val()["_Post__id"] == id:
-                iv = i.val()["_Post__iv"]
-                key = i.val()["_Post__key"]
                 plaintext = i.val()["_Post__plaintext"]
 
-                trimiv = iv[1:-1]
-                trimkey = key[1:-1]
-                trimplaintext = plaintext[1:-1]
+                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                print("decrypted: ", decrypted)
 
-                encode_iv = b64decode(trimiv)
-                encode_key = b64decode(trimkey)
-                encode_plaintext = b64decode(trimplaintext)
-
-                s = Secure()
-                s.set_iv(encode_iv)
-                s.set_key(encode_key)
-                decrypted = s.decrypt(encode_plaintext)
-
-                to_json = json.loads(decrypted.decode())
+                to_json = json.loads(decrypted)
                 data = to_json["blocks"]
                 # print(data)
+            else: 
+                data = data
     except:
         print("No posts found")
         return redirect(url_for("home"))

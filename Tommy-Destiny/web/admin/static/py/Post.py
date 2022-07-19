@@ -12,8 +12,6 @@ class Post:
         self.__created_at = str(datetime.now())
         self.__updated_at = str(datetime.now())
         self.__published_at = str(datetime.now())
-        self.__iv = ""
-        self.__key = ""
 
     def get_id(self):
         return self.__id
@@ -69,20 +67,8 @@ class Post:
     def set_published_at(self):
         self.__published_at = datetime.now()
 
-    def get_iv(self):
-        return self.__iv
-
-    def set_iv(self, iv):
-        self.__iv = iv
-
-    def get_key(self):
-        return self.__key
-
-    def set_key(self, key):
-        self.__key = key
-
     def __str__(self):
-        return f"{self.__id}\n {self.__title}\n {self.__plaintext}\n {self.__featured}\n {self.__status}\n {self.__visibility}\n {self.__created_at}\n {self.__updated_at}\n {self.__published_at}\n {self.__iv}\n {self.__key}"
+        return f"{self.__id}\n {self.__title}\n {self.__plaintext}\n {self.__featured}\n {self.__status}\n {self.__visibility}\n {self.__created_at}\n {self.__updated_at}\n {self.__published_at}"
 
 
 from wtforms import Form, HiddenField

@@ -46,13 +46,13 @@ mail = Mail(app)
 
 jwt = JWTManager(app)
 
-csrf = CSRFProtect().init_app(app)
+# csrf = CSRFProtect().init_app(app)
 
 sess = Session()
 sess.init_app(app)
 
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
-rollbar.init('3e8138179a2c4be4aec4dcd2a21d1372')
+# rollbar.init('3e8138179a2c4be4aec4dcd2a21d1372')
 
 app.register_blueprint(api)
 app.register_blueprint(admin)
