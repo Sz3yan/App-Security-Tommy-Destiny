@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for,g, session
 from web.admin.static.py.Post import Post, SubmitPostForm
-from mitigations.A3_Sensitive_data_exposure import Secure
+from mitigations.A3_Sensitive_data_exposure import AES_GCM
 from static.py.firebaseConnection import FirebaseClass
 from base64 import b64encode, b64decode
 from functools import wraps
@@ -27,20 +27,19 @@ def admin_required(f):
     return wrap
 
 
-@admin.route("/dashboard")
 @admin_required
+@admin.route("/dashboard")
 def admin_dashboard():
     return render_template('admin_dashboard.html')
 
 
-@admin.route("/viewsite")
 @admin_required
+@admin.route("/viewsite")
 def view_admin():
     return render_template('admin_viewsite.html')
 
-
-@admin.route("/posts")
 @admin_required
+@admin.route("/posts")
 def post():
     newPost = Post("title")
     new_id = newPost.get_id()
@@ -55,17 +54,19 @@ def post():
     return render_template('admin_post.html', id=new_id, posts=posts)
 
 
-@admin.route("/pages")
 @admin_required
+@admin.route("/pages")
 def page():
     return render_template('admin_pages.html')
 
 
-@admin.route("/editor/posts/<id>", methods=["GET", "POST"])
 @admin_required
+@admin.route("/editor/posts/<id>", methods=["GET", "POST"])
 def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
+    aes_gcm = AES_GCM()
+    secret_key = "yourSecretKey"
 
     data = [{
         "type" : "header",
@@ -79,27 +80,15 @@ def editor_post(id):
 
         for i in pull_post.get_post().each():
             if i.val()["_Post__id"] == id:
-                iv = i.val()["_Post__iv"]
-                key = i.val()["_Post__key"]
                 plaintext = i.val()["_Post__plaintext"]
 
-                trimiv = iv[1:-1]
-                trimkey = key[1:-1]
-                trimplaintext = plaintext[1:-1]
+                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                print("decrypted: ", decrypted)
 
-                encode_iv = b64decode(trimiv)
-                encode_key = b64decode(trimkey)
-                encode_plaintext = b64decode(trimplaintext)
-
-                s = Secure()
-                s.set_iv(encode_iv)
-                s.set_key(encode_key)
-                decrypted = s.decrypt(encode_plaintext)
-
-                to_json = json.loads(decrypted.decode())
+                to_json = json.loads(decrypted)
                 data = to_json["blocks"]
-                print(data)
-            else:
+                # print(data)
+            else: 
                 data = data
     except:
         print("No posts found")
@@ -112,7 +101,7 @@ def editor_post(id):
         htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
     except:
         htitle = "Post title"
-
+    
     if request.method == "POST" and htitle != "Post title":
         content = submit_post.content.data.encode("utf-8")
 
@@ -124,14 +113,12 @@ def editor_post(id):
             print("error")
             title = "title"
 
-        secure = Secure()
-        encrypted_content = secure.encrypt(content)
+        encrypted_content = aes_gcm.encrypt(secret_key, content)
+        # print("encrypted_content: ", encrypted_content)
 
         newPost.set_id(id)
         newPost.set_title(title)
-        newPost.set_key(str(b64encode(secure.get_key())))
-        newPost.set_iv(str(b64encode(secure.get_iv())))
-        newPost.set_plaintext(str(b64encode(encrypted_content)))
+        newPost.set_plaintext(encrypted_content)
 
         # need fix duplication of post
         pushorpull_post = FirebaseClass()
@@ -150,25 +137,25 @@ def editor_post(id):
     return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
 
-@admin.route("/editor/pages/<id>", methods=["POST"])
 @admin_required
+@admin.route("/editor/pages/<id>", methods=["POST"])
 def editor_pages(id):
     return render_template('admin_editor.html')
 
 
-@admin.route("/tags")
 @admin_required
+@admin.route("/tags")
 def tags():
     return render_template('admin_tags.html')
 
 
-@admin.route("/members")
 @admin_required
+@admin.route("/members")
 def members():
     return render_template('admin_members.html')
 
 
-@admin.route("/settings")
 @admin_required
+@admin.route("/settings")
 def settings():
     return render_template('admin_settings.html')
