@@ -1,6 +1,7 @@
 argon2-cffi==21.3.0
 argon2-cffi-bindings==21.2.0
 attrs==21.4.0
+blinker==1.5
 CacheControl==0.12.11
 cachelib==0.9.0
 cachetools==5.2.0
@@ -60,6 +61,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
 pycryptodome==3.14.1
+pycryptodomex==3.15.0
 Pygments==2.12.0
 PyJWT==2.4.0
 pyparsing==3.0.9
@@ -71,7 +73,9 @@ PyYAML==6.0
 requests==2.27.1
 requests-toolbelt==0.9.1
 rich==12.5.1
+rollbar==0.16.3
 rsa==4.8
+sentry-sdk==1.7.2
 shellescape==3.8.1
 six==1.16.0
 stripe==3.5.0

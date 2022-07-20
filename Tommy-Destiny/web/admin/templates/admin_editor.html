@@ -161,13 +161,14 @@
 
                         <div class="tom-destiny-editor-wordcount-container">
                             <div class="tom-destiny-editor-wordcount">
-                                0 words {{ new }}
+                                0 words
                             </div>
                         </div>
                     </section>
                 </div>
 
                 <form method="POST" id="form" onsubmit="savelah()">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     {{ render_field(form.content, id="hihi") }}
                     <button type="submit" class="settings-menu-toggle tom-destiny-btn tom-destiny-btn-editor tom-destiny-btn-icon icon-only tom-destiny-btn-action-icon" title="Settings">
                         <span><svg fill="none" viewBox="0 0 24 24"><path d="M21 2.5H3c-.828 0-1.5.608-1.5 1.357v16.286c0 .75.672 1.357 1.5 1.357h18c.828 0 1.5-.608 1.5-1.357V3.857c0-.75-.672-1.357-1.5-1.357zm-4.5 0v19" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>

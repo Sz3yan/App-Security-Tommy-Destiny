@@ -1,10 +1,10 @@
-from flask import Flask, session, g, current_app
+from flask import Flask, session, render_template
 from flask_limiter import Limiter # limit the number of requests per IP for differ pricing tier
 from flask_limiter.util import get_remote_address
 from flask_mailman import Mail # sending newsletter
 from flask_session import Session
 from flask_jwt_extended import JWTManager
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, CSRFError
 from api.routes import api
 from web.admin.admin_routes import admin
 from web.user.user_routes import user
@@ -25,8 +25,6 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_THRESHOLD'] = 100
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
-app.config["RBAC_USE_WHITE"] = True
-
 app.config["RECAPTCHA_USE_SSL"] = False
 app.config["RECAPTCHA_PUBLIC_KEY"] = '6LdPSO8gAAAAADq9_WWZcX7MhXkx8J4ceGFynwWp'
 app.config["RECAPTCHA_PRIVATE_KEY"] = '6LdPSO8gAAAAAFVKTV67Tchj8hwjQi0P6QKFOKsx'
@@ -45,18 +43,12 @@ app.config["MAIL_USERNAME"] = "tommy-destiny@gmail.com"
 app.config["MAIL_PASSWORD"] = os.getenv("EMAIL_PASS")
 
 mail = Mail(app)
-
 jwt = JWTManager(app)
-
-#csrf = CSRFProtect().init_app(app)
-
-sess = Session()
-sess.init_app(app)
-
-
+csrf = CSRFProtect(app)
+sess = Session(app)
 
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
-rollbar.init('3e8138179a2c4be4aec4dcd2a21d1372')
+# rollbar.init('3e8138179a2c4be4aec4dcd2a21d1372')
 
 app.register_blueprint(api)
 app.register_blueprint(admin)
@@ -69,18 +61,20 @@ def before_request():
     userID = firebase.get_user()
     if 'userID' in session:
         if userID == session['userID']:
-            g.current_user = userInfo
+            g.user = userInfo
         else:
-            g.current_user = None
+            g.user = None
 
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    return render_template('csrf_error.html', reason=e.description), 400
 
-#
-# @app.route('/hi')
-# def hi():
-#     try:
-#         b = a + 1
-#     except:
-#         rollbar.report_exc_info()
+@app.route('/hi')
+def hi():
+    try:
+        b = a + 1
+    except:
+        rollbar.report_exc_info()
 
 
 if __name__ == '__main__':

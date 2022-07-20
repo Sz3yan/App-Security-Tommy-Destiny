@@ -1,32 +1,14 @@
 from argon2 import hash_password
-from flask import Blueprint, render_template, request, session, redirect, url_for, g, current_app, Flask
+from flask import Blueprint, render_template, request, session, redirect, url_for
 from web.user.static.py.Forms import CreateUser, LoginUser
 from base64 import b64decode
-from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
+from mitigations.A2_Broken_authentication import *
+from mitigations.A3_Sensitive_data_exposure import AES_GCM, Argon2
 from static.py.firebaseConnection import FirebaseClass
 import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 hashing = Argon2()
-
-#
-# def admin_required(f):
-#     @wraps(f)
-#     def wrap(*args, **kwargs):
-#         firebase = FirebaseClass()
-#         userInfo = firebase.get_user_info()
-#         userID = firebase.get_user()
-#         if 'userID' in session:
-#             if userID == session['userID']:
-#                 g.current_user = userInfo ###it does reach here
-#                 if g.current_user.get("Role") == "Admin":
-#                     print(g.current_user.get("Role"))
-#                     return f(*args, **kwargs)
-#                 else:
-#                     return redirect(url_for('user.index'))
-#     return wrap
-
-
 
 @user.route("/")
 def index():
@@ -68,12 +50,13 @@ def login():
             hash_password = ph.hash(password)
             print(ph.verify(password, hash_password))
 
-            if not firebase.login_user(email, password):
-                userID = firebase.get_user()
-                session['userID'] = userID
-                return redirect(url_for("user.profile"))
-            else:
-                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
+            if ph.verify(password, hash_password):
+                if not firebase.login_user(email, password):
+                    userID = firebase.get_user()
+                    session['userID'] = userID
+                    return redirect(url_for("user.profile"))
+                else:
+                    return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
     return render_template('login.html', form=loginUser, message="")
 
@@ -109,40 +92,40 @@ def signup():
 
         hash_password = hashing.hash(password)
         hash_phno = hashing.hash(phno)
-        print(f"hashed password: {hash_password}","\n",f"hashed phno: {hash_phno}")
+        print(f"hashed password: {hash_password}","\n",f"hashed phno: {hash_phno}")       
 
-        firebase.create_user(email, password)
-        firebase.create_user_info(username, phno, "customer")       #to sy: instead of hash_password and hash_phno, i push to the db the unhashed ver
+        firebase.create_user(email, hash_password)
+        firebase.create_user_info(username, hash_phno, "customer")
     return render_template('signup.html', form=createUser)
 
 
 @user.route("/post/<id>")
 def post(id):
+    aes_gcm = AES_GCM()
+    secret_key = "yourSecretKey"
+
+    data = [{
+        "type" : "header",
+        "data" : {
+            "text" : "Post title",
+        }
+    }]
+
     try:
         pull_post = FirebaseClass()
 
         for i in pull_post.get_post().each():
             if i.val()["_Post__id"] == id:
-                iv = i.val()["_Post__iv"]
-                key = i.val()["_Post__key"]
                 plaintext = i.val()["_Post__plaintext"]
 
-                trimiv = iv[1:-1]
-                trimkey = key[1:-1]
-                trimplaintext = plaintext[1:-1]
+                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                print("decrypted: ", decrypted)
 
-                encode_iv = b64decode(trimiv)
-                encode_key = b64decode(trimkey)
-                encode_plaintext = b64decode(trimplaintext)
-
-                s = Secure()
-                s.set_iv(encode_iv)
-                s.set_key(encode_key)
-                decrypted = s.decrypt(encode_plaintext)
-
-                to_json = json.loads(decrypted.decode())
+                to_json = json.loads(decrypted)
                 data = to_json["blocks"]
                 # print(data)
+            else: 
+                data = data
     except:
         print("No posts found")
         return redirect(url_for("home"))

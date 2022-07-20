@@ -1,47 +1,72 @@
-{% extends "base.html" %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% extends "baselogin.html" %}
 {% block title %}Sign up {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="../static/css/signup.css">
-    <style>
-        label {
-            display: none;
-        }
-    </style>
+<style>
+    label {
+        display: none;
+    }
+
+    .tom-destiny-main {
+        flex-grow: 1;
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+</style>
 {% endblock %}
 
 {% block bodyContent %}
 {% from "includes/formHelper.html" import render_field %}
-<br>
-<br>
-<div class="container-login">
-  <div class="col">
-    <form method="POST" class="form-login">
-      <h1>Register</h1>
-      <br><br>
 
-      <div class="form-login-field">
-        {{ render_field(form.name, class="form-login-field") }}
-      </div>
-      <div class="form-login-field">
-        {{ render_field(form.email, class="form-login-field") }}
-      </div>
-      <br><br><br>
-      <div class="form-login-field">
-        {{ render_field(form.phno, class="form-login-field") }}
-      </div>
-      <br><br><br>
-      <div class="form-login-field">
-        {{ render_field(form.register_password, class="form-login-field") }}
-      </div>
-      <br><br><br>
-      <div class="form-login-field">
-        {{ render_field(form.confirm_password, class="form-login-field") }}
-      </div>
-      <br><br><br>
-      <input type="submit" value="Sign Up">
-    </form>
-  </div>
-</div>
+<section style="padding-left: 60px; padding-right: 60px; width: 100%; margin: 0px auto; overflow: visible;">
+    <div style="width: 100%; border-radius: 3px;">
+        <div style="width: 100%; max-width: 960px; margin: 0px auto;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="font-size: 50px; margin-top: 12vh; font-weight: 700; margin-bottom: 24px; text-align: center; line-height: 1.1;">Register</div>
+                <div style="width: 100%; display: flex; flex-direction: column; align-items: center; max-width: 320px; margin-bottom: 16vh;">
+                    <div style="width: 100%;">
+                        <form method="POST" class="form-login">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <br><br>
+                
+                            <div class="form-login-field">
+                                {{ render_field(form.name, class="form-login-field") }}
+                            </div>
+                            <div class="form-login-field">
+                                {{ render_field(form.email, class="form-login-field") }}
+                            </div>
+                            <br><br><br>
+                            <div class="form-login-field">
+                                {{ render_field(form.phno, class="form-login-field") }}
+                            </div>
+                            <br><br><br>
+                            <div class="form-login-field">
+                                {{ render_field(form.register_password, class="form-login-field") }}
+                            </div>
+                            <br><br><br>
+                            <div class="form-login-field">
+                                {{ render_field(form.confirm_password, class="form-login-field") }}
+                            </div>
+                            <br><br><br>
+                            <input type="submit" value="Sign Up">
+                        </form>
+                    </div>
+                    
+                    <div style="width: 500px; margin-top: 64px; font-size: 12px; color: rgba(55, 53, 47, 0.5); text-align: center;">
+                        <p style="margin-bottom: 0px;">By clicking “Continue with Google/Email/SAML” above, you
+                            acknowledge that you have read and understood, and agree to Tom Destiny's <a
+                                href=""
+                                style="display: inline; text-decoration: underline; -webkit-user-select: none; cursor: pointer; color: inherit;">Terms
+                                &amp; Conditions</a> and <a
+                                href=""
+                                style="display: inline; text-decoration: underline; -webkit-user-select: none; cursor: pointer; color: inherit;">Privacy
+                                Policy</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
