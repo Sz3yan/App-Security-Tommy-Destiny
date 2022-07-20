@@ -1,9 +1,8 @@
 import base64
 import hashlib
+import secrets
 from Cryptodome.Cipher import AES  # from pycryptodomex v-3.10.4
 from Cryptodome.Random import get_random_bytes
-from argon2 import PasswordHasher
-import argon2
 
 class AES_GCM:
     def __init__(self):
@@ -53,54 +52,54 @@ class AES_GCM:
         return hashlib.pbkdf2_hmac(self.HASH_NAME, password.encode(), salt, self.ITERATION_COUNT, self.KEY_LENGTH)
 
 
-# Argon 2 
-# The Password Hashing Competition took place between 2012 and 2015 
-# to find a new, secure, and future-proof password hashing algorithm. 
-# In the end, Argon2 was announced as the winner.
-
-# Argon2 is a secure password hashing algorithm. 
-# It is designed to have both a configurable runtime as well as memory consumption.
-# This means that you can decide how long it takes to hash a password and how much memory is required.
-class Argon2:
+class PBKDF2_SHA256:
     def __init__(self):
-        # Uses Argon2id by default and always uses a random salt for hashing. 
-        # But it can verify any type of Argon2 as long as the hash is correctly encoded.
-        self.ph = PasswordHasher(time_cost=1, memory_cost=1024, hash_len=32)
+        self.ALGORITHM = "pbkdf2_sha256"
 
-    def hash(self, password):
-        try:
-            return self.ph.hash(password)
+    def hash_password(self, password, salt=None, iterations=260000):
+        if salt is None:
+            salt = secrets.token_hex(16)
+        assert salt and isinstance(salt, str) and "$" not in salt
+        assert isinstance(password, str)
+        pw_hash = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt.encode("utf-8"), iterations)
+        b64_hash = base64.b64encode(pw_hash).decode("ascii").strip()
+        return "{}${}${}${}".format(self.ALGORITHM, iterations, salt, b64_hash)
 
-        except argon2.exceptions.HashingError:
-            print("Hashing failed")
 
-    def verify(self, password, hash):
-        try:
-            return self.ph.verify(hash, password)
-        
-        except argon2.exceptions.VerificationError:
-            print("Verification failed")
+    def verify_password(self, password, password_hash):
+        if (password_hash or "").count("$") != 3:
+            return False
+        algorithm, iterations, salt, b64_hash = password_hash.split("$", 3)
+        iterations = int(iterations)
+        assert algorithm == self.ALGORITHM
+        compare_hash = self.hash_password(password, salt, iterations)
+        return secrets.compare_digest(password_hash, compare_hash)
 
-        except argon2.exceptions.InvalidHash:
-            print("Invalid hash")
 
 
 # if __name__ == "__main__":
-    # AES_GCM = AES_GCM()
-    # outputFormat = "{:<25}:{}:{}"
-    # secret_key = "yourSecretKey"
-    # plain_text = "Hello how are yo doing"
+#     AES_GCM = AES_GCM()
+#     outputFormat = "{:<25}:{}:{}"
+#     secret_key = "yourSecretKey"
+#     plain_text = "Hello how are yo doing"
 
-    # print("------ AES-GCM Encryption ------")
-    # cipher_text = AES_GCM.encrypt(secret_key, plain_text)
-    # print(AES_GCM.get_key())
-    # print(AES_GCM.get_iv())
-    # print(outputFormat.format("encryption input", plain_text, type(plain_text)))
-    # print(outputFormat.format("encryption output", cipher_text, type(cipher_text)))
+#     print("------ AES-GCM Encryption ------")
+#     cipher_text = AES_GCM.encrypt(secret_key, plain_text)
+#     print(AES_GCM.get_key())
+#     print(AES_GCM.get_iv())
+#     print(outputFormat.format("encryption input", plain_text, type(plain_text)))
+#     print(outputFormat.format("encryption output", cipher_text, type(cipher_text)))
 
-    # decrypted_text = AES_GCM.decrypt(secret_key, cipher_text)
+#     decrypted_text = AES_GCM.decrypt(secret_key, cipher_text)
 
-    # print("\n------ AES-GCM Decryption ------")
-    # print(outputFormat.format("decryption input", cipher_text, type(plain_text)))
-    # print(outputFormat.format("decryption output", decrypted_text, type(plain_text)))
+#     print("\n------ AES-GCM Decryption ------")
+#     print(outputFormat.format("decryption input", cipher_text, type(plain_text)))
+#     print(outputFormat.format("decryption output", decrypted_text, type(plain_text)))
+
+#     print("\n------ PBKDF2-SHA256 Encryption ------")
+#     hashing = PBKDF2_SHA256()
+#     a = hashing.hash_password("HII")
+#     print("password: ", a)
+#     print("verify: ", hashing.verify_password("HII", a))
+
 
