@@ -1,8 +1,7 @@
-from flask_rbac import UserMixin, RoleMixin
-from static.py.firebaseConnection import FirebaseClass
+class User:
+    def __init__(self):
+        self.__name = name
+        self.__userID = userID
 
-class User(UserMixin):
-    pass
 
-class Role(RoleMixin):
-    pass
+

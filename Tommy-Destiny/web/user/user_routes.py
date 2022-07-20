@@ -3,7 +3,7 @@ from argon2 import hash_password
 from flask import Blueprint, render_template, request, session, redirect, url_for, g, current_app, Flask
 from web.user.static.py.Forms import CreateUser, LoginUser
 from base64 import b64decode
-from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
+from mitigations.A3_Sensitive_data_exposure import Argon2
 from static.py.firebaseConnection import FirebaseClass
 import json
 
@@ -31,6 +31,7 @@ hashing = Argon2()
 
 @user.route("/")
 def index():
+    #session.pop("userID", None)
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
@@ -54,20 +55,10 @@ def login():
         return redirect(url_for('user.profile'))
     else:
 
-        ph = Argon2()
-
         if request.method == "POST" and loginUser.validate():
             session.pop('userID', None) #auto remove session when trying to login
             email = loginUser.email.data
             password = loginUser.password.data
-
-            # print(hashing.verify(hashing.get_hash(), password))
-
-            # if ph.check_needs_rehash(hash):
-            #     db.set_password_hash_for_user(user, ph.hash(password))
-
-            hash_password = ph.hash(password)
-            print(ph.verify(password, hash_password))
 
             if not firebase.login_user(email, password):
                 userID = firebase.get_user()
@@ -88,9 +79,18 @@ def logout():
 
 @user.route('/profile')
 def profile():
-    if "userID" not in session: #actually i wanna use g.user but idk how to link it to init.py
-        return redirect(url_for("user.login"))
-    return render_template('profile.html')
+
+    if 'userID' in session:
+        firebase = FirebaseClass() # this will not hve any id
+        user_ID = session["userID"]
+        print(user_ID)
+
+        userInfo = firebase.get_user_info(user_ID)
+        g.current_user = userInfo
+        return render_template('profile.html')
+    else:
+        return redirect(url_for('user.index'))
+
 
 
 @user.route("/payment")
@@ -112,8 +112,10 @@ def signup():
         hash_phno = hashing.hash(phno)
         print(f"hashed password: {hash_password}","\n",f"hashed phno: {hash_phno}")
 
-        firebase.create_user(email, password)
-        firebase.create_user_info(username, phno, "customer")       #to sy: instead of hash_password and hash_phno, i push to the db the unhashed ver
+        if not firebase.create_user(email, password):
+            firebase.create_user_info(username, phno, "customer")
+        else:
+            return render_template('signup.html', form=createUser, message=str(firebase.create_user(email, password)))
     return render_template('signup.html', form=createUser)
 
 
