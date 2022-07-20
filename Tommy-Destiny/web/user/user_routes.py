@@ -54,7 +54,7 @@ def login():
         return redirect(url_for('user.profile'))
     else:
 
-        ph = Argon2()
+        # ph = Argon2()
 
         if request.method == "POST" and loginUser.validate():
             session.pop('userID', None) #auto remove session when trying to login
@@ -144,8 +144,6 @@ def post(id):
                 to_json = json.loads(decrypted.decode())
                 data = to_json["blocks"]
                 # print(data)
-    except:
-        print("No posts found")
-        return redirect(url_for("home"))
+
 
     return render_template('post.html', id=id, data=data)

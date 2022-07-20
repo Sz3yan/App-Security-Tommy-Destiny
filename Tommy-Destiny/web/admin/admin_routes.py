@@ -26,21 +26,20 @@ def admin_required(f):
                     return redirect(url_for('user.index'))
     return wrap
 
-
-@admin.route("/dashboard")
 @admin_required
+@admin.route("/dashboard")
 def admin_dashboard():
     return render_template('admin_dashboard.html')
 
 
-@admin.route("/viewsite")
 @admin_required
+@admin.route("/viewsite")
 def view_admin():
     return render_template('admin_viewsite.html')
 
 
-@admin.route("/posts")
 @admin_required
+@admin.route("/posts")
 def post():
     newPost = Post("title")
     new_id = newPost.get_id()
@@ -55,14 +54,14 @@ def post():
     return render_template('admin_post.html', id=new_id, posts=posts)
 
 
-@admin.route("/pages")
 @admin_required
+@admin.route("/pages")
 def page():
     return render_template('admin_pages.html')
 
 
-@admin.route("/editor/posts/<id>", methods=["GET", "POST"])
 @admin_required
+@admin.route("/editor/posts/<id>", methods=["GET", "POST"])
 def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
@@ -150,25 +149,25 @@ def editor_post(id):
     return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
 
-@admin.route("/editor/pages/<id>", methods=["POST"])
 @admin_required
+@admin.route("/editor/pages/<id>", methods=["POST"])
 def editor_pages(id):
     return render_template('admin_editor.html')
 
 
-@admin.route("/tags")
 @admin_required
+@admin.route("/tags")
 def tags():
     return render_template('admin_tags.html')
 
 
-@admin.route("/members")
 @admin_required
+@admin.route("/members")
 def members():
     return render_template('admin_members.html')
 
 
-@admin.route("/settings")
 @admin_required
+@admin.route("/settings")
 def settings():
     return render_template('admin_settings.html')
