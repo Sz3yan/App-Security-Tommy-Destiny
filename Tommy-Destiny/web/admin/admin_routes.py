@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for,g, session
 from web.admin.static.py.Post import Post, SubmitPostForm
-from mitigations.A3_Sensitive_data_exposure import AES_GCM
+from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass
 from base64 import b64encode, b64decode
 from functools import wraps
@@ -66,8 +66,6 @@ def page():
 def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
-    aes_gcm = AES_GCM()
-    secret_key = "yourSecretKey"
 
     data = [{
         "type" : "header",
@@ -81,15 +79,27 @@ def editor_post(id):
 
         for i in pull_post.get_post().each():
             if i.val()["_Post__id"] == id:
+                iv = i.val()["_Post__iv"]
+                key = i.val()["_Post__key"]
                 plaintext = i.val()["_Post__plaintext"]
 
-                decrypted = aes_gcm.decrypt(secret_key, plaintext)
-                print("decrypted: ", decrypted)
+                trimiv = iv[1:-1]
+                trimkey = key[1:-1]
+                trimplaintext = plaintext[1:-1]
 
-                to_json = json.loads(decrypted)
+                encode_iv = b64decode(trimiv)
+                encode_key = b64decode(trimkey)
+                encode_plaintext = b64decode(trimplaintext)
+
+                s = Secure()
+                s.set_iv(encode_iv)
+                s.set_key(encode_key)
+                decrypted = s.decrypt(encode_plaintext)
+
+                to_json = json.loads(decrypted.decode())
                 data = to_json["blocks"]
-                # print(data)
-            else: 
+                print(data)
+            else:
                 data = data
     except:
         print("No posts found")
@@ -102,7 +112,7 @@ def editor_post(id):
         htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
     except:
         htitle = "Post title"
-    
+
     if request.method == "POST" and htitle != "Post title":
         content = submit_post.content.data.encode("utf-8")
 
@@ -114,12 +124,14 @@ def editor_post(id):
             print("error")
             title = "title"
 
-        encrypted_content = aes_gcm.encrypt(secret_key, content)
-        # print("encrypted_content: ", encrypted_content)
+        secure = Secure()
+        encrypted_content = secure.encrypt(content)
 
         newPost.set_id(id)
         newPost.set_title(title)
-        newPost.set_plaintext(encrypted_content)
+        newPost.set_key(str(b64encode(secure.get_key())))
+        newPost.set_iv(str(b64encode(secure.get_iv())))
+        newPost.set_plaintext(str(b64encode(encrypted_content)))
 
         # need fix duplication of post
         pushorpull_post = FirebaseClass()

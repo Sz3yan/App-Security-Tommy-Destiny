@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template
+from flask import Flask, session, render_template, g
 from flask_limiter import Limiter # limit the number of requests per IP for differ pricing tier
 from flask_limiter.util import get_remote_address
 from flask_mailman import Mail # sending newsletter
