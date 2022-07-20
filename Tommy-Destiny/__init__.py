@@ -12,7 +12,7 @@ import os, stripe # stripe for payment
 from dotenv import load_dotenv
 from datetime import timedelta
 from static.py.firebaseConnection import FirebaseClass
-import rollbar
+# import rollbar
 
 
 load_dotenv()
@@ -69,12 +69,12 @@ def before_request():
 def handle_csrf_error(e):
     return render_template('csrf_error.html', reason=e.description), 400
 
-@app.route('/hi')
-def hi():
-    try:
-        b = a + 1
-    except:
-        rollbar.report_exc_info()
+# @app.route('/hi')
+# def hi():
+#     try:
+#         b = a + 1
+#     except:
+#         rollbar.report_exc_info()
 
 
 if __name__ == '__main__':

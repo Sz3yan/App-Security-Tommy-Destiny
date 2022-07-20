@@ -2,8 +2,8 @@ import base64
 import hashlib
 from Cryptodome.Cipher import AES  # from pycryptodomex v-3.10.4
 from Cryptodome.Random import get_random_bytes
-from argon2 import PasswordHasher
-import argon2
+# from argon2 import PasswordHasher
+# import argon2
 
 class AES_GCM:
     def __init__(self):
@@ -61,28 +61,28 @@ class AES_GCM:
 # Argon2 is a secure password hashing algorithm. 
 # It is designed to have both a configurable runtime as well as memory consumption.
 # This means that you can decide how long it takes to hash a password and how much memory is required.
-class Argon2:
-    def __init__(self):
-        # Uses Argon2id by default and always uses a random salt for hashing. 
-        # But it can verify any type of Argon2 as long as the hash is correctly encoded.
-        self.ph = PasswordHasher(time_cost=1, memory_cost=1024, hash_len=32)
+# class Argon2:
+#     def __init__(self):
+#         # Uses Argon2id by default and always uses a random salt for hashing. 
+#         # But it can verify any type of Argon2 as long as the hash is correctly encoded.
+#         self.ph = PasswordHasher(time_cost=1, memory_cost=1024, hash_len=32)
 
-    def hash(self, password):
-        try:
-            return self.ph.hash(password)
+#     def hash(self, password):
+#         try:
+#             return self.ph.hash(password)
 
-        except argon2.exceptions.HashingError:
-            print("Hashing failed")
+#         except argon2.exceptions.HashingError:
+#             print("Hashing failed")
 
-    def verify(self, password, hash):
-        try:
-            return self.ph.verify(hash, password)
+#     def verify(self, password, hash):
+#         try:
+#             return self.ph.verify(hash, password)
         
-        except argon2.exceptions.VerificationError:
-            print("Verification failed")
+#         except argon2.exceptions.VerificationError:
+#             print("Verification failed")
 
-        except argon2.exceptions.InvalidHash:
-            print("Invalid hash")
+#         except argon2.exceptions.InvalidHash:
+#             print("Invalid hash")
 
 
 # if __name__ == "__main__":

@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for,g, session
 from web.admin.static.py.Post import Post, SubmitPostForm
-from mitigations.A3_Sensitive_data_exposure import Secure
+# from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass
 from base64 import b64encode, b64decode
 from functools import wraps

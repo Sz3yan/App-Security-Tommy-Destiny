@@ -3,12 +3,12 @@ from argon2 import hash_password
 from flask import Blueprint, render_template, request, session, redirect, url_for, g, current_app, Flask
 from web.user.static.py.Forms import CreateUser, LoginUser
 from base64 import b64decode
-from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
+# from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
 from static.py.firebaseConnection import FirebaseClass
 import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
-hashing = Argon2()
+# hashing = Argon2()
 
 #
 # def admin_required(f):
