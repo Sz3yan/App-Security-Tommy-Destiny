@@ -10,6 +10,7 @@
             </div>
             
             <form method="get" action="/email">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <button type="button" id="subBtn" class="tom-destiny-subscribe-btn tom-destiny-btn" data-portal="signup">Subscribe now</button>
             </form>
     </section>
