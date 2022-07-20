@@ -43,7 +43,7 @@ class FirebaseClass:
             return "User not found"
 
     def create_user_info(self, name="", ph_no="", role="customer"):
-        detail_dict = {"Name": name, "Phone number": ph_no, "role": role}
+        detail_dict = {"Name": name, "Phone number": ph_no, "Role": role}
         self.__database.child("User").child(self.__User_ID).set(detail_dict)
 
     def get_user_info(self):
@@ -54,7 +54,10 @@ class FirebaseClass:
             return userval
 
     def get_user(self):
-        return self.__User_ID
+        users = self.__database.child("User").get()
+        for user in users.each():
+            userkey = user.key()
+            return userkey
 
     # Blog Post
     def create_post(self, post_dict):

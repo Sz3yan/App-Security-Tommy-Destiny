@@ -1,24 +1,46 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, redirect, render_template, request, url_for,g, session
 from web.admin.static.py.Post import Post, SubmitPostForm
 from mitigations.A3_Sensitive_data_exposure import Secure
 from static.py.firebaseConnection import FirebaseClass
 from base64 import b64encode, b64decode
+from functools import wraps
 import json, logging
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 # logging.basicConfig(filename='../../tommy-destiny.log', encoding='utf-8', level=logging.DEBUG)
 
+
+def admin_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        firebase = FirebaseClass()
+        userInfo = firebase.get_user_info()
+        userID = firebase.get_user()
+        if 'userID' in session:
+            if userID == session['userID']:
+                g.current_user = userInfo ###it does reach here
+                if g.current_user.get("Role") == "Admin":
+                    print(g.current_user.get("Role"))
+                    return f(*args, **kwargs)
+                else:
+                    return redirect(url_for('user.index'))
+    return wrap
+
+
 @admin.route("/dashboard")
+@admin_required
 def admin_dashboard():
     return render_template('admin_dashboard.html')
 
 
 @admin.route("/viewsite")
+@admin_required
 def view_admin():
     return render_template('admin_viewsite.html')
 
 
 @admin.route("/posts")
+@admin_required
 def post():
     newPost = Post("title")
     new_id = newPost.get_id()
@@ -34,11 +56,13 @@ def post():
 
 
 @admin.route("/pages")
+@admin_required
 def page():
     return render_template('admin_pages.html')
 
 
 @admin.route("/editor/posts/<id>", methods=["GET", "POST"])
+@admin_required
 def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
@@ -127,20 +151,24 @@ def editor_post(id):
 
 
 @admin.route("/editor/pages/<id>", methods=["POST"])
+@admin_required
 def editor_pages(id):
     return render_template('admin_editor.html')
 
 
 @admin.route("/tags")
+@admin_required
 def tags():
     return render_template('admin_tags.html')
 
 
 @admin.route("/members")
+@admin_required
 def members():
     return render_template('admin_members.html')
 
 
 @admin.route("/settings")
+@admin_required
 def settings():
     return render_template('admin_settings.html')

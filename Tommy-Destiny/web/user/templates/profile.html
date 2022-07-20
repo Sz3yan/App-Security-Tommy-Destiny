@@ -16,10 +16,10 @@
 <br>
 <div class="container-login">
   <div class="col">
-      <h1>Welcome {{ g.user.get("Name") }}</h1>
+      <h1>Welcome {{ g.current_user.get("Name") }}</h1>
   </div>
     <div class="col">
-      <p>phonenumber: {{ g.user.get("Phone number") }}</p>
+      <p>phonenumber: {{ g.current_user.get("Phone number") }}</p>
   </div>
 </div>
 

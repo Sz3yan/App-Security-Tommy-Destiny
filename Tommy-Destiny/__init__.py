@@ -1,4 +1,4 @@
-from flask import Flask, session, g
+from flask import Flask, session, g, current_app
 from flask_limiter import Limiter # limit the number of requests per IP for differ pricing tier
 from flask_limiter.util import get_remote_address
 from flask_mailman import Mail # sending newsletter
@@ -25,6 +25,8 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_THRESHOLD'] = 100
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
 
+app.config["RBAC_USE_WHITE"] = True
+
 app.config["RECAPTCHA_USE_SSL"] = False
 app.config["RECAPTCHA_PUBLIC_KEY"] = '6LdPSO8gAAAAADq9_WWZcX7MhXkx8J4ceGFynwWp'
 app.config["RECAPTCHA_PRIVATE_KEY"] = '6LdPSO8gAAAAAFVKTV67Tchj8hwjQi0P6QKFOKsx'
@@ -46,10 +48,12 @@ mail = Mail(app)
 
 jwt = JWTManager(app)
 
-csrf = CSRFProtect().init_app(app)
+#csrf = CSRFProtect().init_app(app)
 
 sess = Session()
 sess.init_app(app)
+
+
 
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 rollbar.init('3e8138179a2c4be4aec4dcd2a21d1372')
@@ -65,16 +69,18 @@ def before_request():
     userID = firebase.get_user()
     if 'userID' in session:
         if userID == session['userID']:
-            g.user = userInfo
+            g.current_user = userInfo
         else:
-            g.user = None
+            g.current_user = None
 
-@app.route('/hi')
-def hi():
-    try:
-        b = a + 1
-    except:
-        rollbar.report_exc_info()
+
+#
+# @app.route('/hi')
+# def hi():
+#     try:
+#         b = a + 1
+#     except:
+#         rollbar.report_exc_info()
 
 
 if __name__ == '__main__':
