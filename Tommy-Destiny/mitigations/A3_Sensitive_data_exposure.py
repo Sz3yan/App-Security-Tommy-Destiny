@@ -3,8 +3,6 @@ import hashlib
 import secrets
 from Cryptodome.Cipher import AES  # from pycryptodomex v-3.10.4
 from Cryptodome.Random import get_random_bytes
-# from argon2 import PasswordHasher
-# import argon2
 
 class AES_GCM:
     def __init__(self):
@@ -79,31 +77,36 @@ class PBKDF2_SHA256:
 
 
 
+<<<<<<< HEAD
 
 if __name__ == "__main__":
     # AES_GCM = AES_GCM()
     # outputFormat = "{:<25}:{}:{}"
     # secret_key = "yourSecretKey"
     # plain_text = "Hello how are yo doing"
+=======
+# if __name__ == "__main__":
+#     AES_GCM = AES_GCM()
+#     outputFormat = "{:<25}:{}:{}"
+#     secret_key = "yourSecretKey"
+#     plain_text = "Hello how are yo doing"
+>>>>>>> e4e33831e882304df9b84e9fb329275b349ad6d0
 
-    # print("------ AES-GCM Encryption ------")
-    # cipher_text = AES_GCM.encrypt(secret_key, plain_text)
-    # print(AES_GCM.get_key())
-    # print(AES_GCM.get_iv())
-    # print(outputFormat.format("encryption input", plain_text, type(plain_text)))
-    # print(outputFormat.format("encryption output", cipher_text, type(cipher_text)))
+#     print("------ AES-GCM Encryption ------")
+#     cipher_text = AES_GCM.encrypt(secret_key, plain_text)
+#     print(AES_GCM.get_key())
+#     print(AES_GCM.get_iv())
+#     print(outputFormat.format("encryption input", plain_text, type(plain_text)))
+#     print(outputFormat.format("encryption output", cipher_text, type(cipher_text)))
 
-    # decrypted_text = AES_GCM.decrypt(secret_key, cipher_text)
+#     decrypted_text = AES_GCM.decrypt(secret_key, cipher_text)
 
-    # print("\n------ AES-GCM Decryption ------")
-    # print(outputFormat.format("decryption input", cipher_text, type(plain_text)))
-    # print(outputFormat.format("decryption output", decrypted_text, type(plain_text)))
+#     print("\n------ AES-GCM Decryption ------")
+#     print(outputFormat.format("decryption input", cipher_text, type(plain_text)))
+#     print(outputFormat.format("decryption output", decrypted_text, type(plain_text)))
 
-    print("\n------ PBKDF2-SHA256 Encryption ------")
-    hashing = PBKDF2_SHA256()
-    a = hashing.hash_password("HII")
-    print("password: ", a)
-    print("verify: ", hashing.verify_password("HII", a))
-
-
-
+#     print("\n------ PBKDF2-SHA256 Encryption ------")
+#     hashing = PBKDF2_SHA256()
+#     a = hashing.hash_password("HII")
+#     print("password: ", a)
+#     print("verify: ", hashing.verify_password("HII", a))

@@ -3,12 +3,11 @@ from argon2 import hash_password
 from flask import Blueprint, render_template, request, session, redirect, url_for, g, current_app, Flask
 from web.user.static.py.Forms import CreateUser, LoginUser
 from base64 import b64decode
-# from mitigations.A3_Sensitive_data_exposure import Argon2, Secure
+from mitigations.A3_Sensitive_data_exposure import AES_GCM, PBKDF2_SHA256
 from static.py.firebaseConnection import FirebaseClass
 import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
-# hashing = Argon2()
 
 #
 # def admin_required(f):
@@ -53,21 +52,10 @@ def login():
     if "userID" in session:
         return redirect(url_for('user.profile'))
     else:
-
-        # ph = Argon2()
-
         if request.method == "POST" and loginUser.validate():
             session.pop('userID', None) #auto remove session when trying to login
             email = loginUser.email.data
             password = loginUser.password.data
-
-            # print(hashing.verify(hashing.get_hash(), password))
-
-            # if ph.check_needs_rehash(hash):
-            #     db.set_password_hash_for_user(user, ph.hash(password))
-
-            hash_password = ph.hash(password)
-            print(ph.verify(password, hash_password))
 
             if not firebase.login_user(email, password):
                 userID = firebase.get_user()
@@ -108,10 +96,6 @@ def signup():
         phno = createUser.phno.data
         password = createUser.register_password.data
 
-        hash_password = hashing.hash(password)
-        hash_phno = hashing.hash(phno)
-        print(f"hashed password: {hash_password}","\n",f"hashed phno: {hash_phno}")
-
         firebase.create_user(email, password)
         firebase.create_user_info(username, phno, "customer")       #to sy: instead of hash_password and hash_phno, i push to the db the unhashed ver
     return render_template('signup.html', form=createUser)
@@ -119,31 +103,33 @@ def signup():
 
 @user.route("/post/<id>")
 def post(id):
+    aes_gcm = AES_GCM()
+    secret_key = "yourSecretKey"
+
+    data = [{
+        "type" : "header",
+        "data" : {
+            "text" : "Post title",
+        }
+    }]
+
     try:
         pull_post = FirebaseClass()
 
         for i in pull_post.get_post().each():
             if i.val()["_Post__id"] == id:
-                iv = i.val()["_Post__iv"]
-                key = i.val()["_Post__key"]
                 plaintext = i.val()["_Post__plaintext"]
 
-                trimiv = iv[1:-1]
-                trimkey = key[1:-1]
-                trimplaintext = plaintext[1:-1]
+                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                print("decrypted: ", decrypted)
 
-                encode_iv = b64decode(trimiv)
-                encode_key = b64decode(trimkey)
-                encode_plaintext = b64decode(trimplaintext)
-
-                s = Secure()
-                s.set_iv(encode_iv)
-                s.set_key(encode_key)
-                decrypted = s.decrypt(encode_plaintext)
-
-                to_json = json.loads(decrypted.decode())
+                to_json = json.loads(decrypted)
                 data = to_json["blocks"]
                 # print(data)
-
+            else: 
+                data = data
+    except:
+        print("No posts found")
+        return redirect(url_for("home"))
 
     return render_template('post.html', id=id, data=data)

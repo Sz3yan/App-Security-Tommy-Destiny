@@ -39,7 +39,7 @@ app.config["ALLOWED_VIDEO_EXTENSIONS"] = (".mp4, .mov, .avi, .mpeg4, .webm, .mpe
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 587
 app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] = "tommy-destiny@gmail.com"
+app.config["MAIL_USERNAME"] = "sz3yan@gmail.com"
 app.config["MAIL_PASSWORD"] = os.getenv("EMAIL_PASS")
 
 mail = Mail(app)
@@ -75,6 +75,17 @@ def handle_csrf_error(e):
 #         b = a + 1
 #     except:
 #         rollbar.report_exc_info()
+
+@app.route("/email")
+def index():
+    msg = mail.Message(
+                    'Hello',
+                    sender ='yourId@gmail.com',
+                    recipients = ['receiver’sid@gmail.com']
+                )
+    msg.body = 'Hello Flask message sent from Flask-Mail'
+    mail.send(msg)
+    return 'Sent'
 
 
 if __name__ == '__main__':
