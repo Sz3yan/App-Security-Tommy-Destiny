@@ -1,32 +1,32 @@
 from flask import Blueprint, redirect, render_template, request, url_for,g, session
 from web.admin.static.py.Post import Post, SubmitPostForm
+<<<<<<< HEAD
 from static.py.firebaseConnection import FirebaseClass
 from mitigations.A3_Sensitive_data_exposure import AES_GCM
 from base64 import b64encode, b64decode
+=======
+from mitigations.A3_Sensitive_data_exposure import AES_GCM
+from static.py.firebaseConnection import FirebaseClass
+>>>>>>> e084f1412725251d04f1afdc6c57d1d7594291fb
 from functools import wraps
 import json, logging
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
-# logging.basicConfig(filename='../../tommy-destiny.log', encoding='utf-8', level=logging.DEBUG)
-
 
 def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        firebase = FirebaseClass() # this will not hve any id
-        user_ID = session["userID"]
-        print(user_ID)
-
-        userInfo = firebase.get_user_info(user_ID)
-        g.current_user = userInfo
+        firebase = FirebaseClass()
+        userInfo = firebase.get_user_info()
+        userID = firebase.get_user()
         if 'userID' in session:
-            if g.current_user.get("Role") == "admin":
-                print(g.current_user.get("Role"))
-                return f(*args, **kwargs)
-            else:
-                return redirect(url_for('user.index'))
-        else:
-            return redirect(url_for("user.index"))
+            if userID == session['userID']:
+                g.current_user = userInfo ###it does reach here
+                if g.current_user.get("Role") == "Admin":
+                    print(g.current_user.get("Role"))
+                    return f(*args, **kwargs)
+                else:
+                    return redirect(url_for('user.index'))
     return wrap
 
 @admin_required
