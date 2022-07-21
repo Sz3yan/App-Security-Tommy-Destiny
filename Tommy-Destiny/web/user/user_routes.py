@@ -1,10 +1,12 @@
 from argon2 import hash_password
 from argon2 import hash_password
 from flask import Blueprint, render_template, request, session, redirect, url_for, g, current_app, Flask
+from flask_csp.csp import csp_header
 from web.user.static.py.Forms import CreateUser, LoginUser
 from base64 import b64decode
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, PBKDF2_SHA256
 from static.py.firebaseConnection import FirebaseClass
+from mitigations.A7_Cross_site_scripting import CspClass
 import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')

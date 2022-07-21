@@ -76,27 +76,11 @@ class PBKDF2_SHA256:
         return secrets.compare_digest(password_hash, compare_hash)
 
 
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-if __name__ == "__main__":
-    # AES_GCM = AES_GCM()
-    # outputFormat = "{:<25}:{}:{}"
-    # secret_key = "yourSecretKey"
-    # plain_text = "Hello how are yo doing"
-=======
-=======
->>>>>>> 9721ab9fbd4c6364397018a37a8a4cf646b65d44
 # if __name__ == "__main__":
 #     AES_GCM = AES_GCM()
 #     outputFormat = "{:<25}:{}:{}"
 #     secret_key = "yourSecretKey"
 #     plain_text = "Hello how are yo doing"
-<<<<<<< HEAD
->>>>>>> e4e33831e882304df9b84e9fb329275b349ad6d0
-=======
->>>>>>> 9721ab9fbd4c6364397018a37a8a4cf646b65d44
 
 #     print("------ AES-GCM Encryption ------")
 #     cipher_text = AES_GCM.encrypt(secret_key, plain_text)
@@ -115,10 +99,5 @@ if __name__ == "__main__":
 #     hashing = PBKDF2_SHA256()
 #     a = hashing.hash_password("HII")
 #     print("password: ", a)
-<<<<<<< HEAD
-#     print("verify: ", hashing.verify_password("HII", a))
-=======
-#     print("verify: ", hashing.verify_password("HII", a))
 
-
->>>>>>> 9721ab9fbd4c6364397018a37a8a4cf646b65d44
+#     print("verify: ", hashing.verify_password("HII", a))
