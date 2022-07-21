@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, g
+from flask import Flask, session, render_template, g, redirect, url_for
 from flask_limiter import Limiter # limit the number of requests per IP for differ pricing tier
 from flask_limiter.util import get_remote_address
 from flask_mailman import Mail # sending newsletter
@@ -53,17 +53,17 @@ limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per seco
 app.register_blueprint(api)
 app.register_blueprint(admin)
 app.register_blueprint(user)
-
-@app.before_request
-def before_request():
-    firebase = FirebaseClass()
-    userInfo = firebase.get_user_info()
-    userID = firebase.get_user()
-    if 'userID' in session:
-        if userID == session['userID']:
-            g.user = userInfo
-        else:
-            g.user = None
+#
+# @app.before_request
+# def before_request():
+#     firebase = FirebaseClass()
+#     user_ID = firebase.get_user(userID)
+#     userInfo = firebase.get_user_info(user_ID)
+#     if 'userID' in session:
+#         if user_ID == session['userID']:
+#             g.current_user = userInfo
+#         else:
+#             return redirect(url_for(user.index))
 
 @app.errorhandler(CSRFError)
 def handle_csrf_error(e):
