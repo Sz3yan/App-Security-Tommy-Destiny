@@ -32,13 +32,13 @@ class FirebaseClass:
             user = self.__auth.create_user_with_email_and_password(email, password)
             self.__User_ID = user["localId"]
         except:
-            print("Duplicate user")
+            return "Email already in use"
 
     def login_user(self, email, password):
         try:
             user = self.__auth.sign_in_with_email_and_password(email, password)
             self.__User_ID = user["localId"]
-            print("Signed in")
+
         except:
             return "User not found"
 
@@ -46,18 +46,30 @@ class FirebaseClass:
         detail_dict = {"Name": name, "Phone number": ph_no, "Role": role}
         self.__database.child("User").child(self.__User_ID).set(detail_dict)
 
-    def get_user_info(self):
-        users = self.__database.child("User").get()
-        for user in users.each():
-            userval = user.val()
+    def get_user_info(self, User_ID):
+        users = self.__database.child("User").get().each()
+        print(User_ID )
+        for i in users:
+            if i.key() == User_ID:
+                return i.val()
+        # for user in users.each():
+        #     userval = user.val()
+        #     print(users)
+        #     print(user)
+        #     print(userval)
             #print("Username =", userval.get("Name")) how to get stuff from firebase
-            return userval
+            # return userval
 
     def get_user(self):
-        users = self.__database.child("User").get()
-        for user in users.each():
-            userkey = user.key()
-            return userkey
+        # if userId != "" and self.__User_ID == "":
+        #     users = self.__database.child("User").get(userId)
+        #     for user in users.each():
+        #         userkey = user.key()
+        #         return userkey
+        #     self.__User_ID = userId
+        # else:
+        User_ID = self.__User_ID
+        return User_ID
 
     # Blog Post
     def create_post(self, post_dict):

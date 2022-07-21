@@ -9,24 +9,6 @@ import json
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 
-#
-# def admin_required(f):
-#     @wraps(f)
-#     def wrap(*args, **kwargs):
-#         firebase = FirebaseClass()
-#         userInfo = firebase.get_user_info()
-#         userID = firebase.get_user()
-#         if 'userID' in session:
-#             if userID == session['userID']:
-#                 g.current_user = userInfo ###it does reach here
-#                 if g.current_user.get("Role") == "Admin":
-#                     print(g.current_user.get("Role"))
-#                     return f(*args, **kwargs)
-#                 else:
-#                     return redirect(url_for('user.index'))
-#     return wrap
-
-
 
 @user.route("/")
 def index():
@@ -76,9 +58,18 @@ def logout():
 
 @user.route('/profile')
 def profile():
-    if "userID" not in session: #actually i wanna use g.user but idk how to link it to init.py
-        return redirect(url_for("user.login"))
-    return render_template('profile.html')
+
+    if 'userID' in session:
+        firebase = FirebaseClass() # this will not hve any id
+        user_ID = session["userID"]
+        print(user_ID)
+
+        userInfo = firebase.get_user_info(user_ID)
+        g.current_user = userInfo
+        return render_template('profile.html')
+    else:
+        return redirect(url_for('user.index'))
+
 
 
 @user.route("/payment")
@@ -96,8 +87,10 @@ def signup():
         phno = createUser.phno.data
         password = createUser.register_password.data
 
-        firebase.create_user(email, password)
-        firebase.create_user_info(username, phno, "customer")       #to sy: instead of hash_password and hash_phno, i push to the db the unhashed ver
+        if not firebase.create_user(email, password):
+            firebase.create_user_info(username, phno, "customer")
+        else:
+            return render_template('signup.html', form=createUser, message=str(firebase.create_user(email, password)))
     return render_template('signup.html', form=createUser)
 
 

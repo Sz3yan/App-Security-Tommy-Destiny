@@ -1,6 +1,5 @@
 from flask import Blueprint, redirect, render_template, request, url_for,g, session
 from web.admin.static.py.Post import Post, SubmitPostForm
-from mitigations.A3_Sensitive_data_exposure import AES_GCM
 from static.py.firebaseConnection import FirebaseClass
 from base64 import b64encode, b64decode
 from functools import wraps
@@ -13,17 +12,20 @@ admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templ
 def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        firebase = FirebaseClass()
-        userInfo = firebase.get_user_info()
-        userID = firebase.get_user()
+        firebase = FirebaseClass() # this will not hve any id
+        user_ID = session["userID"]
+        print(user_ID)
+
+        userInfo = firebase.get_user_info(user_ID)
+        g.current_user = userInfo
         if 'userID' in session:
-            if userID == session['userID']:
-                g.current_user = userInfo ###it does reach here
-                if g.current_user.get("Role") == "Admin":
-                    print(g.current_user.get("Role"))
-                    return f(*args, **kwargs)
-                else:
-                    return redirect(url_for('user.index'))
+            if g.current_user.get("Role") == "admin":
+                print(g.current_user.get("Role"))
+                return f(*args, **kwargs)
+            else:
+                return redirect(url_for('user.index'))
+        else:
+            return redirect(url_for("user.index"))
     return wrap
 
 @admin_required
