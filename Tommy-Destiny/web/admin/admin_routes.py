@@ -6,8 +6,6 @@ from functools import wraps
 import json, logging
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
-# logging.basicConfig(filename='../../tommy-destiny.log', encoding='utf-8', level=logging.DEBUG)
-
 
 def admin_required(f):
     @wraps(f)
