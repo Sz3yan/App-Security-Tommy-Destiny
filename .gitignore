@@ -4,4 +4,4 @@ __pycache__/
 *.pyc
 venv
 .icloud
-static\serviceAccountKey.json
+*/static/serviceAccountKey.json
