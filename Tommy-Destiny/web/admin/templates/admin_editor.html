@@ -170,8 +170,15 @@
                 <form method="POST" id="form" onsubmit="savelah()">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     {{ render_field(form.content, id="hihi") }}
-                    <button type="submit" class="settings-menu-toggle tom-destiny-btn tom-destiny-btn-editor tom-destiny-btn-icon icon-only tom-destiny-btn-action-icon" title="Settings">
+                    <button type="submit" class="settings-menu-toggle-1 tom-destiny-btn tom-destiny-btn-editor tom-destiny-btn-icon icon-only tom-destiny-btn-action-icon" title="Settings">
                         <span><svg fill="none" viewBox="0 0 24 24"><path d="M21 2.5H3c-.828 0-1.5.608-1.5 1.357v16.286c0 .75.672 1.357 1.5 1.357h18c.828 0 1.5-.608 1.5-1.357V3.857c0-.75-.672-1.357-1.5-1.357zm-4.5 0v19" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                    </button>
+                </form>
+
+                <form method="POST" id="formdelete" action="/admin/delete/posts/{{ id }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <button class="settings-menu-toggle-2 tom-destiny-btn tom-destiny-btn-editor tom-destiny-btn-icon icon-only tom-destiny-btn-action-icon">
+                        <span><svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="30px" height="30px">    <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"/></svg></span>
                     </button>
                 </form>
             </main>

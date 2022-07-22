@@ -47,7 +47,7 @@ mail = Mail(app)
 jwt = JWTManager(app)
 csrf = CSRFProtect(app)
 sess = Session(app)
-limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
+# limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 
 
 app.register_blueprint(api)

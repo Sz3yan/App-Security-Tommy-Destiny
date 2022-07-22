@@ -99,4 +99,6 @@ class PBKDF2_SHA256:
 #     hashing = PBKDF2_SHA256()
 #     a = hashing.hash_password("HII")
 #     print("password: ", a)
+
+#     print("verify: ", hashing.verify_password("HII", a))
 #     print("verify: ", hashing.verify_password("HII", a))

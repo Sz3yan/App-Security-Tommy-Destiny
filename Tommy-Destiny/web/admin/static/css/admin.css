@@ -24063,7 +24063,7 @@ a.label:focus, a.label:hover {
     line-height: 25px
 }
 
-.settings-menu-toggle {
+.settings-menu-toggle-1 {
     position: absolute;
     top: 30px;
     right: 24px;
@@ -24071,33 +24071,41 @@ a.label:focus, a.label:hover {
     margin-right: 0 !important
 }
 
-.settings-menu-toggle svg {
+.settings-menu-toggle-2 {
+    position: absolute;
+    top: 30px;
+    right: 60px;
+    z-index: 9999;
+    margin-right: 0 !important
+}
+
+.settings-menu-toggle-1 svg, .settings-menu-toggle-2 svg {
     fill: none !important
 }
 
-.settings-menu-toggle .settings-menu-open svg path {
+.settings-menu-toggle-1 .settings-menu-open svg path, .settings-menu-toggle-2 .settings-menu-open svg path {
     stroke: #15171a
 }
 
 @media (min-width: 500px) and(max-width: 1024px) {
-    .settings-menu-toggle {
+    .settings-menu-toggle-1, .settings-menu-toggle-2 {
         top: 16px
     }
 }
 
 @media (max-width: 500px) {
-    .settings-menu-toggle {
+    .settings-menu-toggle-1, .settings-menu-toggle-2 {
         top: 15px;
         right: 20px
     }
 }
 
-.settings-menu-toggle-spacer {
+.settings-menu-toggle-1-spacer, .settings-menu-toggle-2-spacer {
     width: 46px
 }
 
 @media (max-width: 1024px) {
-    .settings-menu-toggle-spacer {
+    .settings-menu-toggle-1-spacer, .settings-menu-toggle-2-spacer {
         width: 68px
     }
 }

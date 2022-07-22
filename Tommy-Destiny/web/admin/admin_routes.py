@@ -1,5 +1,8 @@
 from flask import Blueprint, redirect, render_template, request, url_for,g, session
 from web.admin.static.py.Post import Post, SubmitPostForm
+from static.py.firebaseConnection import FirebaseClass
+from mitigations.A3_Sensitive_data_exposure import AES_GCM
+from base64 import b64encode, b64decode
 from mitigations.A3_Sensitive_data_exposure import AES_GCM
 from static.py.firebaseConnection import FirebaseClass
 from functools import wraps
@@ -116,21 +119,28 @@ def editor_post(id):
         newPost.set_title(title)
         newPost.set_plaintext(encrypted_content)
 
-        # need fix duplication of post
-        pushorpull_post = FirebaseClass()
-        for i in pushorpull_post.get_post().each():
-            if i.val()["_Post__id"] == id:
-                pushorpull_post.update_post(id, newPost)
-                print("Post updated")
+        createorupdate = FirebaseClass()
+        length = 0
+        for posts in createorupdate.get_post().each():
+            length += 1
+            if posts.val()["_Post__id"] == id: # false
+                createorupdate.update_post(id, newPost)
                 return redirect(url_for('admin.post'))
-            else:
-                pushorpull_post.create_post(newPost)
-                print("Post created")
+            elif length == len(createorupdate.get_post().each()): 
+                createorupdate.create_post(newPost)
                 return redirect(url_for('admin.post'))
-
+        
         return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
     return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
+
+
+@admin_required
+@admin.route("/delete/posts/<id>", methods=["GET", "POST"])
+def delete_page(id):
+    deletepost = FirebaseClass()
+    deletepost.delete_post(id)
+    return redirect(url_for('admin.post'))
 
 
 @admin_required
