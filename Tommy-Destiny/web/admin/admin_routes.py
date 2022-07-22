@@ -173,3 +173,10 @@ def members():
 @admin.route("/settings")
 def settings():
     return render_template('admin_settings.html')
+
+
+@admin_required
+@admin.route("/audit_log")
+def audit_log():
+    # read log files
+    return render_template('admin_audit_log.html')

@@ -7,6 +7,7 @@ from static.py.firebaseConnection import FirebaseClass
 from web.user.static.py.Forms import CreateUser, LoginUser
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
+User_Logger = User_Logger()
 
 
 #
@@ -34,7 +35,7 @@ def index():
         posts = [post.val() for post in firebase.get_post().each()]
     except:
         posts = []
-        print("No posts found")
+        User_Logger.log_exception("No Post in Firebase")
 
     return render_template('home.html', posts=posts)
 
@@ -59,8 +60,10 @@ def login():
             if not firebase.login_user(email, password):
                 userID = firebase.get_user()
                 session['userID'] = userID
+                User_Logger.log_info("User Login Successful")
                 return redirect(url_for("user.profile"))
             else:
+                User_Logger.log_info("User Login Failed")
                 return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
     return render_template('login.html', form=loginUser, message="")
@@ -70,6 +73,7 @@ def login():
 def logout():
     # remove the username from the session if it is there
     session.pop('userID', None)
+    User_Logger.log_info("User Logout Successful")
     return redirect(url_for('user.index'))
 
 
@@ -96,8 +100,8 @@ def signup():
         password = createUser.register_password.data
 
         firebase.create_user(email, password)
-        firebase.create_user_info(username, phno,
-                                  "customer")  # to sy: instead of hash_password and hash_phno, i push to the db the unhashed ver
+        firebase.create_user_info(username, phno,"customer")  # to sy: instead of hash_password and hash_phno, i push to the db the unhashed ver
+        User_Logger.log_info("User Signup Successful")
     return render_template('signup.html', form=createUser)
 
 
@@ -125,11 +129,11 @@ def post(id):
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
-                # print(data)
+                User_Logger.log_info(f"view: post_id {id}: " + str(data)) # demo. log only encrypted data
             else:
                 data = data
     except:
-        print("No posts found")
+        User_Logger.log_exception("No posts found")
         return redirect(url_for("home"))
 
     return render_template('post.html', id=id, data=data)
