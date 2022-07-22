@@ -1,12 +1,13 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for, g, current_app, Flask
-from flask_csp.csp import csp_header
-from web.user.static.py.Forms import CreateUser, LoginUser
-from mitigations.A3_Sensitive_data_exposure import AES_GCM, PBKDF2_SHA256
-from static.py.firebaseConnection import FirebaseClass
-from mitigations.A7_Cross_site_scripting import CspClass
 import json
 
+from flask import Blueprint, render_template, request, session, redirect, url_for
+from mitigations.A3_Sensitive_data_exposure import AES_GCM
+from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
+from static.py.firebaseConnection import FirebaseClass
+from web.user.static.py.Forms import CreateUser, LoginUser
+
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
+
 
 #
 # def admin_required(f):
@@ -24,7 +25,6 @@ user = Blueprint('user', __name__, template_folder="templates", static_folder='s
 #                 else:
 #                     return redirect(url_for('user.index'))
 #     return wrap
-
 
 
 @user.route("/")
@@ -52,7 +52,7 @@ def login():
         return redirect(url_for('user.profile'))
     else:
         if request.method == "POST" and loginUser.validate():
-            session.pop('userID', None) #auto remove session when trying to login
+            session.pop('userID', None)  # auto remove session when trying to login
             email = loginUser.email.data
             password = loginUser.password.data
 
@@ -68,14 +68,14 @@ def login():
 
 @user.route('/logout')
 def logout():
-   # remove the username from the session if it is there
-   session.pop('userID', None)
-   return redirect(url_for('user.index'))
+    # remove the username from the session if it is there
+    session.pop('userID', None)
+    return redirect(url_for('user.index'))
 
 
 @user.route('/profile')
 def profile():
-    if "userID" not in session: #actually i wanna use g.user but idk how to link it to init.py
+    if "userID" not in session:  # actually i wanna use g.user but idk how to link it to init.py
         return redirect(url_for("user.login"))
     return render_template('profile.html')
 
@@ -96,7 +96,8 @@ def signup():
         password = createUser.register_password.data
 
         firebase.create_user(email, password)
-        firebase.create_user_info(username, phno, "customer")       #to sy: instead of hash_password and hash_phno, i push to the db the unhashed ver
+        firebase.create_user_info(username, phno,
+                                  "customer")  # to sy: instead of hash_password and hash_phno, i push to the db the unhashed ver
     return render_template('signup.html', form=createUser)
 
 
@@ -106,9 +107,9 @@ def post(id):
     secret_key = "yourSecretKey"
 
     data = [{
-        "type" : "header",
-        "data" : {
-            "text" : "Post title",
+        "type": "header",
+        "data": {
+            "text": "Post title",
         }
     }]
 
@@ -125,7 +126,7 @@ def post(id):
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
                 # print(data)
-            else: 
+            else:
                 data = data
     except:
         print("No posts found")
