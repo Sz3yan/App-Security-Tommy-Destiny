@@ -2,7 +2,6 @@ import pyrebase
 import firebase_admin
 import os
 from dotenv import load_dotenv
-
 import firebase_admin
 from firebase_admin import credentials
 
@@ -25,7 +24,7 @@ class FirebaseClass:
         }
 
         firebase = pyrebase.initialize_app(firebaseConfig)
-        firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate("path/to/serviceAccountKey.json"))
+        firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate("../serviceAccountKey.json"))
 
         self.__auth = firebase.auth()
         self.__database = firebase.database()
