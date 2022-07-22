@@ -1,13 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for,g, session
 from web.admin.static.py.Post import Post, SubmitPostForm
-<<<<<<< HEAD
-from static.py.firebaseConnection import FirebaseClass
-from mitigations.A3_Sensitive_data_exposure import AES_GCM
-from base64 import b64encode, b64decode
-=======
 from mitigations.A3_Sensitive_data_exposure import AES_GCM
 from static.py.firebaseConnection import FirebaseClass
->>>>>>> e084f1412725251d04f1afdc6c57d1d7594291fb
 from functools import wraps
 import json, logging
 
