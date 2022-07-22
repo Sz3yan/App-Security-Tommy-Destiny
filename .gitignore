@@ -4,4 +4,4 @@ __pycache__/
 *.pyc
 venv
 .icloud
-Tommy-Destiny\static\serviceAccountKey.json
+Tommy-Destiny\Tommy-Destiny\static\serviceAccountKey.json
