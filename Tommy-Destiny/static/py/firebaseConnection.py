@@ -24,7 +24,11 @@ class FirebaseClass:
         }
 
         firebase = pyrebase.initialize_app(firebaseConfig)
+<<<<<<< HEAD
         firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate("../serviceAccountKey.json"))
+=======
+        # firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate("path/to/serviceAccountKey.json"))
+>>>>>>> f69ac1fc25944ac9a79ceb01b9378562d21b32b8
 
         self.__auth = firebase.auth()
         self.__database = firebase.database()
@@ -109,8 +113,8 @@ class FirebaseClass:
 
 
 # # Test
-# if __name__ == "__main__":
-#     fb = FirebaseClass()
+if __name__ == "__main__":
+    fb = FirebaseClass()
 #     # fb.get_image_url()
 #     # fb.create_user("plshelpme@mail.com", "unknown")
 #     # fb.login_user("hai@mail.com", "unknown")

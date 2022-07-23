@@ -1,14 +1,15 @@
-from flask import Blueprint, redirect, render_template, request, url_for,g, session
-from web.admin.static.py.Post import Post, SubmitPostForm
-from static.py.firebaseConnection import FirebaseClass
-from mitigations.A3_Sensitive_data_exposure import AES_GCM
-from base64 import b64encode, b64decode
-from mitigations.A3_Sensitive_data_exposure import AES_GCM
-from static.py.firebaseConnection import FirebaseClass
+import json
 from functools import wraps
-import json, logging
+
+from flask import Blueprint, redirect, render_template, request, url_for, g, session
+from mitigations.A3_Sensitive_data_exposure import AES_GCM
+from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger
+from static.py.firebaseConnection import FirebaseClass
+from web.admin.static.py.Post import Post, SubmitPostForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
+Admin_Logger = Admin_Logger()
+
 
 def admin_required(f):
     @wraps(f)
@@ -18,13 +19,15 @@ def admin_required(f):
         userID = firebase.get_user()
         if 'userID' in session:
             if userID == session['userID']:
-                g.current_user = userInfo ###it does reach here
+                g.current_user = userInfo  ###it does reach here
                 if g.current_user.get("Role") == "Admin":
                     print(g.current_user.get("Role"))
                     return f(*args, **kwargs)
                 else:
                     return redirect(url_for('user.index'))
+
     return wrap
+
 
 @admin_required
 @admin.route("/dashboard")
@@ -37,6 +40,7 @@ def admin_dashboard():
 def view_admin():
     return render_template('admin_viewsite.html')
 
+
 @admin_required
 @admin.route("/posts")
 def post():
@@ -48,7 +52,7 @@ def post():
         posts = [post.val() for post in firebase.get_post().each()]
     except:
         posts = []
-        print("No posts found")
+        Admin_Logger.log_exception("No posts found")
 
     return render_template('admin_post.html', id=new_id, posts=posts)
 
@@ -68,9 +72,9 @@ def editor_post(id):
     secret_key = "yourSecretKey"
 
     data = [{
-        "type" : "header",
-        "data" : {
-            "text" : "Post title",
+        "type": "header",
+        "data": {
+            "text": "Post title",
         }
     }]
 
@@ -86,11 +90,11 @@ def editor_post(id):
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
-                # print(data)
-            else: 
+                Admin_Logger.log_info(f"view: post_id {id}: " + str(data)) # demo. log only encrypted data
+            else:
                 data = data
     except:
-        print("No posts found")
+        Admin_Logger.log_exception("No posts found")
 
     submit_post = SubmitPostForm(request.form)
 
@@ -100,7 +104,7 @@ def editor_post(id):
         htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
     except:
         htitle = "Post title"
-    
+
     if request.method == "POST" and htitle != "Post title":
         content = submit_post.content.data.encode("utf-8")
 
@@ -109,11 +113,12 @@ def editor_post(id):
             content_to_dict = json.loads(content_string)
             title = content_to_dict["blocks"][0]["data"]["text"]
         except:
-            print("error")
+            Admin_Logger.log_exception("No title found, must change first")
             title = "title"
 
         encrypted_content = aes_gcm.encrypt(secret_key, content)
         # print("encrypted_content: ", encrypted_content)
+        Admin_Logger.log_info(f"encrypted post_id {id}: " + encrypted_content)
 
         newPost.set_id(id)
         newPost.set_title(title)
@@ -123,13 +128,15 @@ def editor_post(id):
         length = 0
         for posts in createorupdate.get_post().each():
             length += 1
-            if posts.val()["_Post__id"] == id: # false
+            if posts.val()["_Post__id"] == id:  # false
                 createorupdate.update_post(id, newPost)
+                Admin_Logger.log_info(f"updated post_id {id}: " + encrypted_content)
                 return redirect(url_for('admin.post'))
-            elif length == len(createorupdate.get_post().each()): 
+            elif length == len(createorupdate.get_post().each()):
                 createorupdate.create_post(newPost)
+                Admin_Logger.log_info(f"created post_id {id}: " + encrypted_content)
                 return redirect(url_for('admin.post'))
-        
+
         return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
     return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
@@ -140,6 +147,7 @@ def editor_post(id):
 def delete_page(id):
     deletepost = FirebaseClass()
     deletepost.delete_post(id)
+    Admin_Logger.log_info(f"deleted post_id {id}:")
     return redirect(url_for('admin.post'))
 
 
@@ -165,3 +173,10 @@ def members():
 @admin.route("/settings")
 def settings():
     return render_template('admin_settings.html')
+
+
+@admin_required
+@admin.route("/audit_log")
+def audit_log():
+    # read log files
+    return render_template('admin_audit_log.html')
