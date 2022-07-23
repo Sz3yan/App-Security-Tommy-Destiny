@@ -8,24 +8,7 @@ from web.user.static.py.Forms import CreateUser, LoginUser
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 User_Logger = User_Logger()
-
-
-#
-# def admin_required(f):
-#     @wraps(f)
-#     def wrap(*args, **kwargs):
-#         firebase = FirebaseClass()
-#         userInfo = firebase.get_user_info()
-#         userID = firebase.get_user()
-#         if 'userID' in session:
-#             if userID == session['userID']:
-#                 g.current_user = userInfo ###it does reach here
-#                 if g.current_user.get("Role") == "Admin":
-#                     print(g.current_user.get("Role"))
-#                     return f(*args, **kwargs)
-#                 else:
-#                     return redirect(url_for('user.index'))
-#     return wrap
+secret_key = "yourSecretKey" # need use google kms
 
 
 @user.route("/")
@@ -108,7 +91,6 @@ def signup():
 @user.route("/post/<id>")
 def post(id):
     aes_gcm = AES_GCM()
-    secret_key = "yourSecretKey"
 
     data = [{
         "type": "header",
