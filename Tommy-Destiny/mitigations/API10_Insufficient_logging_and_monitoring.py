@@ -1,5 +1,13 @@
 import logging
+import os
 
+path = os.path.dirname(os.path.abspath(__file__))
+
+# create a folder for logs
+if not os.path.exists(path + '/logs'):
+    os.makedirs(path + '/logs')
+
+logs_path = path + '/logs'
 
 class Admin_Logger(logging.Logger):
     def __init__(self):
@@ -7,7 +15,7 @@ class Admin_Logger(logging.Logger):
         self.setLevel(logging.INFO)
 
         # create a file handler
-        handler = logging.FileHandler('logs/admin_log.log')
+        handler = logging.FileHandler(logs_path + '/admin_log.log')
         handler.setLevel(logging.INFO)
 
         # create a logging format
@@ -42,7 +50,7 @@ class User_Logger(logging.Logger):
         self.setLevel(logging.INFO)
 
         # create a file handler
-        handler = logging.FileHandler('logs/user_log.log')
+        handler = logging.FileHandler(logs_path + '/user_log.log')
         handler.setLevel(logging.INFO)
 
         # create a logging format
