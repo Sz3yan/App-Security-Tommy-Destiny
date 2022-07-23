@@ -8,6 +8,7 @@ from web.user.static.py.Forms import CreateUser, LoginUser
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 User_Logger = User_Logger()
+secret_key = "yourSecretKey" # need use google kms
 
 
 #
@@ -108,7 +109,6 @@ def signup():
 @user.route("/post/<id>")
 def post(id):
     aes_gcm = AES_GCM()
-    secret_key = "yourSecretKey"
 
     data = [{
         "type": "header",

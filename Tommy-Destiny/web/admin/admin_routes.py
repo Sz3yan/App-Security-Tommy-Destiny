@@ -9,6 +9,7 @@ from web.admin.static.py.Post import Post, SubmitPostForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 Admin_Logger = Admin_Logger()
+secret_key = "yourSecretKey" # need use google kms
 
 
 def admin_required(f):
@@ -69,7 +70,6 @@ def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
     aes_gcm = AES_GCM()
-    secret_key = "yourSecretKey"
 
     data = [{
         "type": "header",
