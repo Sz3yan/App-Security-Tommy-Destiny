@@ -3,7 +3,7 @@ import firebase_admin
 import os
 from dotenv import load_dotenv
 import firebase_admin
-from firebase_admin import credentials
+from firebase_admin import credentials, auth, db
 
 
 
@@ -29,6 +29,8 @@ class FirebaseClass:
         self.__auth = firebase.auth()
         self.__database = firebase.database()
         self.__storage = firebase.storage()
+        self.__firebaseAdmin_auth = auth
+        self.__firebaseAdmin_db = db
         self.__User_ID = ""
 
     # User
