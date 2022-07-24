@@ -1,7 +1,156 @@
+from google.cloud import kms
+from google.protobuf import duration_pb2
+import datetime
+import crcmod
+import six
+import time
 import base64
 import hashlib
 from Cryptodome.Cipher import AES
 from Cryptodome.Random import get_random_bytes
+
+
+class GoogleCloudKeyManagement:
+    def __init__(self):
+        pass
+
+    # create once only when setup
+    def create_key_ring(self, project_id, location_id, key_ring_id):
+        """
+        Creates a new key ring in Cloud KMS
+
+        Args:
+            project_id (string): Google Cloud project ID (e.g. 'my-project').
+            location_id (string): Cloud KMS location (e.g. 'us-east1').
+            key_ring_id (string): ID of the key ring to create (e.g. 'my-key-ring').
+
+        Returns:
+            KeyRing: Cloud KMS key ring.
+
+        """
+
+        client = kms.KeyManagementServiceClient()
+        location_name = f'projects/{project_id}/locations/{location_id}'
+
+        # Build the key ring.
+        key_ring = {}
+
+        # Call the API.
+        created_key_ring = client.create_key_ring(
+            request={'parent': location_name, 'key_ring_id': key_ring_id, 'key_ring': key_ring})
+        print('Created key ring: {}'.format(created_key_ring.name))
+        return created_key_ring
+
+
+    def create_key_rotation_schedule(self, project_id, location_id, key_ring_id, key_id):
+        """
+        Creates a new key in Cloud KMS that automatically rotates.
+
+        Args:
+            project_id (string): Google Cloud project ID (e.g. 'my-project').
+            location_id (string): Cloud KMS location (e.g. 'us-east1').
+            key_ring_id (string): ID of the Cloud KMS key ring (e.g. 'my-key-ring').
+            key_id (string): ID of the key to create (e.g. 'my-rotating-key').
+
+        Returns:
+            CryptoKey: Cloud KMS key.
+
+        """
+
+        client = kms.KeyManagementServiceClient()
+
+        # Build the parent key ring name.
+        key_ring_name = client.key_ring_path(project_id, location_id, key_ring_id)
+
+        # Build the key.
+        purpose = kms.CryptoKey.CryptoKeyPurpose.ENCRYPT_DECRYPT
+        algorithm = kms.CryptoKeyVersion.CryptoKeyVersionAlgorithm.GOOGLE_SYMMETRIC_ENCRYPTION
+        key = {
+            'purpose': purpose,
+            'version_template': {
+                'algorithm': algorithm,
+            },
+
+            # Rotate the key every 30 days.
+            'rotation_period': {
+                'seconds': 60 * 60 * 24 * 30
+            },
+
+            # Start the first rotation in 24 hours.
+            'next_rotation_time': {
+                'seconds': int(time.time()) + 60 * 60 * 24
+            }
+        }
+
+        # Call the API.
+        created_key = client.create_crypto_key(
+            request={'parent': key_ring_name, 'crypto_key_id': key_id, 'crypto_key': key})
+        print('Created labeled key: {}'.format(created_key.name))
+        return created_key
+
+    
+    def create_key(self, project_id, location_id, key_ring_id, key_id):
+        """
+        Creates a new key in Cloud KMS.
+
+        Args:
+            project_id (string): Google Cloud project ID (e.g. 'my-project').
+            location_id (string): Cloud KMS location (e.g. 'us-east1').
+            key_ring_id (string): ID of the Cloud KMS key ring (e.g. 'my-key-ring').
+            key_id (string): ID of the key to create (e.g. 'my-key').
+
+        Returns:
+            CryptoKey: Cloud KMS key.
+
+        """
+
+        client = kms.KeyManagementServiceClient()
+
+        # Build the parent key ring name.
+        key_ring_name = client.key_ring_path(project_id, location_id, key_ring_id)
+
+        # Build the key.
+        purpose = kms.CryptoKey.CryptoKeyPurpose.ENCRYPT_DECRYPT
+        algorithm = kms.CryptoKeyVersion.CryptoKeyVersionAlgorithm.GOOGLE_SYMMETRIC_ENCRYPTION
+        key = {
+            'purpose': purpose,
+            'version_template': {
+                'algorithm': algorithm,
+            }
+        }
+
+        # Call the API.
+        created_key = client.create_crypto_key(
+            request={'parent': key_ring_name, 'crypto_key_id': key_id, 'crypto_key': key})
+        print('Created labeled key: {}'.format(created_key.name))
+        return created_key
+
+    def retrieve_key(self, project_id, location_id, key_ring_id, key_id):
+        """
+        Retrieves a Cloud KMS key.
+
+        Args:
+            project_id (string): Google Cloud project ID (e.g. 'my-project').
+            location_id (string): Cloud KMS location (e.g. 'us-east1').
+            key_ring_id (string): ID of the Cloud KMS key ring (e.g. 'my-key-ring').
+            key_id (string): ID of the key to retrieve (e.g. 'my-key').
+
+        Returns:
+            CryptoKey: Cloud KMS key.
+
+        """
+
+        client = kms.KeyManagementServiceClient()
+
+        # Build the key name.
+        key_name = client.crypto_key_path(project_id, location_id, key_ring_id, key_id)
+
+
+        # Call the API.
+        retrieved_key = client.get_crypto_key(request={'name': key_name})
+        # print('Retrieved key: {}'.format(retrieved_key.name))
+        return retrieved_key
+
 
 class AES_GCM:
     def __init__(self):
@@ -53,12 +202,13 @@ class AES_GCM:
 
 from argon2 import PasswordHasher, Type, exceptions
 
-# provides a balanced approach to resisting both side-channel and GPU-based attacks
-# Argon2id should use one of the following configuration settings as a base minimum which includes 
-# the minimum memory size (m), the minimum number of iterations (t) and the degree of parallelism (p).
-# m=37 MiB, t=1, p=1
-
 class Argon2ID:
+    """
+        provides a balanced approach to resisting both side-channel and GPU-based attacks
+        Argon2id should use one of the following configuration settings as a base minimum which includes 
+        the minimum memory size (m), the minimum number of iterations (t) and the degree of parallelism (p).
+        m=37 MiB, t=1, p=1
+    """
     def __init__(self):
         self.hasher = PasswordHasher(time_cost=2, memory_cost=1024, parallelism=1, type=Type.ID)
 
@@ -72,29 +222,16 @@ class Argon2ID:
             return "The secret does not match the hash"
 
 
-# if __name__ == "__main__":
-#     AES_GCM = AES_GCM()
-#     outputFormat = "{:<25}:{}:{}"
-#     secret_key = "yourSecretKey"
-#     plain_text = "Hello how are yo doing"
+# if __name__ == '__main__':
+# #     # create_key_ring = create_key_ring("tommy-destiny", "global", "my-key-ring")
+# #     # create_key_asymmetric_sign("tommy-destiny", "global", "my-key-ring", "my-asymmetric-signing-key")
+# #     # create_key_asymmetric_decrypt("tommy-destiny", "global", "my-key-ring", "my-asymmetric-decrypt-key")
+    
+#     import os
+#     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/google.json"
 
-#     print("------ AES-GCM Encryption ------")
-#     cipher_text = AES_GCM.encrypt(secret_key, plain_text)
-#     # print(AES_GCM.get_key())
-#     # print(AES_GCM.get_iv())
-#     # print(outputFormat.format("encryption input", plain_text, type(plain_text)))
-#     # print(outputFormat.format("encryption output", cipher_text, type(cipher_text)))
+#     a = GoogleCloudKeyManagement()
+#     # a.create_key_rotation_schedule("tommy-destiny", "global", "my-key-ring", "key-rotation")
+#     # a.update_key_add_rotation("tommy-destiny", "global", "my-key-ring", "key-rotation")
 
-#     # decrypted_text = AES_GCM.decrypt(secret_key, cipher_text)
-
-#     # print("\n------ AES-GCM Decryption ------")
-#     # print(outputFormat.format("decryption input", cipher_text, type(plain_text)))
-#     # print(outputFormat.format("decryption output", decrypted_text, type(plain_text)))
-
-#     print("\n------ Argon2ID Hashing Algorithm ------")
-#     hasher = Argon2ID()
-#     password = "password"
-
-#     hash = hasher.hash_password(password)
-#     print(hash)
-#     print(hasher.verify_password(hash, password))
+#     a.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation")

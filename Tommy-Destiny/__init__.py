@@ -15,12 +15,19 @@ from routes.admin.admin_routes import admin
 from routes.user.user_routes import user
 from routes.errors.error_routes import errors
 
+<<<<<<< HEAD
 from mitigations.A7_Cross_site_scripting import CspClass
+=======
+>>>>>>> 3b9eb65a65362f1c8856bd1b11f4d050174dd136
 
 load_dotenv()
 
+
 app = Flask(__name__)
 app.config.from_object('config.DevConfig')
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/google.json" # for key management system
+# if cannot run, do this: export GOOGLE_APPLICATION_CREDENTIALS="./Tommy-Destiny/google.json"
+# then python __init__.py
 
 # CspClass().return_csp_header("homeage")
 
@@ -30,6 +37,7 @@ csrf = CSRFProtect(app)
 sess = Session(app)
 talisman = Talisman(app, force_https=True, content_security_policy=CspClass().return_csp_header("homeage"))  # enables HSTS
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
+
 
 app.register_blueprint(api)
 app.register_blueprint(admin)
@@ -58,8 +66,10 @@ def add_header(r):
 #         else:
 #             return redirect(url_for(user.index))
 
+
 certpem = os.path.join(app.root_path, 'cert.pem')
 keypem = os.path.join(app.root_path, 'key.pem')
+
 
 if __name__ == '__main__':
     app.run(ssl_context=(certpem, keypem))
