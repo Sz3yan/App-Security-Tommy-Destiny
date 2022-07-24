@@ -35,7 +35,22 @@ def admin_required(f):
 @admin_required
 @admin.route("/dashboard")
 def admin_dashboard():
-    return render_template('admin_dashboard.html')
+    labels = [1,2,3,4,5,6,7,8,9,10]
+    values = [514, 1433, 1687, 2711, 3715, 4184, 4398, 5322, 510, 975, 975, 1395, 1395, 1860, 2070, 2490]
+
+    try:
+        firebase = FirebaseClass()
+        posts = [post.val() for post in firebase.get_post().each()]
+    except:
+        posts = []
+        Admin_Logger.log_exception("No posts found")
+
+    admin_logs = Admin_Logger.read_adminlog()
+    print(admin_logs, "\n")
+
+    user_logs = User_Logger.read_userlog()
+    print(user_logs, "\n")
+    return render_template('admin_dashboard.html',labels=labels, values=values, posts=posts, admin_logs=admin_logs, user_logs=user_logs)
 
 
 @admin_required
@@ -180,12 +195,11 @@ def settings():
 @admin_required
 @admin.route("/audit_log")
 def audit_log():
+    Admin_Logger.log_warning("view: audit_log")
     admin_logs = Admin_Logger.read_adminlog()
     print(admin_logs, "\n")
 
     user_logs = User_Logger.read_userlog()
     print(user_logs, "\n")
-
-    print(len("[2022-07-24 09:27:55,929 1658626075.929624] [INFO] view: post_id e58111e4-8eed-4935-9415-fdc4c36f69bc"))
 
     return render_template('admin_audit_log.html', admin_logs=admin_logs, user_logs=user_logs)
