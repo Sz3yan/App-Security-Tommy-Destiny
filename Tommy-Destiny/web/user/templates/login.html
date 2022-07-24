@@ -27,7 +27,7 @@
                 <div style="width: 100%; display: flex; flex-direction: column; align-items: center; max-width: 320px; margin-bottom: 16vh;">
                     <div style="width: 100%;">
                         <form method="POST" class="form-login">
-                            <input type="hidden" value="{{ csrf_token() }}" />                    
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />                    
                             <div class="form-login-field">
                                 {{ render_field(form.name, class="form-login-field") }}
                             </div>
