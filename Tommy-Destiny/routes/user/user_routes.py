@@ -1,14 +1,15 @@
 import json
 
 from flask import Blueprint, render_template, request, session, redirect, url_for
-from mitigations.A3_Sensitive_data_exposure import AES_GCM
+from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
 from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
 from static.py.firebaseConnection import FirebaseClass
 from routes.user.static.py.Forms import CreateUser, LoginUser
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 User_Logger = User_Logger()
-secret_key = "yourSecretKey" # need use google kms
+keymanagement = GoogleCloudKeyManagement()
+secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation"))
 
 
 @user.route("/")
