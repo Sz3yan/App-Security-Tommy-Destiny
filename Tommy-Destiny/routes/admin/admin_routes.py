@@ -18,23 +18,24 @@ secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-r
 def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        firebase = FirebaseClass()
-        userInfo = firebase.get_user_info()
-        userID = firebase.get_user()
+        firebase = FirebaseClass() # this will not hve any id
         if 'userID' in session:
-            if userID == session['userID']:
-                g.current_user = userInfo  ###it does reach here
-                if g.current_user.get("Role") == "Admin":
-                    print(g.current_user.get("Role"))
-                    return f(*args, **kwargs)
-                else:
-                    return redirect(url_for('user.index'))
+            user_ID = session["userID"]
+            userInfo = firebase.get_user_info(user_ID)
+            g.current_user = userInfo
+            if g.current_user.get("Role") == "admin":
+                print(g.current_user.get("Role"))
+                return f(*args, **kwargs)
+            else:
+                return redirect(url_for("user.index"))
+        else:
+            return redirect(url_for('user.index'))
 
     return wrap
 
 
-@admin_required
 @admin.route("/dashboard")
+@admin_required
 def admin_dashboard():
     labels = [1,2,3,4,5,6,7,8,9,10]
     values = [514, 1433, 1687, 2711, 3715, 4184, 4398, 5322, 510, 975, 975, 1395, 1395, 1860, 2070, 2490]
@@ -55,14 +56,14 @@ def admin_dashboard():
     return render_template('admin_dashboard.html',labels=labels, values=values, posts=posts, admin_logs=admin_logs, user_logs=user_logs)
 
 
-@admin_required
 @admin.route("/viewsite")
+@admin_required
 def view_admin():
     return render_template('admin_viewsite.html')
 
 
-@admin_required
 @admin.route("/posts")
+@admin_required
 def post():
     newPost = Post("title")
     new_id = newPost.get_id()
@@ -77,14 +78,14 @@ def post():
     return render_template('admin_post.html', id=new_id, posts=posts)
 
 
-@admin_required
 @admin.route("/pages")
+@admin_required
 def page():
     return render_template('admin_pages.html')
 
 
-@admin_required
 @admin.route("/editor/posts/<id>", methods=["GET", "POST"])
+@admin_required
 def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
@@ -161,8 +162,8 @@ def editor_post(id):
     return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
 
 
-@admin_required
 @admin.route("/delete/posts/<id>", methods=["GET", "POST"])
+@admin_required
 def delete_page(id):
     deletepost = FirebaseClass()
     deletepost.delete_post(id)
@@ -170,32 +171,32 @@ def delete_page(id):
     return redirect(url_for('admin.post'))
 
 
-@admin_required
 @admin.route("/editor/pages/<id>", methods=["POST"])
+@admin_required
 def editor_pages(id):
     return render_template('admin_editor.html')
 
 
-@admin_required
 @admin.route("/tags")
+@admin_required
 def tags():
     return render_template('admin_tags.html')
 
 
-@admin_required
 @admin.route("/members")
+@admin_required
 def members():
     return render_template('admin_members.html')
 
 
-@admin_required
 @admin.route("/settings")
+@admin_required
 def settings():
     return render_template('admin_settings.html')
 
 
-@admin_required
 @admin.route("/audit_log")
+@admin_required
 def audit_log():
     Admin_Logger.log_warning("view: audit_log")
     admin_logs = Admin_Logger.read_adminlog()
@@ -207,7 +208,7 @@ def audit_log():
     return render_template('admin_audit_log.html', admin_logs=admin_logs, user_logs=user_logs)
 
 
-@admin_required
 @admin.route("/policy")
+@admin_required
 def policy():
     return render_template('admin_policy.html')
