@@ -10,9 +10,10 @@ from flask_session import Session
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
 
-from api.routes import api
-from web.admin.admin_routes import admin
-from web.user.user_routes import user
+from routes.api.api_routes import api
+from routes.admin.admin_routes import admin
+from routes.user.user_routes import user
+from routes.errors.error_routes import errors
 
 load_dotenv()
 
@@ -23,13 +24,13 @@ mail = Mail(app)
 jwt = JWTManager(app)
 csrf = CSRFProtect(app)
 sess = Session(app)
-talisman = Talisman(app, force_https=True, content_security_policy=False) # enables HSTS
+talisman = Talisman(app, force_https=True, content_security_policy=False)  # enables HSTS
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
-
 
 app.register_blueprint(api)
 app.register_blueprint(admin)
 app.register_blueprint(user)
+app.register_blueprint(errors)
 
 
 # prevent caching

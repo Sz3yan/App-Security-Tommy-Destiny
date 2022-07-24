@@ -8,3 +8,38 @@
 [2022-07-24 09:58:51,147 1658627931.147268] [INFO] view: post_id 8e15c57f-da46-41d4-ad82-2d01336380d1:  [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
 [2022-07-24 10:38:51,773 1658630331.773499] [WARNING] view: audit_log [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_warning 28]
 [2022-07-24 10:43:44,920 1658630624.920608] [INFO] view: post_id e58111e4-8eed-4935-9415-fdc4c36f69bc:  [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 14:58:15,225 1658645895.225817] [WARNING] view: audit_log [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_warning 28]
+[2022-07-24 14:58:23,918 1658645903.918794] [INFO] view: post_id 8e15c57f-da46-41d4-ad82-2d01336380d1:  [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19][2022-07-24 15:10:54,934 1658646654.934835] [ERROR] No posts found [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_exception 34]
+Traceback (most recent call last):
+  File "/Users/sz3yan/Tommy-Destiny/Tommy-Destiny/routes/admin/admin_routes.py", line 42, in admin_dashboard
+    firebase = FirebaseClass()
+  File "/Users/sz3yan/Tommy-Destiny/Tommy-Destiny/static/py/firebaseConnection.py", line 31, in __init__
+    self.__database = firebase.database()
+  File "/opt/homebrew/lib/python3.9/site-packages/pyrebase/pyrebase.py", line 66, in database
+    return Database(self.credentials, self.api_key, self.database_url, self.requests)
+  File "/opt/homebrew/lib/python3.9/site-packages/pyrebase/pyrebase.py", line 188, in __init__
+    if not database_url.endswith('/'):
+AttributeError: 'NoneType' object has no attribute 'endswith'
+[2022-07-24 15:11:10,149 1658646670.149333] [ERROR] No posts found [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_exception 34]
+Traceback (most recent call last):
+  File "/Users/sz3yan/Tommy-Destiny/Tommy-Destiny/routes/admin/admin_routes.py", line 70, in post
+    firebase = FirebaseClass()
+  File "/Users/sz3yan/Tommy-Destiny/Tommy-Destiny/static/py/firebaseConnection.py", line 31, in __init__
+    self.__database = firebase.database()
+  File "/opt/homebrew/lib/python3.9/site-packages/pyrebase/pyrebase.py", line 66, in database
+    return Database(self.credentials, self.api_key, self.database_url, self.requests)
+  File "/opt/homebrew/lib/python3.9/site-packages/pyrebase/pyrebase.py", line 188, in __init__
+    if not database_url.endswith('/'):
+AttributeError: 'NoneType' object has no attribute 'endswith'
+[2022-07-24 15:11:43,205 1658646703.205341] [ERROR] No posts found [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_exception 34]
+Traceback (most recent call last):
+  File "/Users/sz3yan/Tommy-Destiny/Tommy-Destiny/routes/admin/admin_routes.py", line 42, in admin_dashboard
+    firebase = FirebaseClass()
+  File "/Users/sz3yan/Tommy-Destiny/Tommy-Destiny/static/py/firebaseConnection.py", line 31, in __init__
+    self.__database = firebase.database()
+  File "/opt/homebrew/lib/python3.9/site-packages/pyrebase/pyrebase.py", line 66, in database
+    return Database(self.credentials, self.api_key, self.database_url, self.requests)
+  File "/opt/homebrew/lib/python3.9/site-packages/pyrebase/pyrebase.py", line 188, in __init__
+    if not database_url.endswith('/'):
+AttributeError: 'NoneType' object has no attribute 'endswith'
+[2022-07-24 15:15:23,357 1658646923.357846] [WARNING] view: audit_log [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_warning 28]

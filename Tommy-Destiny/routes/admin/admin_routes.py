@@ -2,11 +2,11 @@ import json
 import os
 from functools import wraps
 
-from flask import Blueprint, redirect, render_template, request, url_for, g, session
+from flask import Blueprint, redirect, render_template, request, url_for, g, session, abort
 from mitigations.A3_Sensitive_data_exposure import AES_GCM
 from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger, User_Logger
 from static.py.firebaseConnection import FirebaseClass
-from web.admin.static.py.Post import Post, SubmitPostForm
+from routes.admin.static.py.Post import Post, SubmitPostForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 Admin_Logger = Admin_Logger()
@@ -50,6 +50,7 @@ def admin_dashboard():
 
     user_logs = User_Logger.read_userlog()
     print(user_logs, "\n")
+    
     return render_template('admin_dashboard.html',labels=labels, values=values, posts=posts, admin_logs=admin_logs, user_logs=user_logs)
 
 

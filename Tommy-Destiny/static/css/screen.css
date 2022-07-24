@@ -251,6 +251,22 @@ iframe {
     }
 }
 
+.tommy-destiny-not-found-main {
+    background-size: cover;
+}
+
+.tommy-destiny-not-found-inner {
+    margin:auto
+}
+
+.tommy-destiny-not-found-title {
+    color: #fff;
+    font-size: 30vmin;
+    margin-bottom: 2vmin;
+    text-align: center;
+    text-shadow:0 5px 18px rgba(0, 0, 0, 7%)
+}
+
 .tom-destiny-head {
     background-color: var(--color-white)
 }
