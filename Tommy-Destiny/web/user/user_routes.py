@@ -37,6 +37,7 @@ def login():
     else:
         if request.method == "POST" and loginUser.validate():
             session.pop('userID', None)  # auto remove session when trying to login
+            User_Logger.log_info("Session removed")
             email = loginUser.email.data
             password = loginUser.password.data
 

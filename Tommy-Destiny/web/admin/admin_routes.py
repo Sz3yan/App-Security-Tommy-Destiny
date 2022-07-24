@@ -1,14 +1,16 @@
 import json
+import os
 from functools import wraps
 
 from flask import Blueprint, redirect, render_template, request, url_for, g, session
 from mitigations.A3_Sensitive_data_exposure import AES_GCM
-from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger
+from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger, User_Logger
 from static.py.firebaseConnection import FirebaseClass
 from web.admin.static.py.Post import Post, SubmitPostForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 Admin_Logger = Admin_Logger()
+User_Logger = User_Logger()
 secret_key = "yourSecretKey" # need use google kms
 
 
@@ -33,7 +35,22 @@ def admin_required(f):
 @admin_required
 @admin.route("/dashboard")
 def admin_dashboard():
-    return render_template('admin_dashboard.html')
+    labels = [1,2,3,4,5,6,7,8,9,10]
+    values = [514, 1433, 1687, 2711, 3715, 4184, 4398, 5322, 510, 975, 975, 1395, 1395, 1860, 2070, 2490]
+
+    try:
+        firebase = FirebaseClass()
+        posts = [post.val() for post in firebase.get_post().each()]
+    except:
+        posts = []
+        Admin_Logger.log_exception("No posts found")
+
+    admin_logs = Admin_Logger.read_adminlog()
+    print(admin_logs, "\n")
+
+    user_logs = User_Logger.read_userlog()
+    print(user_logs, "\n")
+    return render_template('admin_dashboard.html',labels=labels, values=values, posts=posts, admin_logs=admin_logs, user_logs=user_logs)
 
 
 @admin_required
@@ -90,7 +107,7 @@ def editor_post(id):
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
-                Admin_Logger.log_info(f"view: post_id {id}: " + str(data)) # demo. log only encrypted data
+                Admin_Logger.log_info(f"view: post_id {id}: ")
             else:
                 data = data
     except:
@@ -178,5 +195,11 @@ def settings():
 @admin_required
 @admin.route("/audit_log")
 def audit_log():
-    # read log files
-    return render_template('admin_audit_log.html')
+    Admin_Logger.log_warning("view: audit_log")
+    admin_logs = Admin_Logger.read_adminlog()
+    print(admin_logs, "\n")
+
+    user_logs = User_Logger.read_userlog()
+    print(user_logs, "\n")
+
+    return render_template('admin_audit_log.html', admin_logs=admin_logs, user_logs=user_logs)

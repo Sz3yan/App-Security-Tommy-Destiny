@@ -1,7 +1,6 @@
 import base64
 import hashlib
-import secrets
-from Cryptodome.Cipher import AES  # from pycryptodomex v-3.10.4
+from Cryptodome.Cipher import AES
 from Cryptodome.Random import get_random_bytes
 
 class AES_GCM:
@@ -52,53 +51,50 @@ class AES_GCM:
         return hashlib.pbkdf2_hmac(self.HASH_NAME, password.encode(), salt, self.ITERATION_COUNT, self.KEY_LENGTH)
 
 
-class PBKDF2_SHA256:
+from argon2 import PasswordHasher, Type, exceptions
+
+# provides a balanced approach to resisting both side-channel and GPU-based attacks
+# Argon2id should use one of the following configuration settings as a base minimum which includes 
+# the minimum memory size (m), the minimum number of iterations (t) and the degree of parallelism (p).
+# m=37 MiB, t=1, p=1
+
+class Argon2ID:
     def __init__(self):
-        self.ALGORITHM = "pbkdf2_sha256"
+        self.hasher = PasswordHasher(time_cost=2, memory_cost=1024, parallelism=1, type=Type.ID)
 
-    def hash_password(self, password, salt=None, iterations=260000):
-        if salt is None:
-            salt = secrets.token_hex(16)
-        assert salt and isinstance(salt, str) and "$" not in salt
-        assert isinstance(password, str)
-        pw_hash = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt.encode("utf-8"), iterations)
-        b64_hash = base64.b64encode(pw_hash).decode("ascii").strip()
-        return "{}${}${}${}".format(self.ALGORITHM, iterations, salt, b64_hash)
+    def hash_password(self, password):
+        return self.hasher.hash(password)
 
-
-    def verify_password(self, password, password_hash):
-        if (password_hash or "").count("$") != 3:
-            return False
-        algorithm, iterations, salt, b64_hash = password_hash.split("$", 3)
-        iterations = int(iterations)
-        assert algorithm == self.ALGORITHM
-        compare_hash = self.hash_password(password, salt, iterations)
-        return secrets.compare_digest(password_hash, compare_hash)
+    def verify_password(self, hash, password):
+        try:
+            return self.hasher.verify(hash, password)
+        except exceptions.VerifyMismatchError:
+            return "The secret does not match the hash"
 
 
-if __name__ == "__main__":
-    AES_GCM = AES_GCM()
-    outputFormat = "{:<25}:{}:{}"
-    secret_key = "yourSecretKey"
-    plain_text = "Hello how are yo doing"
+# if __name__ == "__main__":
+#     AES_GCM = AES_GCM()
+#     outputFormat = "{:<25}:{}:{}"
+#     secret_key = "yourSecretKey"
+#     plain_text = "Hello how are yo doing"
 
-    print("------ AES-GCM Encryption ------")
-    cipher_text = AES_GCM.encrypt(secret_key, plain_text)
-    print(AES_GCM.get_key())
-    print(AES_GCM.get_iv())
-    print(outputFormat.format("encryption input", plain_text, type(plain_text)))
-    print(outputFormat.format("encryption output", cipher_text, type(cipher_text)))
+#     print("------ AES-GCM Encryption ------")
+#     cipher_text = AES_GCM.encrypt(secret_key, plain_text)
+#     # print(AES_GCM.get_key())
+#     # print(AES_GCM.get_iv())
+#     # print(outputFormat.format("encryption input", plain_text, type(plain_text)))
+#     # print(outputFormat.format("encryption output", cipher_text, type(cipher_text)))
 
-    decrypted_text = AES_GCM.decrypt(secret_key, cipher_text)
+#     # decrypted_text = AES_GCM.decrypt(secret_key, cipher_text)
 
-    print("\n------ AES-GCM Decryption ------")
-    print(outputFormat.format("decryption input", cipher_text, type(plain_text)))
-    print(outputFormat.format("decryption output", decrypted_text, type(plain_text)))
+#     # print("\n------ AES-GCM Decryption ------")
+#     # print(outputFormat.format("decryption input", cipher_text, type(plain_text)))
+#     # print(outputFormat.format("decryption output", decrypted_text, type(plain_text)))
 
-    print("\n------ PBKDF2-SHA256 Encryption ------")
-    hashing = PBKDF2_SHA256()
-    a = hashing.hash_password("HII")
-    print("password: ", a)
+#     print("\n------ Argon2ID Hashing Algorithm ------")
+#     hasher = Argon2ID()
+#     password = "password"
 
-    print("verify: ", hashing.verify_password("HII", a))
-    print("verify: ", hashing.verify_password("HII", a))
+#     hash = hasher.hash_password(password)
+#     print(hash)
+#     print(hasher.verify_password(hash, password))
