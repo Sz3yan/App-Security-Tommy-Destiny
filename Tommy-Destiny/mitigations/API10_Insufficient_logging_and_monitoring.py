@@ -9,21 +9,11 @@ if not os.path.exists(path + '/logs'):
 
 logs_path = path + '/logs'
 
-class Admin_Logger(logging.Logger):
-    def __init__(self):
-        super().__init__(__name__)
+
+class Logger(logging.Logger):
+    def __init__(self, name):
+        super().__init__(name)
         self.setLevel(logging.INFO)
-
-        # create a file handler
-        handler = logging.FileHandler(logs_path + '/admin_log.log')
-        handler.setLevel(logging.INFO)
-
-        # create a logging format
-        formatter = logging.Formatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
-        handler.setFormatter(formatter)
-
-        # add the handlers to the logger
-        self.addHandler(handler)
 
     def log_info(self, message):
         self.info(message)
@@ -44,52 +34,55 @@ class Admin_Logger(logging.Logger):
         self.exception(message)
 
 
-class User_Logger(logging.Logger):
+class Admin_Logger(Logger):
     def __init__(self):
         super().__init__(__name__)
-        self.setLevel(logging.INFO)
+        adminhandler = logging.FileHandler(logs_path + '/admin_log.log')
+        adminhandler.setLevel(logging.INFO)
 
-        # create a file handler
-        handler = logging.FileHandler(logs_path + '/user_log.log')
-        handler.setLevel(logging.INFO)
+        adminformatter = logging.Formatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
+        adminhandler.setFormatter(adminformatter)
+        self.addHandler(adminhandler)
 
-        # create a logging format
-        formatter = logging.Formatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
-        handler.setFormatter(formatter)
+    def read_adminlog(self):
+        array = []
+        with open(logs_path + '/admin_log.log', 'r') as f:
+            for line in f:
+                array.append(line)
 
-        # add the handlers to the logger
-        self.addHandler(handler)
+        dictionary = {}
+        for i in range(len(array)):
+            dictionary[i] = array[i]
 
-    def log_info(self, message):
-        self.info(message)
+        return dictionary
 
-    def log_error(self, message):
-        self.error(message)
 
-    def log_debug(self, message):
-        self.debug(message)
+class User_Logger(Logger):
+    def __init__(self):
+        super().__init__(__name__)
+        userhandler = logging.FileHandler(logs_path + '/user_log.log')
+        userhandler.setLevel(logging.INFO)
 
-    def log_warning(self, message):
-        self.warning(message)
+        userformatter = logging.Formatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
+        userhandler.setFormatter(userformatter)
+        self.addHandler(userhandler)
 
-    def log_critical(self, message):
-        self.critical(message)
+    def read_userlog(self):
+        array = []
+        with open(logs_path + '/user_log.log', 'r') as f:
+            for line in f:
+                array.append(line)
 
-    def log_exception(self, message):
-        self.exception(message)
-        
+        dictionary = {}
+        for i in range(len(array)):
+            dictionary[i] = array[i]
+
+        return dictionary
+
 
 # if __name__ == "__main__":
-#     admin_logging_class = Admin_Logger()
-#     admin_logging_class.log_info("test")
-#     admin_logging_class.log_error("test")
-#     admin_logging_class.log_debug("test")
-#     admin_logging_class.log_warning("test")
-#     admin_logging_class.log_critical("test")
+#     a = Admin_Logger()
+#     a.log_info("today very tired")
 
-#     user_logging_class = User_Logger()
-#     user_logging_class.log_info("test")
-#     user_logging_class.log_error("test")
-#     user_logging_class.log_debug("test")
-#     user_logging_class.log_warning("test")
-#     user_logging_class.log_critical("test")
+#     b = User_Logger()
+#     b.log_info("sdfsdfgs")  
