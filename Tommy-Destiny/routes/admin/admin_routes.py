@@ -204,3 +204,9 @@ def audit_log():
     print(user_logs, "\n")
 
     return render_template('admin_audit_log.html', admin_logs=admin_logs, user_logs=user_logs)
+
+
+@admin_required
+@admin.route("/policy")
+def policy():
+    return render_template('admin_policy.html')

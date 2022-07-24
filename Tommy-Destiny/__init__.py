@@ -15,16 +15,20 @@ from routes.admin.admin_routes import admin
 from routes.user.user_routes import user
 from routes.errors.error_routes import errors
 
+from mitigations.A7_Cross_site_scripting import CspClass
+
 load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object('config.DevConfig')
 
+# CspClass().return_csp_header("homeage")
+
 mail = Mail(app)
 jwt = JWTManager(app)
 csrf = CSRFProtect(app)
 sess = Session(app)
-talisman = Talisman(app, force_https=True, content_security_policy=False)  # enables HSTS
+talisman = Talisman(app, force_https=True, content_security_policy=CspClass().return_csp_header("homeage"))  # enables HSTS
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 
 app.register_blueprint(api)

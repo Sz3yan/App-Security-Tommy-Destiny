@@ -115,3 +115,70 @@ AttributeError: 'NoneType' object has no attribute 'endswith'
 =======
 >>>>>>> 71d195af00bd9ea85bf7d1e0b9ac3d99cb17ae47
 >>>>>>> 2545ef00374fa8229e230c44cf58370ce96c49db
+[2022-07-24 16:38:45,671 1658651925.671465] [INFO] sdfsdfgs [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:14:21,483 1658654061.483948] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:14:21,889 1658654061.889316] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:14:31,143 1658654071.143546] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:14:31,719 1658654071.719651] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:14:50,615 1658654090.615402] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:14:51,179 1658654091.179037] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:18:04,734 1658654284.734703] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:18:05,129 1658654285.129134] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:18:11,804 1658654291.804235] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:18:12,191 1658654292.191195] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:18:31,336 1658654311.336247] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:18:32,057 1658654312.057439] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:18:39,857 1658654319.857268] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:18:40,251 1658654320.251420] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:19:05,008 1658654345.008296] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:19:05,448 1658654345.448204] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:19:12,597 1658654352.597901] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 17:19:13,018 1658654353.018275] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 19:26:56,316 1658662016.316936] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 19:26:56,685 1658662016.685274] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 20:23:28,783 1658665408.783978] [ERROR] No posts found [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_exception 34]
+Traceback (most recent call last):
+  File "c:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\Tommy-Destiny\routes\user\user_routes.py", line 110, in post
+    decrypted = aes_gcm.decrypt(secret_key, plaintext)
+  File "c:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\Tommy-Destiny\mitigations\A3_Sensitive_data_exposure.py", line 47, in decrypt
+    decrypted_message_byte = cipher.decrypt_and_verify(encrypted_message_byte, tag)
+  File "C:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\venv\lib\site-packages\Cryptodome\Cipher\_mode_gcm.py", line 567, in decrypt_and_verify
+    self.verify(received_mac_tag)
+  File "C:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\venv\lib\site-packages\Cryptodome\Cipher\_mode_gcm.py", line 508, in verify
+    raise ValueError("MAC check failed")
+ValueError: MAC check failed
+[2022-07-24 20:34:07,153 1658666047.153536] [ERROR] No posts found [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_exception 34]
+Traceback (most recent call last):
+  File "c:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\Tommy-Destiny\routes\user\user_routes.py", line 110, in post
+    decrypted = aes_gcm.decrypt(secret_key, plaintext)
+  File "c:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\Tommy-Destiny\mitigations\A3_Sensitive_data_exposure.py", line 47, in decrypt
+    decrypted_message_byte = cipher.decrypt_and_verify(encrypted_message_byte, tag)
+  File "C:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\venv\lib\site-packages\Cryptodome\Cipher\_mode_gcm.py", line 567, in decrypt_and_verify
+    self.verify(received_mac_tag)
+  File "C:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\venv\lib\site-packages\Cryptodome\Cipher\_mode_gcm.py", line 508, in verify
+    raise ValueError("MAC check failed")
+ValueError: MAC check failed
+[2022-07-24 20:34:10,126 1658666050.126248] [ERROR] No posts found [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_exception 34]
+Traceback (most recent call last):
+  File "c:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\Tommy-Destiny\routes\user\user_routes.py", line 110, in post
+    decrypted = aes_gcm.decrypt(secret_key, plaintext)
+  File "c:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\Tommy-Destiny\mitigations\A3_Sensitive_data_exposure.py", line 47, in decrypt
+    decrypted_message_byte = cipher.decrypt_and_verify(encrypted_message_byte, tag)
+  File "C:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\venv\lib\site-packages\Cryptodome\Cipher\_mode_gcm.py", line 567, in decrypt_and_verify
+    self.verify(received_mac_tag)
+  File "C:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\venv\lib\site-packages\Cryptodome\Cipher\_mode_gcm.py", line 508, in verify
+    raise ValueError("MAC check failed")
+ValueError: MAC check failed
+[2022-07-24 21:25:23,217 1658669123.217356] [INFO] Session removed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 21:25:23,559 1658669123.559232] [INFO] User Login Failed [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_info 19]
+[2022-07-24 21:50:04,657 1658670604.657980] [ERROR] No posts found [API10_Insufficient_logging_and_monitoring.py API10_Insufficient_logging_and_monitoring log_exception 34]
+Traceback (most recent call last):
+  File "c:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\Tommy-Destiny\routes\user\user_routes.py", line 110, in post
+    decrypted = aes_gcm.decrypt(secret_key, plaintext)
+  File "c:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\Tommy-Destiny\mitigations\A3_Sensitive_data_exposure.py", line 47, in decrypt
+    decrypted_message_byte = cipher.decrypt_and_verify(encrypted_message_byte, tag)
+  File "C:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\venv\lib\site-packages\Cryptodome\Cipher\_mode_gcm.py", line 567, in decrypt_and_verify
+    self.verify(received_mac_tag)
+  File "C:\Users\YP\Documents\NYP_Applications_Security_Project\Assignments\Tommy-Destiny\venv\lib\site-packages\Cryptodome\Cipher\_mode_gcm.py", line 508, in verify
+    raise ValueError("MAC check failed")
+ValueError: MAC check failed
