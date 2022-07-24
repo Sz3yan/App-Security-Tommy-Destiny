@@ -51,7 +51,6 @@ class CspClass:
         for key,value in db_policy.items():
             db_policy[key] = ' '.join(value)
 
-        print(db_policy)
         return db_policy
 
 # if __name__ == "__main__":
