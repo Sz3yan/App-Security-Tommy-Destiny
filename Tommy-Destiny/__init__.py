@@ -23,10 +23,6 @@ load_dotenv()
 app = Flask(__name__)
 app.config.from_object('config.DevConfig')
 
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/google.json" # for key management system
-# if cannot run, do this: export GOOGLE_APPLICATION_CREDENTIALS="./Tommy-Destiny/google.json"
-# then python __init__.py
-
 # CspClass().return_csp_header("homeage")
 
 mail = Mail(app)

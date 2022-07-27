@@ -1,5 +1,6 @@
 from google.cloud import kms
 from google.protobuf import duration_pb2
+import os
 import datetime
 import crcmod
 import six
@@ -12,7 +13,7 @@ from Cryptodome.Random import get_random_bytes
 
 class GoogleCloudKeyManagement:
     def __init__(self):
-        pass
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/Tommy-Destiny/google.json"
 
     # create once only when setup
     def create_key_ring(self, project_id, location_id, key_ring_id):
@@ -223,15 +224,20 @@ class Argon2ID:
 
 
 # if __name__ == '__main__':
-# #     # create_key_ring = create_key_ring("tommy-destiny", "global", "my-key-ring")
-# #     # create_key_asymmetric_sign("tommy-destiny", "global", "my-key-ring", "my-asymmetric-signing-key")
-# #     # create_key_asymmetric_decrypt("tommy-destiny", "global", "my-key-ring", "my-asymmetric-decrypt-key")
+#     # create_key_ring = create_key_ring("tommy-destiny", "global", "my-key-ring")
+#     # create_key_asymmetric_sign("tommy-destiny", "global", "my-key-ring", "my-asymmetric-signing-key")
+#     # create_key_asymmetric_decrypt("tommy-destiny", "global", "my-key-ring", "my-asymmetric-decrypt-key")
     
-#     import os
-#     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/google.json"
+    # import os
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/google.json"
 
-#     a = GoogleCloudKeyManagement()
-#     # a.create_key_rotation_schedule("tommy-destiny", "global", "my-key-ring", "key-rotation")
-#     # a.update_key_add_rotation("tommy-destiny", "global", "my-key-ring", "key-rotation")
+    # a = GoogleCloudKeyManagement()
+    # # a.create_key_rotation_schedule("tommy-destiny", "global", "my-key-ring", "key-rotation")
+    # # a.update_key_add_rotation("tommy-destiny", "global", "my-key-ring", "key-rotation")
 
-#     a.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation")
+    # print(a.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation"))
+
+    # password = "123456"
+    # hasher = Argon2ID()
+    # hash = hasher.hash_password(password)
+    # print(hash)

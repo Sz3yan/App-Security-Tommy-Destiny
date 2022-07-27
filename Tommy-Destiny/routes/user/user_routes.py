@@ -70,7 +70,7 @@ def profile():
         print(user_ID)
 
         userInfo = firebase.get_user_info(user_ID)
-        g.current_user = userInfo
+        # g.current_user = userInfo
         return render_template('profile.html')
     else:
         return redirect(url_for('user.index'))

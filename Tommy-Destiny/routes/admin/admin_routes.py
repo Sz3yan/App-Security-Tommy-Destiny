@@ -35,7 +35,6 @@ def admin_required(f):
 
 
 @admin.route("/dashboard")
-@admin_required
 def admin_dashboard():
     labels = [1,2,3,4,5,6,7,8,9,10]
     values = [514, 1433, 1687, 2711, 3715, 4184, 4398, 5322, 510, 975, 975, 1395, 1395, 1860, 2070, 2490]
@@ -57,13 +56,11 @@ def admin_dashboard():
 
 
 @admin.route("/viewsite")
-@admin_required
 def view_admin():
     return render_template('admin_viewsite.html')
 
 
 @admin.route("/posts")
-@admin_required
 def post():
     newPost = Post("title")
     new_id = newPost.get_id()
@@ -79,13 +76,11 @@ def post():
 
 
 @admin.route("/pages")
-@admin_required
 def page():
     return render_template('admin_pages.html')
 
 
 @admin.route("/editor/posts/<id>", methods=["GET", "POST"])
-@admin_required
 def editor_post(id):
     newPost = Post("title")
     newPost.set_id(id)
@@ -163,7 +158,6 @@ def editor_post(id):
 
 
 @admin.route("/delete/posts/<id>", methods=["GET", "POST"])
-@admin_required
 def delete_page(id):
     deletepost = FirebaseClass()
     deletepost.delete_post(id)
@@ -172,31 +166,26 @@ def delete_page(id):
 
 
 @admin.route("/editor/pages/<id>", methods=["POST"])
-@admin_required
 def editor_pages(id):
     return render_template('admin_editor.html')
 
 
 @admin.route("/tags")
-@admin_required
 def tags():
     return render_template('admin_tags.html')
 
 
 @admin.route("/members")
-@admin_required
 def members():
     return render_template('admin_members.html')
 
 
 @admin.route("/settings")
-@admin_required
 def settings():
     return render_template('admin_settings.html')
 
 
 @admin.route("/audit_log")
-@admin_required
 def audit_log():
     Admin_Logger.log_warning("view: audit_log")
     admin_logs = Admin_Logger.read_adminlog()
@@ -209,6 +198,5 @@ def audit_log():
 
 
 @admin.route("/policy")
-@admin_required
 def policy():
     return render_template('admin_policy.html')
