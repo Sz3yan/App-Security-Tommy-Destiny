@@ -131,3 +131,8 @@ def post(id):
         return redirect(url_for("home"))
 
     return render_template('post.html', id=id, data=data)
+
+
+@user.route("/about")
+def about():
+    return render_template("about.html")
