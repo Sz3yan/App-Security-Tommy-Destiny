@@ -61,9 +61,5 @@ def add_header(r):
 #             return redirect(url_for(user.index))
 
 
-certpem = os.path.join(app.root_path, 'cert.pem')
-keypem = os.path.join(app.root_path, 'key.pem')
-
-
 if __name__ == '__main__':
-    app.run(ssl_context=(certpem, keypem))
+    app.run()
