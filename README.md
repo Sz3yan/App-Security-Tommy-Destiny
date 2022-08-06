@@ -5,7 +5,8 @@ Tommy Destiny is a powerful app for Tommy to publish content, share, and grow a 
 
 ### Run the program
     pip install -r requirements.txt
-    python app.py
+    export FLASK_APP=Tommy-Destiny/app.py
+    flask run --cert=cert.pem --key=key.pem
 
 ### Security Mitigations for OWASP Top 10 2017 and 2019
 - [A2_Broken_authentication](https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication)
