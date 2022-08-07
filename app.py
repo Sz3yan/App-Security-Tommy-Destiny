@@ -20,36 +20,33 @@ from mitigations.A7_Cross_site_scripting import CspClass
 load_dotenv()
 
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object('config.DevConfig')
+app = Flask(__name__)
+app.config.from_object('config.DevConfig')
 
-    # CspClass().return_csp_header("homeage")
+# CspClass().return_csp_header("homeage")
 
-    mail = Mail(app)
-    jwt = JWTManager(app)
-    csrf = CSRFProtect(app)
-    sess = Session(app)
-    talisman = Talisman(app, force_https=True, content_security_policy=False)  # enables HSTS
-    limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
-
-
-    app.register_blueprint(api)
-    app.register_blueprint(admin)
-    app.register_blueprint(user)
-    app.register_blueprint(errors)
+mail = Mail(app)
+jwt = JWTManager(app)
+csrf = CSRFProtect(app)
+sess = Session(app)
+talisman = Talisman(app, force_https=True, content_security_policy=False)  # enables HSTS
+limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 
 
-    # prevent caching
-    @app.after_request
-    def add_header(r):
-        r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-        r.headers["Pragma"] = "no-cache"
-        r.headers["Expires"] = "0"
-        r.headers['Cache-Control'] = 'public, max-age=0'
-        return r
+app.register_blueprint(api)
+app.register_blueprint(admin)
+app.register_blueprint(user)
+app.register_blueprint(errors)
 
-    return app
+
+# prevent caching
+@app.after_request
+def add_header(r):
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    return r
 
 
     # @app.before_request
@@ -64,5 +61,5 @@ def create_app():
     #             return redirect(url_for(user.index))
 
 
-# if __name__ == '__main__':
-#     app.run()
+if __name__ == '__main__':
+    app.run()

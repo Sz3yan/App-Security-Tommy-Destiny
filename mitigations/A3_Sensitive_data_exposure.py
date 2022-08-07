@@ -1,3 +1,4 @@
+from calendar import month
 from google.cloud import kms
 from google.protobuf import duration_pb2
 import os
@@ -34,7 +35,7 @@ encrypt decrypt data with K2
 
 class GoogleCloudKeyManagement:
     def __init__(self):
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/Tommy-Destiny/google.json"
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google.json"
 
     # create once only when setup
     def create_key_ring(self, project_id, location_id, key_ring_id):
@@ -238,17 +239,35 @@ class Argon2ID:
             return "The secret does not match the hash"
 
 
-# if __name__ == '__main__':    
-#     # import os
-#     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/google.json"
+if __name__ == '__main__':    
+    # import os
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/google.json"
 
-#     # a = GoogleCloudKeyManagement()
-#     # rotating = a.create_key_rotation_schedule('tommy-destiny', 'global', 'my-key-ring', 'key_id')
+    # a = GoogleCloudKeyManagement()
+    # rotating = a.create_key_rotation_schedule('tommy-destiny', 'global', 'my-key-ring', 'key_id')
     
-#     # key_retention = a.retrieve_key('tommy-destiny', 'global', 'my-key-ring', 'key-rotation')
-#     # keep_rotating = a.retrieve_key('tommy-destiny', 'global', 'my-key-ring', 'key_id')
+    # key_retention = a.retrieve_key('tommy-destiny', 'global', 'my-key-ring', 'key-rotation')
+    # keep_rotating = a.retrieve_key('tommy-destiny', 'global', 'my-key-ring', 'key_id')
 
-#     b = Argon2ID()
-#     password = "password"
-#     hash = b.hash_password(password)
-#     print(hash)
+    # b = Argon2ID()
+    # password = "password"
+    # hash = b.hash_password(password)
+    # print(hash)
+
+    from datetime import date, datetime
+    from dateutil.relativedelta import relativedelta
+
+    before_key_rotation = date(2022, 8, 31) + relativedelta(days=+29, hours=+23, minutes=+58)
+
+    print(before_key_rotation, type(before_key_rotation))
+
+    print("date now: ", datetime.now(), type(datetime.now()))
+
+    # schedule every 30 days
+    # import schedule
+
+    # schedule.every(29).days.at("23:58").do(print("hello"))
+    # schedule.every(1).seconds.do(print("hello"))
+
+    # while True:
+    #     schedule.run_pending()

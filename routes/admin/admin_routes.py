@@ -9,10 +9,13 @@ from static.py.firebaseConnection import FirebaseClass
 from routes.admin.static.py.Post import Post, SubmitPostForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
+
 Admin_Logger = Admin_Logger()
 User_Logger = User_Logger()
+
 keymanagement = GoogleCloudKeyManagement()
-secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation"))
+retention_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation"))
+secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key_id"))
 
 
 def admin_required(f):
@@ -47,10 +50,7 @@ def admin_dashboard():
         Admin_Logger.log_exception("No posts found")
 
     admin_logs = Admin_Logger.read_adminlog()
-    print(admin_logs, "\n")
-
     user_logs = User_Logger.read_userlog()
-    print(user_logs, "\n")
     
     return render_template('admin_dashboard.html',labels=labels, values=values, posts=posts, admin_logs=admin_logs, user_logs=user_logs)
 
@@ -130,6 +130,9 @@ def editor_post(id):
         except:
             Admin_Logger.log_exception("No title found, must change first")
             title = "title"
+
+        # encrypt if date is not 30th every month
+        
 
         encrypted_content = aes_gcm.encrypt(secret_key, content)
         # print("encrypted_content: ", encrypted_content)
