@@ -49,17 +49,5 @@ def add_header(r):
     return r
 
 
-    # @app.before_request
-    # def before_request():
-    #     firebase = FirebaseClass()
-    #     user_ID = firebase.get_user(userID)
-    #     userInfo = firebase.get_user_info(user_ID)
-    #     if 'userID' in session:
-    #         if user_ID == session['userID']:
-    #             g.current_user = userInfo
-    #         else:
-    #             return redirect(url_for(user.index))
-
-
 if __name__ == '__main__':
     app.run()

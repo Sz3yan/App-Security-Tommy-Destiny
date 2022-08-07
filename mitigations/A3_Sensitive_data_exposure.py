@@ -22,7 +22,7 @@ Day 1
 generate key K1
 encrypt decrypt data with K1
 
-Day 29 30min before day 30 => makes it almost impossible to brute force given that time and strength of encryption
+Day 29 2min before day 30 => makes it almost impossible to brute force given that time and strength of encryption
 encrypt decrypt data with retention
 
 Day 30
@@ -239,7 +239,7 @@ class Argon2ID:
             return "The secret does not match the hash"
 
 
-if __name__ == '__main__':    
+# if __name__ == '__main__':    
     # import os
     # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/sz3yan/Tommy-Destiny/google.json"
 
@@ -253,21 +253,3 @@ if __name__ == '__main__':
     # password = "password"
     # hash = b.hash_password(password)
     # print(hash)
-
-    from datetime import date, datetime
-    from dateutil.relativedelta import relativedelta
-
-    before_key_rotation = date(2022, 8, 31) + relativedelta(days=+29, hours=+23, minutes=+58)
-
-    print(before_key_rotation, type(before_key_rotation))
-
-    print("date now: ", datetime.now(), type(datetime.now()))
-
-    # schedule every 30 days
-    # import schedule
-
-    # schedule.every(29).days.at("23:58").do(print("hello"))
-    # schedule.every(1).seconds.do(print("hello"))
-
-    # while True:
-    #     schedule.run_pending()

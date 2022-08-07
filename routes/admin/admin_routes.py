@@ -1,6 +1,7 @@
 import json
 import os
 from functools import wraps
+import schedule
 
 from flask import Blueprint, redirect, render_template, request, url_for, g, session, abort
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
@@ -17,6 +18,50 @@ keymanagement = GoogleCloudKeyManagement()
 retention_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation"))
 secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key_id"))
 
+def preparing_for_rotation_of_keys():
+    aes_gcm = AES_GCM()
+
+    try:
+        pull_post = FirebaseClass()
+
+        for i in pull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                plaintext = i.val()["_Post__plaintext"]
+
+                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                print("decrypted: ", decrypted)
+
+                encrypted = aes_gcm.encrypt(retention_key, decrypted)
+
+                # write push to firebase
+                firebase = FirebaseClass()
+                firebase.update_post(id, encrypted)
+    except:
+        Admin_Logger.log_exception("No posts found")
+
+
+def switched_to_rotated_keys():
+    aes_gcm = AES_GCM()
+
+    try:
+        pull_post = FirebaseClass()
+
+        for i in pull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                plaintext = i.val()["_Post__plaintext"]
+
+                decrypted = aes_gcm.decrypt(retention_key, plaintext)
+                print("decrypted: ", decrypted)
+
+                encrypted = aes_gcm.encrypt(secret_key, decrypted)
+
+                firebase = FirebaseClass()
+                firebase.update_post(id, encrypted)
+    except:
+        Admin_Logger.log_exception("No posts found")
+
+schedule.every(29).days.at("23:58").do(preparing_for_rotation_of_keys)
+schedule.every(30).days.do(switched_to_rotated_keys)
 
 def admin_required(f):
     @wraps(f)
@@ -131,9 +176,6 @@ def editor_post(id):
             Admin_Logger.log_exception("No title found, must change first")
             title = "title"
 
-        # encrypt if date is not 30th every month
-        
-
         encrypted_content = aes_gcm.encrypt(secret_key, content)
         # print("encrypted_content: ", encrypted_content)
         Admin_Logger.log_info(f"encrypted post_id {id}: " + encrypted_content)
@@ -203,3 +245,7 @@ def audit_log():
 @admin.route("/policy")
 def policy():
     return render_template('admin_policy.html')
+
+
+while True:
+    schedule.run_pending()
