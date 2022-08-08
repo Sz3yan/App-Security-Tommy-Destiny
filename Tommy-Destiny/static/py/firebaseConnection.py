@@ -28,6 +28,7 @@ class FirebaseClass:
         self.__database = self.__firebase.database()
         self.__storage = self.__firebase.storage()
         self.__User_ID = ""
+        self.__User_Token = ""
 
     # User
     def create_user(self, email, password):
@@ -42,7 +43,7 @@ class FirebaseClass:
             user = self.__auth.sign_in_with_email_and_password(email, password)
             pprint(user)
             self.__User_ID = user["localId"]
-
+            self.__User_Token = user['idToken']
         except:
             return "User not found"
 
@@ -74,6 +75,9 @@ class FirebaseClass:
         # else:
         User_ID = self.__User_ID
         return User_ID
+
+    def get_user_token(self):
+        return self.__User_Token
 
     # Blog Post
     def create_post(self, post_dict):
@@ -144,10 +148,10 @@ if __name__ == "__main__":
     # fba.fa_create_csp('homeage',['hellp'], ['asdas','sadasdass'])
     # fba.fa_create_csp('login',['hellp'], ['asdas','sadasdass'])
     # fba.fa_create_csp()
-    print(fba.fa_get_csp())
+    # print(fba.fa_get_csp())
 
-    # fb.create_user("YouKnow@gmail.com","Hello123456")
-    # fb.login_user("YouKnow@gmail.com","Hello123456")
+    fb.create_user("YouKnow@gmail.com","Hello123456")
+    fb.login_user("YouKnow@gmail.com","Hello123456")
 
     # auth.update_user(fb.get_user(), display_name="Your welcome")
     # print(fb.get_user())

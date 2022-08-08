@@ -1,13 +1,31 @@
 # from crypt import methods
+from email import message
+import json
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import  jwt_required, create_access_token
+from static.py.firebaseConnection import FirebaseAdminClass, FirebaseClass
+from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
 import jwt
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
 @api.route("/api/login", methods=["POST"])
 def api_login():
-    pass
+    if request.is_json:
+        try:
+            email = request.json['email']
+            password = request.json['password']
+
+            if not FirebaseClass().login_user(email, password):
+                userID = FirebaseClass().get_user()
+                User_Logger.log_info("User Login Successful")
+                return jsonify(message="Login Successfully", access_token=FirebaseClass().get_user_token()), 200
+            else:
+                User_Logger.log_info("User Login Failed")
+                return jsonify(message="Invalid email or password"), 401
+        except:
+            return jsonify(message="Invalid key")
+
 
 @api.route("/api/favourites")
 def api_favourite():

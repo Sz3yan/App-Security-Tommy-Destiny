@@ -3,7 +3,7 @@ import json
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
 from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
-from static.py.firebaseConnection import FirebaseClass
+from static.py.firebaseConnection import FirebaseClass, FirebaseAdminClass
 from routes.user.static.py.Forms import CreateUser, LoginUser
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
@@ -64,13 +64,16 @@ def logout():
 
 @user.route('/profile')
 def profile():
+    
+    fa = FirebaseAdminClass()
     if 'userID' in session:
-        firebase = FirebaseClass() # this will not hve any id
+        # this will not hve any id
         user_ID = session["userID"]
         print(user_ID)
 
-        userInfo = firebase.get_user_info(user_ID)
-        g.current_user = userInfo
+        userInfo = fa.get_user(user_ID)
+        print(userInfo)
+        # g.current_user = userInfo
         return render_template('profile.html')
     else:
         return redirect(url_for('user.index'))
