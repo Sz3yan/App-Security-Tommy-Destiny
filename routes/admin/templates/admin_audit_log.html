@@ -1,0 +1,260 @@
+{% extends "adminbase.html" %}
+
+{% block content %}
+<section class="tom-destiny-canvas">
+    <div class="tom-destiny-canvas-header">
+        <header class="tom-destiny-canvas-header-content">
+            <h2 class="tom-destiny-canvas-title"> Settings </h2>
+        </header>
+    </div>
+    <section class="view-container">
+        <div class="tommy-destiny-scroller vertical horizontal" style="flex-grow: 1; transform: translateZ(0px); padding: 36px 60px; z-index: 1; overflow: auto; margin-right: 0px; margin-bottom: 0px;">
+            <div style="color: rgb(55, 53, 47); border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px; font-size: 16px; font-weight: 500; width: auto; display: flex; justify-content: space-between;">
+                <div style="gap: 8px; display: flex;">Admin logs <div class="tommy-destiny-focusable" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; border-radius: 3px;"></div>
+                </div>
+            </div>
+            <div style="justify-content: space-between; display: flex; padding-top: 12px; padding-bottom: 12px;">
+                <div style="display: flex; flex-direction: row; gap: 4px;">
+                    <div>
+                        <div style="border-radius: 14px; margin-right: 6px; display: inline-flex;">
+                            <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 32px; height: 24px; line-height: 24px; padding: 0px 8px; border: 1px solid rgba(55, 53, 47, 0.16); color: rgba(55, 53, 47, 0.65);">
+                                <svg viewBox="0 0 16 16" class="calendar" style="width: 16px; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; margin-right: 6px;">
+                                    <path d="M3.24902 14.7764H12.6621C14.1455 14.7764 14.918 14.0107 14.918 12.5479V4.22852C14.918 2.76562 14.1455 2 12.6621 2H3.24902C1.77246 2 1 2.75879 1 4.22852V12.5479C1 14.0107 1.77246 14.7764 3.24902 14.7764ZM3.24219 13.416C2.6748 13.416 2.36035 13.1221 2.36035 12.5205V6.23145C2.36035 5.62988 2.6748 5.33594 3.24219 5.33594H12.6689C13.2363 5.33594 13.5508 5.62988 13.5508 6.23145V12.5205C13.5508 13.1221 13.2363 13.416 12.6689 13.416H3.24219ZM6.63965 7.69434H7.04297C7.28906 7.69434 7.37109 7.61914 7.37109 7.37988V6.97656C7.37109 6.73047 7.28906 6.65527 7.04297 6.65527H6.63965C6.39355 6.65527 6.31152 6.73047 6.31152 6.97656V7.37988C6.31152 7.61914 6.39355 7.69434 6.63965 7.69434ZM8.875 7.69434H9.27832C9.51758 7.69434 9.59961 7.61914 9.59961 7.37988V6.97656C9.59961 6.73047 9.51758 6.65527 9.27832 6.65527H8.875C8.62891 6.65527 8.54688 6.73047 8.54688 6.97656V7.37988C8.54688 7.61914 8.62891 7.69434 8.875 7.69434ZM11.1035 7.69434H11.5068C11.7529 7.69434 11.835 7.61914 11.835 7.37988V6.97656C11.835 6.73047 11.7529 6.65527 11.5068 6.65527H11.1035C10.8643 6.65527 10.7822 6.73047 10.7822 6.97656V7.37988C10.7822 7.61914 10.8643 7.69434 11.1035 7.69434ZM4.41113 9.89551H4.80762C5.05371 9.89551 5.13574 9.82031 5.13574 9.57422V9.1709C5.13574 8.93164 5.05371 8.85645 4.80762 8.85645H4.41113C4.16504 8.85645 4.08301 8.93164 4.08301 9.1709V9.57422C4.08301 9.82031 4.16504 9.89551 4.41113 9.89551ZM6.63965 9.89551H7.04297C7.28906 9.89551 7.37109 9.82031 7.37109 9.57422V9.1709C7.37109 8.93164 7.28906 8.85645 7.04297 8.85645H6.63965C6.39355 8.85645 6.31152 8.93164 6.31152 9.1709V9.57422C6.31152 9.82031 6.39355 9.89551 6.63965 9.89551ZM8.875 9.89551H9.27832C9.51758 9.89551 9.59961 9.82031 9.59961 9.57422V9.1709C9.59961 8.93164 9.51758 8.85645 9.27832 8.85645H8.875C8.62891 8.85645 8.54688 8.93164 8.54688 9.1709V9.57422C8.54688 9.82031 8.62891 9.89551 8.875 9.89551ZM11.1035 9.89551H11.5068C11.7529 9.89551 11.835 9.82031 11.835 9.57422V9.1709C11.835 8.93164 11.7529 8.85645 11.5068 8.85645H11.1035C10.8643 8.85645 10.7822 8.93164 10.7822 9.1709V9.57422C10.7822 9.82031 10.8643 9.89551 11.1035 9.89551ZM4.41113 12.0898H4.80762C5.05371 12.0898 5.13574 12.0146 5.13574 11.7754V11.3721C5.13574 11.126 5.05371 11.0508 4.80762 11.0508H4.41113C4.16504 11.0508 4.08301 11.126 4.08301 11.3721V11.7754C4.08301 12.0146 4.16504 12.0898 4.41113 12.0898ZM6.63965 12.0898H7.04297C7.28906 12.0898 7.37109 12.0146 7.37109 11.7754V11.3721C7.37109 11.126 7.28906 11.0508 7.04297 11.0508H6.63965C6.39355 11.0508 6.31152 11.126 6.31152 11.3721V11.7754C6.31152 12.0146 6.39355 12.0898 6.63965 12.0898ZM8.875 12.0898H9.27832C9.51758 12.0898 9.59961 12.0146 9.59961 11.7754V11.3721C9.59961 11.126 9.51758 11.0508 9.27832 11.0508H8.875C8.62891 11.0508 8.54688 11.126 8.54688 11.3721V11.7754C8.54688 12.0146 8.62891 12.0898 8.875 12.0898Z"></path>
+                                </svg>
+                                <span>Date</span>
+                                <svg viewBox="0 0 30 30" class="chevronDown" style="width: 10px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.35); flex-shrink: 0; backface-visibility: hidden; margin-left: 4px; margin-top: 1px;">
+                                    <polygon points="15,17.4 4.8,7 2,9.8 15,23 28,9.8 25.2,7 "></polygon>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div style="border-radius: 14px; margin-right: 6px; display: inline-flex; opacity: 1;">
+                                <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 32px; height: 24px; line-height: 24px; padding: 0px 8px; border: 1px solid rgba(55, 53, 47, 0.16); color: rgba(55, 53, 47, 0.65);">
+                                    <svg viewBox="0 0 16 16" class="person" style="width: 16px; height: 16px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; margin-right: 2px;">
+                                        <path d="M7.7832 8.00195C9.27344 8.00195 10.5381 6.67578 10.5381 4.95996C10.5381 3.28516 9.2666 2 7.7832 2C6.29297 2 5.01465 3.30566 5.02148 4.97363C5.02148 6.67578 6.28613 8.00195 7.7832 8.00195ZM3.51758 14.3594H12.0352C13.1631 14.3594 13.5527 14.0176 13.5527 13.3887C13.5527 11.6318 11.3242 9.21191 7.77637 9.21191C4.23535 9.21191 2 11.6318 2 13.3887C2 14.0176 2.38965 14.3594 3.51758 14.3594Z"></path>
+                                    </svg>
+                                    <span>User</span>
+                                    <svg viewBox="0 0 30 30" class="chevronDown" style="width: 10px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.35); flex-shrink: 0; backface-visibility: hidden; margin-left: 4px; margin-top: 1px;">
+                                        <polygon points="15,17.4 4.8,7 2,9.8 15,23 28,9.8 25.2,7 "></polygon>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="border-radius: 14px; margin-right: 6px; display: inline-flex;">
+                            <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 32px; height: 24px; line-height: 24px; padding: 0px 8px; border: 1px solid rgba(55, 53, 47, 0.16); color: rgba(55, 53, 47, 0.65);">
+                                <svg viewBox="0 0 16 16" class="bot" style="width: 16px; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; margin-right: 6px;">
+                                    <path d="M7.996 16C12.381 16 16 12.38 16 8s-3.627-8-8.012-8C3.611 0 0 3.62 0 8s3.62 8 7.996 8zm0-1.594A6.375 6.375 0 011.61 8a6.366 6.366 0 016.38-6.398A6.393 6.393 0 0114.398 8a6.383 6.383 0 01-6.403 6.406zM4.648 8.518c0 .21.17.364.386.364h2.53l-1.346 3.605c-.202.527.355.813.703.395l4.168-5.176a.515.515 0 00.132-.325c0-.209-.17-.356-.379-.356H8.305l1.346-3.613c.201-.518-.356-.812-.704-.395l-4.16 5.184a.484.484 0 00-.14.317z"></path>
+                                </svg>
+                                <span>Event</span>
+                                <svg viewBox="0 0 30 30" class="chevronDown" style="width: 10px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.35); flex-shrink: 0; backface-visibility: hidden; margin-left: 4px; margin-top: 1px;">
+                                    <polygon points="15,17.4 4.8,7 2,9.8 15,23 28,9.8 25.2,7 "></polygon>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; white-space: nowrap; height: 32px; border-radius: 3px; box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset, rgba(15, 15, 15, 0.1) 0px 1px 2px; background: rgb(46, 170, 220); color: white; fill: white; line-height: 1.2; padding-left: 12px; padding-right: 12px; font-size: 14px; font-weight: 500;"> Export</div>
+            </div>
+            <table style="width: 100%; font-size: 13px; border-top: 1px solid rgba(55, 53, 47, 0.09); border-bottom: 1px solid rgba(55, 53, 47, 0.09); table-layout: fixed;">
+                <thead>
+                    <tr style="height: 32px; width: 100%;">
+                        <th style="font-weight: 400; text-align: left; padding-top: 8px; padding-bottom: 8px; width: 30%; padding-left: 35px;">
+                            <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> Admin</div>
+                        </th>
+                        <th style="font-weight: 400; text-align: left; padding-top: 8px; padding-bottom: 8px; width: 40%;">
+                            <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> Event</div>
+                        </th>
+                        <th style="font-weight: 400; text-align: left; padding-top: 8px; padding-bottom: 8px; width: 25%;">
+                            <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                <div class="tommy-destiny-focusable" role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center;">
+                                    <svg viewBox="0 0 12 12" class="arrowDown" style="width: 10px; height: 10px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; margin-right: 4px;">
+                                        <path d="M5.99756 0.850098C5.53564 0.850098 5.21875 1.17236 5.21875 1.65576V7.61768L5.27246 8.7832L4.19287 7.53711L2.98438 6.33398C2.84473 6.18896 2.66211 6.09229 2.42578 6.09229C2.00684 6.09229 1.68994 6.40381 1.68994 6.84424C1.68994 7.04834 1.77051 7.23633 1.93164 7.40283L5.42285 10.8994C5.56787 11.0498 5.78809 11.1357 5.99756 11.1357C6.2124 11.1357 6.42725 11.0498 6.57227 10.8994L10.0688 7.40283C10.23 7.23633 10.3105 7.04834 10.3105 6.84424C10.3105 6.40381 9.99365 6.09229 9.57471 6.09229C9.34375 6.09229 9.16113 6.18896 9.01611 6.33398L7.80762 7.53711L6.72803 8.7832L6.77637 7.61768V1.65576C6.77637 1.17236 6.46484 0.850098 5.99756 0.850098Z"></path>
+                                    </svg>Date
+                                </div>
+                            </div>
+                        </th>
+                        <th style="font-weight: 400; text-align: left; padding-top: 8px; padding-bottom: 8px; width: 5%;">
+                            <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                <span></span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody> {% for logs in admin_logs %} <tr style="width: 100%; border-top: 1px solid rgba(55, 53, 47, 0.09);">
+                        <td style="padding-top: 6px; padding-bottom: 6px; overflow-wrap: break-word;">
+                            <div>
+                                <div style="display: flex; align-items: center; max-width: 300px;">
+                                    <div>
+                                        <div style="background: white; border-radius: 100%; box-shadow: none;">
+                                            <div style="border-radius: 100%; width: 28px; height: 28px; max-width: 100%; max-height: 100%; display: flex; align-items: center; justify-content: center; user-select: none; opacity: 1;">
+                                                <div style="width: 100%; height: 100%;">
+                                                    <img src="" style="display: block; object-fit: cover; border-radius: 100%; width: 100%; height: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="min-width: 0px; margin-left: 6px; margin-right: 6px;">
+                                        <div id="actor-page_viewed-0" style="display: flex; gap: 4px;">
+                                            <div class="notranslate" style="font-size: 14px; line-height: 20px; color: rgb(55, 53, 47); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> Teo Sze Yan</div>
+                                            <div class="tommy-destiny-focusable" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; border-radius: 3px;">
+                                                <div style="padding: 2px 6px; border-radius: 3px; color: rgba(55, 53, 47, 0.65); background: rgba(206, 205, 202, 0.5); font-size: 9px; line-height: 1; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;"> Admin</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> 201301d@mymail.nyp.edu.sg</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-top: 6px; padding-bottom: 6px; overflow-wrap: break-word;">
+                            <a href="/admin/editor/posts/{{ admin_logs[loop.index - 1][65:101] }}">
+                                <div id="event-page_viewed-0" style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    {{ admin_logs[loop.index - 1][51:101] }}
+                                </div>
+                            </a>
+                        </td>
+                        <td style="padding-top: 6px; padding-bottom: 6px; overflow-wrap: break-word;">
+                            <div id="datetime-page_viewed-0">
+                                <div style="font-size: 14px; line-height: 20px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    {{ admin_logs[loop.index - 1][1:20] }}
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-top: 6px; padding-bottom: 6px; overflow-wrap: break-word;">
+                            <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 28px; border-radius: 3px;">
+                                <svg viewBox="0 0 14 16" class="copy" style="width: 16px; height: 16px; display: block; fill: rgba(55, 53, 47, 0.45); flex-shrink: 0; backface-visibility: hidden;">
+                                    <path d="M2.404 15.322h5.701c1.26 0 1.887-.662 1.887-1.927V12.38h1.154c1.254 0 1.91-.662 1.91-1.928V5.555c0-.774-.158-1.266-.626-1.74L9.512.837C9.066.387 8.545.21 7.865.21H5.463c-1.254 0-1.91.662-1.91 1.928v1.084H2.404c-1.254 0-1.91.668-1.91 1.933v8.239c0 1.265.656 1.927 1.91 1.927zm7.588-6.62c0-.792-.1-1.161-.592-1.665L6.225 3.814c-.452-.462-.844-.58-1.5-.591V2.215c0-.533.28-.832.843-.832h2.38v2.883c0 .726.386 1.113 1.107 1.113h2.83v4.998c0 .539-.276.832-.844.832H9.992V8.701zm-.79-4.29c-.206 0-.288-.088-.288-.287V1.594l2.771 2.818H9.201zM2.503 14.15c-.563 0-.844-.293-.844-.832V5.232c0-.539.281-.837.85-.837h1.91v3.187c0 .85.416 1.26 1.26 1.26h3.14v4.476c0 .54-.28.832-.843.832H2.504zM5.79 7.816c-.24 0-.346-.105-.346-.345V4.547l3.223 3.27H5.791z"></path>
+                                </svg>
+                            </div>
+                        </td>
+                    </tr> {% endfor %} </tbody>
+            </table>
+        <br />
+        <br />
+        <br />
+        <div style="color: rgb(55, 53, 47); border-bottom: 0px; margin-bottom: 0px; padding-bottom: 0px; font-size: 16px; font-weight: 500; width: auto; display: flex; justify-content: space-between;">
+            <div style="gap: 8px; display: flex;">User logs <div class="tommy-destiny-focusable" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; border-radius: 3px;"></div>
+            </div>
+        </div>
+        <div style="justify-content: space-between; display: flex; padding-top: 12px; padding-bottom: 12px;">
+            <div style="display: flex; flex-direction: row; gap: 4px;">
+                <div>
+                    <div style="border-radius: 14px; margin-right: 6px; display: inline-flex;">
+                        <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 32px; height: 24px; line-height: 24px; padding: 0px 8px; border: 1px solid rgba(55, 53, 47, 0.16); color: rgba(55, 53, 47, 0.65);">
+                            <svg viewBox="0 0 16 16" class="calendar" style="width: 16px; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; margin-right: 6px;">
+                                <path d="M3.24902 14.7764H12.6621C14.1455 14.7764 14.918 14.0107 14.918 12.5479V4.22852C14.918 2.76562 14.1455 2 12.6621 2H3.24902C1.77246 2 1 2.75879 1 4.22852V12.5479C1 14.0107 1.77246 14.7764 3.24902 14.7764ZM3.24219 13.416C2.6748 13.416 2.36035 13.1221 2.36035 12.5205V6.23145C2.36035 5.62988 2.6748 5.33594 3.24219 5.33594H12.6689C13.2363 5.33594 13.5508 5.62988 13.5508 6.23145V12.5205C13.5508 13.1221 13.2363 13.416 12.6689 13.416H3.24219ZM6.63965 7.69434H7.04297C7.28906 7.69434 7.37109 7.61914 7.37109 7.37988V6.97656C7.37109 6.73047 7.28906 6.65527 7.04297 6.65527H6.63965C6.39355 6.65527 6.31152 6.73047 6.31152 6.97656V7.37988C6.31152 7.61914 6.39355 7.69434 6.63965 7.69434ZM8.875 7.69434H9.27832C9.51758 7.69434 9.59961 7.61914 9.59961 7.37988V6.97656C9.59961 6.73047 9.51758 6.65527 9.27832 6.65527H8.875C8.62891 6.65527 8.54688 6.73047 8.54688 6.97656V7.37988C8.54688 7.61914 8.62891 7.69434 8.875 7.69434ZM11.1035 7.69434H11.5068C11.7529 7.69434 11.835 7.61914 11.835 7.37988V6.97656C11.835 6.73047 11.7529 6.65527 11.5068 6.65527H11.1035C10.8643 6.65527 10.7822 6.73047 10.7822 6.97656V7.37988C10.7822 7.61914 10.8643 7.69434 11.1035 7.69434ZM4.41113 9.89551H4.80762C5.05371 9.89551 5.13574 9.82031 5.13574 9.57422V9.1709C5.13574 8.93164 5.05371 8.85645 4.80762 8.85645H4.41113C4.16504 8.85645 4.08301 8.93164 4.08301 9.1709V9.57422C4.08301 9.82031 4.16504 9.89551 4.41113 9.89551ZM6.63965 9.89551H7.04297C7.28906 9.89551 7.37109 9.82031 7.37109 9.57422V9.1709C7.37109 8.93164 7.28906 8.85645 7.04297 8.85645H6.63965C6.39355 8.85645 6.31152 8.93164 6.31152 9.1709V9.57422C6.31152 9.82031 6.39355 9.89551 6.63965 9.89551ZM8.875 9.89551H9.27832C9.51758 9.89551 9.59961 9.82031 9.59961 9.57422V9.1709C9.59961 8.93164 9.51758 8.85645 9.27832 8.85645H8.875C8.62891 8.85645 8.54688 8.93164 8.54688 9.1709V9.57422C8.54688 9.82031 8.62891 9.89551 8.875 9.89551ZM11.1035 9.89551H11.5068C11.7529 9.89551 11.835 9.82031 11.835 9.57422V9.1709C11.835 8.93164 11.7529 8.85645 11.5068 8.85645H11.1035C10.8643 8.85645 10.7822 8.93164 10.7822 9.1709V9.57422C10.7822 9.82031 10.8643 9.89551 11.1035 9.89551ZM4.41113 12.0898H4.80762C5.05371 12.0898 5.13574 12.0146 5.13574 11.7754V11.3721C5.13574 11.126 5.05371 11.0508 4.80762 11.0508H4.41113C4.16504 11.0508 4.08301 11.126 4.08301 11.3721V11.7754C4.08301 12.0146 4.16504 12.0898 4.41113 12.0898ZM6.63965 12.0898H7.04297C7.28906 12.0898 7.37109 12.0146 7.37109 11.7754V11.3721C7.37109 11.126 7.28906 11.0508 7.04297 11.0508H6.63965C6.39355 11.0508 6.31152 11.126 6.31152 11.3721V11.7754C6.31152 12.0146 6.39355 12.0898 6.63965 12.0898ZM8.875 12.0898H9.27832C9.51758 12.0898 9.59961 12.0146 9.59961 11.7754V11.3721C9.59961 11.126 9.51758 11.0508 9.27832 11.0508H8.875C8.62891 11.0508 8.54688 11.126 8.54688 11.3721V11.7754C8.54688 12.0146 8.62891 12.0898 8.875 12.0898Z"></path>
+                            </svg>
+                            <span>Date</span>
+                            <svg viewBox="0 0 30 30" class="chevronDown" style="width: 10px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.35); flex-shrink: 0; backface-visibility: hidden; margin-left: 4px; margin-top: 1px;">
+                                <polygon points="15,17.4 4.8,7 2,9.8 15,23 28,9.8 25.2,7 "></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div style="border-radius: 14px; margin-right: 6px; display: inline-flex; opacity: 1;">
+                            <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 32px; height: 24px; line-height: 24px; padding: 0px 8px; border: 1px solid rgba(55, 53, 47, 0.16); color: rgba(55, 53, 47, 0.65);">
+                                <svg viewBox="0 0 16 16" class="person" style="width: 16px; height: 16px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; margin-right: 2px;">
+                                    <path d="M7.7832 8.00195C9.27344 8.00195 10.5381 6.67578 10.5381 4.95996C10.5381 3.28516 9.2666 2 7.7832 2C6.29297 2 5.01465 3.30566 5.02148 4.97363C5.02148 6.67578 6.28613 8.00195 7.7832 8.00195ZM3.51758 14.3594H12.0352C13.1631 14.3594 13.5527 14.0176 13.5527 13.3887C13.5527 11.6318 11.3242 9.21191 7.77637 9.21191C4.23535 9.21191 2 11.6318 2 13.3887C2 14.0176 2.38965 14.3594 3.51758 14.3594Z"></path>
+                                </svg>
+                                <span>User</span>
+                                <svg viewBox="0 0 30 30" class="chevronDown" style="width: 10px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.35); flex-shrink: 0; backface-visibility: hidden; margin-left: 4px; margin-top: 1px;">
+                                    <polygon points="15,17.4 4.8,7 2,9.8 15,23 28,9.8 25.2,7 "></polygon>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="border-radius: 14px; margin-right: 6px; display: inline-flex;">
+                        <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 32px; height: 24px; line-height: 24px; padding: 0px 8px; border: 1px solid rgba(55, 53, 47, 0.16); color: rgba(55, 53, 47, 0.65);">
+                            <svg viewBox="0 0 16 16" class="bot" style="width: 16px; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; margin-right: 6px;">
+                                <path d="M7.996 16C12.381 16 16 12.38 16 8s-3.627-8-8.012-8C3.611 0 0 3.62 0 8s3.62 8 7.996 8zm0-1.594A6.375 6.375 0 011.61 8a6.366 6.366 0 016.38-6.398A6.393 6.393 0 0114.398 8a6.383 6.383 0 01-6.403 6.406zM4.648 8.518c0 .21.17.364.386.364h2.53l-1.346 3.605c-.202.527.355.813.703.395l4.168-5.176a.515.515 0 00.132-.325c0-.209-.17-.356-.379-.356H8.305l1.346-3.613c.201-.518-.356-.812-.704-.395l-4.16 5.184a.484.484 0 00-.14.317z"></path>
+                            </svg>
+                            <span>Event</span>
+                            <svg viewBox="0 0 30 30" class="chevronDown" style="width: 10px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.35); flex-shrink: 0; backface-visibility: hidden; margin-left: 4px; margin-top: 1px;">
+                                <polygon points="15,17.4 4.8,7 2,9.8 15,23 28,9.8 25.2,7 "></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; white-space: nowrap; height: 32px; border-radius: 3px; box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset, rgba(15, 15, 15, 0.1) 0px 1px 2px; background: rgb(46, 170, 220); color: white; fill: white; line-height: 1.2; padding-left: 12px; padding-right: 12px; font-size: 14px; font-weight: 500;"> Export</div>
+        </div>
+        <table style="width: 100%; font-size: 13px; border-top: 1px solid rgba(55, 53, 47, 0.09); border-bottom: 1px solid rgba(55, 53, 47, 0.09); table-layout: fixed;">
+            <thead>
+                <tr style="height: 32px; width: 100%;">
+                    <th style="font-weight: 400; text-align: left; padding-top: 8px; padding-bottom: 8px; width: 30%; padding-left: 35px;">
+                        <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> User</div>
+                    </th>
+                    <th style="font-weight: 400; text-align: left; padding-top: 8px; padding-bottom: 8px; width: 40%;">
+                        <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> Event</div>
+                    </th>
+                    <th style="font-weight: 400; text-align: left; padding-top: 8px; padding-bottom: 8px; width: 25%;">
+                        <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <div class="tommy-destiny-focusable" role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center;">
+                                <svg viewBox="0 0 12 12" class="arrowDown" style="width: 10px; height: 10px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden; margin-right: 4px;">
+                                    <path d="M5.99756 0.850098C5.53564 0.850098 5.21875 1.17236 5.21875 1.65576V7.61768L5.27246 8.7832L4.19287 7.53711L2.98438 6.33398C2.84473 6.18896 2.66211 6.09229 2.42578 6.09229C2.00684 6.09229 1.68994 6.40381 1.68994 6.84424C1.68994 7.04834 1.77051 7.23633 1.93164 7.40283L5.42285 10.8994C5.56787 11.0498 5.78809 11.1357 5.99756 11.1357C6.2124 11.1357 6.42725 11.0498 6.57227 10.8994L10.0688 7.40283C10.23 7.23633 10.3105 7.04834 10.3105 6.84424C10.3105 6.40381 9.99365 6.09229 9.57471 6.09229C9.34375 6.09229 9.16113 6.18896 9.01611 6.33398L7.80762 7.53711L6.72803 8.7832L6.77637 7.61768V1.65576C6.77637 1.17236 6.46484 0.850098 5.99756 0.850098Z"></path>
+                                </svg>Date
+                            </div>
+                        </div>
+                    </th>
+                    <th style="font-weight: 400; text-align: left; padding-top: 8px; padding-bottom: 8px; width: 5%;">
+                        <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <span></span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody> {% for logs in user_logs %} <tr style="width: 100%; border-top: 1px solid rgba(55, 53, 47, 0.09);">
+                    <td style="padding-top: 6px; padding-bottom: 6px; overflow-wrap: break-word;">
+                        <div>
+                            <div style="display: flex; align-items: center; max-width: 300px;">
+                                <div>
+                                    <div style="background: white; border-radius: 100%; box-shadow: none;">
+                                        <div style="border-radius: 100%; width: 28px; height: 28px; max-width: 100%; max-height: 100%; display: flex; align-items: center; justify-content: center; user-select: none; opacity: 1;">
+                                            <div style="width: 100%; height: 100%;">
+                                                <img src="" style="display: block; object-fit: cover; border-radius: 100%; width: 100%; height: 100%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="min-width: 0px; margin-left: 6px; margin-right: 6px;">
+                                    <div id="actor-page_viewed-0" style="display: flex; gap: 4px;">
+                                        <div class="notranslate" style="font-size: 14px; line-height: 20px; color: rgb(55, 53, 47); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> Teo Sze Yan</div>
+                                        <div class="tommy-destiny-focusable" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; border-radius: 3px;">
+                                            <div style="padding: 2px 6px; border-radius: 3px; color: rgba(55, 53, 47, 0.65); background: rgba(206, 205, 202, 0.5); font-size: 9px; line-height: 1; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;"> Admin</div>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 12px; line-height: 16px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> 201301d@mymail.nyp.edu.sg</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-top: 6px; padding-bottom: 6px; overflow-wrap: break-word;">
+                        <div id="event-page_viewed-0" style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> Viewed a private page</div>
+                    </td>
+                    <td style="padding-top: 6px; padding-bottom: 6px; overflow-wrap: break-word;">
+                        <div id="datetime-page_viewed-0">
+                            <div style="font-size: 14px; line-height: 20px; color: rgba(55, 53, 47, 0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                {{ admin_logs[1][1:20] }}
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-top: 6px; padding-bottom: 6px; overflow-wrap: break-word;">
+                        <div class="tommy-destiny-focusable" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 28px; border-radius: 3px;">
+                            <svg viewBox="0 0 14 16" class="copy" style="width: 16px; height: 16px; display: block; fill: rgba(55, 53, 47, 0.45); flex-shrink: 0; backface-visibility: hidden;">
+                                <path d="M2.404 15.322h5.701c1.26 0 1.887-.662 1.887-1.927V12.38h1.154c1.254 0 1.91-.662 1.91-1.928V5.555c0-.774-.158-1.266-.626-1.74L9.512.837C9.066.387 8.545.21 7.865.21H5.463c-1.254 0-1.91.662-1.91 1.928v1.084H2.404c-1.254 0-1.91.668-1.91 1.933v8.239c0 1.265.656 1.927 1.91 1.927zm7.588-6.62c0-.792-.1-1.161-.592-1.665L6.225 3.814c-.452-.462-.844-.58-1.5-.591V2.215c0-.533.28-.832.843-.832h2.38v2.883c0 .726.386 1.113 1.107 1.113h2.83v4.998c0 .539-.276.832-.844.832H9.992V8.701zm-.79-4.29c-.206 0-.288-.088-.288-.287V1.594l2.771 2.818H9.201zM2.503 14.15c-.563 0-.844-.293-.844-.832V5.232c0-.539.281-.837.85-.837h1.91v3.187c0 .85.416 1.26 1.26 1.26h3.14v4.476c0 .54-.28.832-.843.832H2.504zM5.79 7.816c-.24 0-.346-.105-.346-.345V4.547l3.223 3.27H5.791z"></path>
+                            </svg>
+                        </div>
+                    </td>
+                </tr> {% endfor %} </tbody>
+        </table>
+        </div>
+    </section>
+</section>
+{% endblock %}

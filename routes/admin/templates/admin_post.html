@@ -1,0 +1,98 @@
+{% extends "adminbase.html" %}
+
+{% block content %}
+<div class="tom-destiny-canvas-header break tablet post-header">
+    <header class="tom-destiny-canvas-header-content">
+        <h2 class="tom-destiny-canvas-title">
+            <a href="/admin/posts" id="ember1272" class="active ember-view">Posts</a>
+        </h2>
+        <section class="view-actions">
+            <div class="tom-destiny-contentfilter view-actions-bottom-row">
+                <div class="tom-destiny-contentfilter-menu tom-destiny-contentfilter-type ">
+                    <div class="ember-view ember-basic-dropdown-trigger ember-power-select-trigger tom-destiny-contentfilter-menu-trigger" role="button" tabindex="0" data-ebd-id="ember1273-trigger" aria-owns="ember-basic-dropdown-content-ember1273" aria-expanded="false">
+                        <span class="ember-power-select-selected-item"> All posts </span>
+                        <svg viewBox="0 0 26 17">
+                            <path d="M.469.18l11.5 13.143L23.469.18" transform="translate(1 2)" stroke-width="3" stroke="#0B0B0A" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+                    <div id="ember-basic-dropdown-content-ember1273" class="ember-basic-dropdown-content-placeholder" style="display: none;"></div>
+                </div>
+                <div class="tom-destiny-contentfilter-menu tom-destiny-contentfilter-visibility ">
+                    <div class="ember-view ember-basic-dropdown-trigger ember-power-select-trigger tom-destiny-contentfilter-menu-trigger" role="button" tabindex="0" data-ebd-id="ember1275-trigger" aria-owns="ember-basic-dropdown-content-ember1275" aria-expanded="false">
+                        <span class="ember-power-select-selected-item"> All access </span>
+                        <!---->
+                        <svg viewBox="0 0 26 17">
+                            <path d="M.469.18l11.5 13.143L23.469.18" transform="translate(1 2)" stroke-width="3" stroke="#0B0B0A" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+                    <div id="ember-basic-dropdown-content-ember1275" class="ember-basic-dropdown-content-placeholder" style="display: none;"></div>
+                </div>
+                <div class="tom-destiny-contentfilter-menu tom-destiny-contentfilter-author ">
+                    <div class="ember-view ember-basic-dropdown-trigger ember-power-select-trigger tom-destiny-contentfilter-menu-trigger" role="button" tabindex="0" data-ebd-id="ember1277-trigger" aria-owns="ember-basic-dropdown-content-ember1277" aria-expanded="false">
+                        <span class="ember-power-select-selected-item"> All authors </span>
+                        <svg viewBox="0 0 26 17">
+                            <path d="M.469.18l11.5 13.143L23.469.18" transform="translate(1 2)" stroke-width="3" stroke="#0B0B0A" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+                    <div id="ember-basic-dropdown-content-ember1277" class="ember-basic-dropdown-content-placeholder" style="display: none;"></div>
+                </div>
+                <div class="tom-destiny-contentfilter-menu tom-destiny-contentfilter-tag ">
+                    <div class="ember-view ember-basic-dropdown-trigger ember-power-select-trigger tom-destiny-contentfilter-menu-trigger" role="button" tabindex="0" data-ebd-id="ember1279-trigger" aria-owns="ember-basic-dropdown-content-ember1279" aria-expanded="false">
+                        <span class="ember-power-select-selected-item"> All tags </span>
+                        <svg viewBox="0 0 26 17">
+                            <path d="M.469.18l11.5 13.143L23.469.18" transform="translate(1 2)" stroke-width="3" stroke="#0B0B0A" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+                    <div id="ember-basic-dropdown-content-ember1279" class="ember-basic-dropdown-content-placeholder" style="display: none;"></div>
+                </div>
+                <div class="tom-destiny-contentfilter-menu tom-destiny-contentfilter-sort">
+                    <div class="ember-view ember-basic-dropdown-trigger ember-power-select-trigger tom-destiny-contentfilter-menu-trigger" role="button" tabindex="0" data-ebd-id="ember1281-trigger" aria-owns="ember-basic-dropdown-content-ember1281" aria-expanded="false">
+                        <span class="ember-power-select-selected-item"> Newest </span>
+                        <svg viewBox="0 0 26 17">
+                            <path d="M.469.18l11.5 13.143L23.469.18" transform="translate(1 2)" stroke-width="3" stroke="#0B0B0A" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+                    <div id="ember-basic-dropdown-content-ember1281" class="ember-basic-dropdown-content-placeholder" style="display: none;"></div>
+                </div>
+            </div>
+            <form method="POST" action="editor/posts/{{ id }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <button type="submit" id="ember1283" class="ember-view tom-destiny-btn tom-destiny-btn-primary view-actions-top-row">
+                    <span>New post</span>
+                    </a>
+                </button>
+            </form>
+        </section>
+    </header>
+    <section class="view-container content-list">
+        <ol class="posts-list tom-destiny-list ">
+            <li class="tom-destiny-list-row header">
+                <div class="tom-destiny-list-header tom-destiny-posts-title-header">Title</div>
+                <div class="tom-destiny-list-header tom-destiny-posts-sends-header">Sends</div>
+                <div class="tom-destiny-list-header tom-destiny-posts-opens-header">Opens</div>
+                <div class="tom-destiny-list-header tom-destiny-posts-status-header">Status</div>
+            </li> {% for post in posts %} <li class="tom-destiny-list-row tom-destiny-posts-list-item">
+                <a href="editor/posts/{{ post['_Post__id'] }}" id="ember1284" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-title">
+                    <h3 class="tom-destiny-content-entry-title">
+                        {{ post['_Post__title'] }}
+                    </h3>
+                    <p>
+                        <span class="tom-destiny-content-entry-meta"> By <span class="midgrey-l2 fw5">Teo Sze Yan</span> • <span data-tooltip="03 Apr 2022">{{ post['_Post__published_at'] }}</span>
+                        </span>
+                    </p>
+                </a>
+                <a href="editor/posts/{{ post['_Post__id'] }}" id="ember1285" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-recipients">
+                    <div class="flex fw4"></div>
+                </a>
+                <a href="editor/posts/{{ post['_Post__id'] }}" id="ember1286" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-opens"></a>
+                <a href="editor/posts/{{ post['_Post__id'] }}" id="ember1287" class="ember-view permalink tom-destiny-list-data tom-destiny-post-list-status">
+                    <div class="flex items-center">
+                        <span class="tom-destiny-content-status-published nowrap">
+                            {{ post['_Post__status'] }}
+                        </span>
+                    </div>
+                </a>
+            </li> {% endfor %}
+        </ol>
+    </section>
+{% endblock %}
