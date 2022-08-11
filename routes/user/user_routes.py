@@ -5,11 +5,12 @@ from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManage
 from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
 from static.py.firebaseConnection import FirebaseClass, FirebaseAdminClass
 from routes.user.static.py.Forms import CreateUser, LoginUser
+from routes.admin.static.py.Post import Post
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 User_Logger = User_Logger()
 keymanagement = GoogleCloudKeyManagement()
-secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation"))
+secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key_id"))
 
 
 @user.route("/")
@@ -71,13 +72,8 @@ def profile():
         user_ID = session["userID"]
         print(user_ID)
 
-<<<<<<< HEAD:Tommy-Destiny/routes/user/user_routes.py
         userInfo = fa.get_user(user_ID)
         print(userInfo)
-=======
-        userInfo = firebase.get_user_info(user_ID)
->>>>>>> 872fd4be551a4d5e62bb927e43827426eb747cd4:routes/user/user_routes.py
-        # g.current_user = userInfo
         return render_template('profile.html')
     else:
         return redirect(url_for('user.index'))
@@ -109,6 +105,8 @@ def signup():
 
 @user.route("/post/<id>")
 def post(id):
+    newPost = Post("title")
+    newPost.set_id(id)
     aes_gcm = AES_GCM()
 
     data = [{
@@ -124,6 +122,7 @@ def post(id):
         for i in pull_post.get_post().each():
             if i.val()["_Post__id"] == id:
                 plaintext = i.val()["_Post__plaintext"]
+                title = i.val()["_Post__title"]
 
                 decrypted = aes_gcm.decrypt(secret_key, plaintext)
                 print("decrypted: ", decrypted)
@@ -135,11 +134,23 @@ def post(id):
                 data = data
     except:
         User_Logger.log_exception("No posts found")
-        return redirect(url_for("home"))
+        return redirect(url_for("user.index"))
 
-    return render_template('post.html', id=id, data=data)
+    return render_template('post.html', id=id, data=data, title=title)
 
 
 @user.route("/about")
 def about():
     return render_template("about.html")
+
+
+@user.route("/allposts")
+def allposts():
+    try:
+        firebase = FirebaseClass()
+        posts = [post.val() for post in firebase.get_post().each()]
+    except:
+        posts = []
+        User_Logger.log_exception("No Post in Firebase")
+
+    return render_template("allposts.html", posts=posts)
