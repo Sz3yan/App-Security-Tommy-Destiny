@@ -1,15 +1,14 @@
-"""Flask configuration."""
-
 import os
-from datetime import timedelta
+
 from dotenv import load_dotenv
+from datetime import timedelta
 
 
 load_dotenv()
 
 
 class Config(object):
-    """Base config."""
+    """Base Flask configuration"""
     SECRET_KEY = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
     SESSION_PERMANENT = True
     SESSION_TYPE = 'filesystem'

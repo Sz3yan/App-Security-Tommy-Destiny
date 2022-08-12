@@ -3,7 +3,9 @@
 {% block title %}Sign up {% endblock %}
 
 {% block css %}
-<style>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style nonce="bG9naW5zdHlsZXNoZWV0">
     label {
         display: none;
     }
@@ -18,55 +20,36 @@
 
 {% block bodyContent %}
 {% from "includes/formHelper.html" import render_field %}
-
-<section style="padding-left: 60px; padding-right: 60px; width: 100%; margin: 0px auto; overflow: visible;">
-    <div style="width: 100%; border-radius: 3px;">
-        <div style="width: 100%; max-width: 960px; margin: 0px auto;">
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <div style="font-size: 50px; margin-top: 12vh; font-weight: 700; margin-bottom: 24px; text-align: center; line-height: 1.1;">Register</div>
-                <div style="width: 100%; display: flex; flex-direction: column; align-items: center; max-width: 320px; margin-bottom: 16vh;">
-                    <div style="width: 100%;">
-                        <form method="POST" class="form-login">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <br><br>
-                
-                            <div class="form-login-field">
-                                {{ render_field(form.name, class="form-login-field") }}
-                            </div>
-                            <div class="form-login-field">
-                                {{ render_field(form.email, class="form-login-field") }}
-                            </div>
-                            <br><br><br>
-                            <div class="form-login-field">
-                                {{ render_field(form.phno, class="form-login-field") }}
-                            </div>
-                            <br><br><br>
-                            <div class="form-login-field">
-                                {{ render_field(form.register_password, class="form-login-field") }}
-                            </div>
-                            <br><br><br>
-                            <div class="form-login-field">
-                                {{ render_field(form.confirm_password, class="form-login-field") }}
-                            </div>
-                            <br><br><br>
-                            <input type="submit" value="Sign Up">
-                        </form>
-                    </div>
-                    
-                    <div style="width: 500px; margin-top: 64px; font-size: 12px; color: rgba(55, 53, 47, 0.5); text-align: center;">
-                        <p style="margin-bottom: 0px;">By clicking “Continue with Google/Email/SAML” above, you
-                            acknowledge that you have read and understood, and agree to Tom Destiny's <a
-                                href=""
-                                style="display: inline; text-decoration: underline; -webkit-user-select: none; cursor: pointer; color: inherit;">Terms
-                                &amp; Conditions</a> and <a
-                                href=""
-                                style="display: inline; text-decoration: underline; -webkit-user-select: none; cursor: pointer; color: inherit;">Privacy
-                                Policy</a>.</p>
-                    </div>
-                </div>
-            </div>
+<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <a class="flex justify-center" href="/">Tommy Destiny</a>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign up an account</h2>
         </div>
+        <form method="POST" action="#" class="form-login">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <br><br>
+            <div class="form-login-field">
+                {{ render_field(form.name, class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm") }}
+            </div>
+            <div class="form-login-field">
+                {{ render_field(form.email, class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm") }}
+            </div>
+            <br><br><br>
+            <div class="form-login-field">
+                {{ render_field(form.phno, class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm") }}
+            </div>
+            <br><br><br>
+            <div class="form-login-field">
+                {{ render_field(form.register_password, class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm") }}
+            </div>
+            <br><br><br>
+            <div class="form-login-field">
+                {{ render_field(form.confirm_password, class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm") }}
+            </div>
+            <br><br><br>
+            <input class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-500 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit" value="Sign Up">
+        </form>
     </div>
-</section>
-
+</div>
 {% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Tom Destiny - Home{% endblock %}
+
+{% block js %}
+
+{% endblock %}
+
+{% block bodyContent %}
+<section class="mx-auto w-full max-w-container px-4 sm:px-6 lg:px-8 mt-[5.75rem]">
+    <div class="max-w-2xl">
+        <h2 class="text-base font-semibold leading-7 text-indigo-600">All Post</h2>
+        <p class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900">Beautifully crafted UI components, ready
+            for your next project.
+        </p>
+    </div>
+    <div class="max-w-xl">
+        <p class="mt-4 text-base leading-7 text-slate-700">Over 500+ professionally designed, fully responsive, expertly
+            crafted component examples you can drop into your Tailwind projects and customize to your heart’s content.
+        </p>
+    </div>
+
+    <div class="mt-16 flex border-t border-slate-200 sm:space-x-10 md:grid md:grid-cols-3 md:gap-x-8 md:space-x-0"
+        role="tablist" aria-orientation="horizontal">
+        <div>
+            <div class="relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-indigo-500">
+                <h3><button
+                    class="whitespace-nowrap text-sm font-semibold leading-7 sm:text-base [&amp;:not(:focus-visible)]:focus:outline-none text-indigo-600"
+                    id="headlessui-tabs-tab-13" role="tab" type="button" aria-selected="true" tabindex="0"
+                    aria-controls="headlessui-tabs-panel-16"><span
+                    class="absolute inset-0 -top-px"></span>Posts</button></h3>
+                <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">Form layouts, tables, modal dialogs —
+                    everything you need to build beautiful responsive web applications.
+                </p>
+            </div>
+        </div>
+        <div class="w-10 min-w-[1rem] shrink sm:hidden" aria-hidden="true"></div>
+        <div>
+            <div
+                class="relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-transparent hover:border-slate-400">
+                <h3><button
+                    class="whitespace-nowrap text-sm font-semibold leading-7 sm:text-base [&amp;:not(:focus-visible)]:focus:outline-none text-slate-900"
+                    id="headlessui-tabs-tab-14" role="tab" type="button" aria-selected="false" tabindex="-1"><span
+                    class="absolute inset-0 -top-px"></span>Up-Coming</button></h3>
+                <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">Heroes, feature sections, newsletter
+                    sign up forms — everything you need to build beautiful marketing websites.
+                </p>
+            </div>
+        </div>
+        <div class="w-10 min-w-[1rem] shrink sm:hidden" aria-hidden="true"></div>
+        <div>
+            <div
+                class="relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-transparent hover:border-slate-400">
+                <h3><button
+                    class="whitespace-nowrap text-sm font-semibold leading-7 sm:text-base [&amp;:not(:focus-visible)]:focus:outline-none text-slate-900"
+                    id="headlessui-tabs-tab-15" role="tab" type="button" aria-selected="false" tabindex="-1"><span
+                    class="absolute inset-0 -top-px"></span>Paid</button></h3>
+                <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">Get lifetime access to premium post and every template available today, plus any new content we add in the future for a simple one-time price.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="headlessui-tabs-panel-16" role="tabpanel" aria-labelledby="headlessui-tabs-tab-13" tabindex="0">
+            <p class="text-sm leading-6 text-slate-700 md:hidden">Form layouts, tables, modal dialogs — everything you
+                need to build beautiful responsive web applications.
+            </p>
+            <div class="relative mt-10 md:mt-0">
+                <ul class="grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {% for post in posts %}
+                        <li class="">
+                            <div class="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+                                <div class="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                                    <img src="https://source.unsplash.com/random" alt="" class="absolute inset-0 h-full w-full">
+                                </div>
+                                <h4 class="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600"><a href="/post/{{ post['_Post__id'] }}"><span class="absolute -inset-2.5 z-10"></span><span class="relative">{{ post['_Post__title'] }}</span></a>
+                                </h4>
+                                <p class="relative mt-1.5 text-xs font-medium text-slate-500">{{ post['_Post__published_at'] }}</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

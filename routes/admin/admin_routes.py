@@ -1,7 +1,6 @@
 import json
 import os
 from functools import wraps
-import schedule
 
 from flask import Blueprint, redirect, render_template, request, url_for, g, session, abort
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
@@ -15,53 +14,7 @@ Admin_Logger = Admin_Logger()
 User_Logger = User_Logger()
 
 keymanagement = GoogleCloudKeyManagement()
-retention_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key-rotation"))
 secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key_id"))
-
-def preparing_for_rotation_of_keys():
-    aes_gcm = AES_GCM()
-
-    try:
-        pull_post = FirebaseClass()
-
-        for i in pull_post.get_post().each():
-            if i.val()["_Post__id"] == id:
-                plaintext = i.val()["_Post__plaintext"]
-
-                decrypted = aes_gcm.decrypt(secret_key, plaintext)
-                print("decrypted: ", decrypted)
-
-                encrypted = aes_gcm.encrypt(retention_key, decrypted)
-
-                # write push to firebase
-                firebase = FirebaseClass()
-                firebase.update_post(id, encrypted)
-    except:
-        Admin_Logger.log_exception("No posts found")
-
-
-def switched_to_rotated_keys():
-    aes_gcm = AES_GCM()
-
-    try:
-        pull_post = FirebaseClass()
-
-        for i in pull_post.get_post().each():
-            if i.val()["_Post__id"] == id:
-                plaintext = i.val()["_Post__plaintext"]
-
-                decrypted = aes_gcm.decrypt(retention_key, plaintext)
-                print("decrypted: ", decrypted)
-
-                encrypted = aes_gcm.encrypt(secret_key, decrypted)
-
-                firebase = FirebaseClass()
-                firebase.update_post(id, encrypted)
-    except:
-        Admin_Logger.log_exception("No posts found")
-
-schedule.every(29).days.at("23:58").do(preparing_for_rotation_of_keys)
-schedule.every(30).days.do(switched_to_rotated_keys)
 
 def admin_required(f):
     @wraps(f)
@@ -105,7 +58,7 @@ def view_admin():
     return render_template('admin_viewsite.html')
 
 
-@admin.route("/posts")
+@admin.route("/posts", methods=['GET', 'POST'])
 def post():
     newPost = Post("title")
     new_id = newPost.get_id()
@@ -215,22 +168,13 @@ def editor_pages(id):
     return render_template('admin_editor.html')
 
 
-@admin.route("/tags")
-def tags():
-    return render_template('admin_tags.html')
-
-
 @admin.route("/members")
 def members():
     return render_template('admin_members.html')
 
 
-@admin.route("/settings")
-def settings():
-    return render_template('admin_settings.html')
 
-
-@admin.route("/audit_log")
+@admin.route("/auditlog")
 def audit_log():
     Admin_Logger.log_warning("view: audit_log")
     admin_logs = Admin_Logger.read_adminlog()
@@ -249,3 +193,4 @@ def policy():
 
 # while True:
 #     schedule.run_pending()
+    return render_template('admin_policy.html')

@@ -21,41 +21,86 @@
 {% endblock %}
 
 {% block bodyContent %}
-<main class="tom-destiny-main">
-    <article class="tom-destiny-article post">
-        <header class="tom-destiny-article-header tom-destiny-canvas">
+<div class="bg-white">
+    <div class="pt-6">
+      <nav aria-label="Breadcrumb">
+        <ol role="list" class="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-7xl lg:px-8">
+          <li>
+            <div class="flex items-center">
+              <a href="/" class="mr-2 text-sm font-medium text-gray-900"> Tommy Destiny </a>
+              <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-5 text-gray-300">
+                <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+              </svg>
+            </div>
+          </li>
+  
+          <li>
+            <div class="flex items-center">
+              <a href="/allposts" class="mr-2 text-sm font-medium text-gray-900"> All Posts </a>
+              <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-5 text-gray-300">
+                <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+              </svg>
+            </div>
+          </li>
+  
+          <li class="text-sm">
+            <p href="" aria-current="page" class="font-medium text-gray-500 hover:text-gray-600">{{ title }}</p>
+          </li>
+        </ol>
+      </nav>
+  
+      <!-- Image gallery -->
+      <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
+        <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
+          <img src="https://source.unsplash.com/random" alt="Two each of gray, white, and black shirts laying flat." class="w-full h-full object-center object-cover">
+        </div>
+        <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+          <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
+            <img src="https://source.unsplash.com/random" alt="Model wearing plain black basic tee." class="w-full h-full object-center object-cover">
+          </div>
+          <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
+            <img src="https://source.unsplash.com/random" alt="Model wearing plain gray basic tee." class="w-full h-full object-center object-cover">
+          </div>
+        </div>
+        <div class="aspect-w-4 aspect-h-5 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
+          <img src="https://source.unsplash.com/random" alt="Model wearing plain white basic tee." class="w-full h-full object-center object-cover">
+        </div>
+      </div>
+  
+      <!-- Product info -->
+      <div class="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
+        <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+          <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">{{ title }}</h1>
+        </div>
+  
+        <!-- Options -->
+        <div class="mt-4 lg:mt-0 lg:row-span-3">
+          <h2 class="sr-only">Product information</h2>
+          <p class="text-3xl text-gray-900">Comments</p>
 
-            <h1 class="tom-destiny-article-title">Finding that Passion</h1>
-
-                <aside class="tom-destiny-article-sidebar">
-        <figure class="tom-destiny-author-image">
-                <img src="https://www.gravatar.com/avatar/a214c176401cf4f34f4077cf141935c8?s=250&amp;r=x&amp;d=mp" alt="szeyan">
-        </figure>
-
-        <h4 class="tom-destiny-author-name">
-            <a href="/author/szeyan/">szeyan</a>
-        </h4>
-
-    <div class="tom-destiny-article-meta">
-        <time class="tom-destiny-article-date" datetime="2022-03-09">Mar 9, 2022</time>
-
-            <span class="tom-destiny-article-meta-sep"></span>
-            <span class="tom-destiny-article-length">2 min</span>
-    </div>
-</aside>
-
-
-                <figure class="tom-destiny-article-image">
-                    <img srcset="https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 300w,
-                                https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 720w,
-                                https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 960w,
-                                https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 1200w,
-                                https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000 2000w" sizes="(max-width: 1200px) 100vw, 1200px" src="https://images.unsplash.com/photo-1543616991-75a2c125ff5b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fHBhc3Npb258ZW58MHx8fHwxNjQ4OTk3MjAz&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="Finding that Passion">
-                        <figcaption>Photo by <a href="https://unsplash.com/@randalynhill?utm_source=tom-destinyost&amp;utm_medium=referral&amp;utm_campaign=api-credit">Randalyn Hill</a> / <a href="https://unsplash.com/?utm_source=tom-destinyost&amp;utm_medium=referral&amp;utm_campaign=api-credit">Unsplash</a></figcaption>
-                </figure>
-        </header>
-
-        <section class="tom-destiny-content tom-destiny-canvas">
+          <form class="rounded-lg px-4 pt-2">
+            <div class="flex flex-wrap -mx-3 mb-6">
+               <h2 class="px-4 pt-3 pb-2 text-gray-800 text-lg">Add a new comment</h2>
+               <div class="w-full md:w-full mb-2 mt-2">
+                  <textarea class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" name="body" placeholder='Type Your Comment' required></textarea>
+               </div>
+               <div class="w-full md:w-full flex items-start md:w-full px-3">
+                  <div class="flex items-start w-1/2 text-gray-700 px-2 mr-auto">
+                     <svg fill="none" class="w-5 h-5 text-gray-600 mr-1" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                     </svg>
+                     <p class="text-xs md:text-sm pt-px">Some HTML is okay.</p>
+                  </div>
+                  <div class="-mr-1">
+                     <input type='submit' class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100" value='Post Comment'>
+                  </div>
+               </div>
+            </div>
+          </form>
+        </div>
+  
+        <div class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+          <!-- Description and details -->
             <div id="editorjs"></div>
             <script>
                 var editor = new EditorJS({
@@ -134,8 +179,8 @@
                 }
             });
             </script>
-        </section>
-    </article>
-
-</main>
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock %}

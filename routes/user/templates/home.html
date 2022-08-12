@@ -6,7 +6,99 @@
 {% endblock %}
 
 {% block bodyContent %}
-<div class="tom-destiny-inner">
+
+<div class="relative -mt-[5.75rem] overflow-hidden pt-[5.75rem] pb-16">
+  <img src="/img/beams-home@95.jpg" alt="" class="absolute -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
+  <div class="relative mx-auto mt-16 grid w-full max-w-container grid-cols-1 px-4 sm:mt-20 sm:px-6 lg:px-8 xl:mt-32">
+      <div class="col-start-1 row-start-1 h-7 text-base font-semibold leading-7 text-sky-500" aria-hidden="true">By the makers of Tommy Destiny</div>
+      <h1 class="col-start-1 row-start-2 mt-4 max-w-[36rem] text-4xl font-extrabold tracking-tight text-slate-900 sm:text-7xl xl:max-w-[43.5rem]"> Stage 1: Building the foundation</h1>
+      <p class="col-start-1 row-start-3 mt-4 max-w-lg text-lg text-slate-700">Beautifully designed, expertly crafted components and templates, built by the makers of Tommy Destiny. Now, 1 admin many users. </p>
+      <div class="col-start-1 row-start-4 mt-10 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+            <a class="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-slate-900 text-white hover:bg-slate-700" href="/about">
+                <span>About <span aria-hidden="true" class="hidden text-slate-400 sm:inline">→</span>
+                </span>
+            </a>
+            <a class="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-white/0 text-slate-900 ring-1 ring-slate-900/10 hover:bg-white/25 hover:ring-slate-900/15 " href="/changelog">
+                <span>Changelog <span aria-hidden="true" class="hidden text-black/25 sm:inline">→</span>
+                </span>
+            </a>
+      </div>
+  </div>
+</div>
+
+<section class="mt-32 w-full overflow-hidden">
+  <div class="mx-auto max-w-container px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl">
+          <h2 class="text-base font-semibold leading-7 text-sky-500">Latest</h2>
+          <p class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900">Top 4 post</p>
+      </div>
+      <div class="max-w-xl">
+          <p class="mt-4 text-base leading-7 text-slate-700">Visually-stunning, easy to customize site templates built with React and Next.js. The perfect starting point for your next project and the ultimate resource for learning how experts build real websites with Tailwind CSS.</p>
+      </div>
+      <div class="mt-6">
+          <a class="text-base font-semibold text-sky-500 hover:text-slate-700" href="/allposts">Explore all posts <span aria-hidden="true">→</span>
+          </a>
+      </div>
+      <div class="-mx-4 mt-16 flex overflow-x-auto sm:-mx-6 lg:block">
+          <div class="min-w-full flex-none px-4 sm:px-6">
+              <div class="flex space-x-10 border-t border-slate-200 md:space-x-6 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
+                  <div class="group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto border-blue-500">
+                      <h3 class="md:mt-4">
+                          <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-blue-600">
+                              <span class="absolute inset-0 -top-px"></span>Primer </button>
+                      </h3>
+                      <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-blue-500 md:text-white"> Info product</p>
+                      <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">We’ve actually published four info products ourselves and this landing page is honestly better than the sites we designed for all of those.</p>
+                  </div>
+                  <div class="group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto border-transparent hover:border-slate-400">
+                      <h3 class="md:mt-4">
+                          <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-slate-900">
+                              <span class="absolute inset-0 -top-px"></span>Transmit </button>
+                      </h3>
+                      <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-slate-100 md:text-slate-500 md:group-hover:bg-slate-200"> Podcast</p>
+                      <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">You’ve ordered your SM7B, boom arm, and a bunch of acoustic foam. With this template, you can finally stop procrastinating and record your first episode.</p>
+                  </div>
+                  <div class="group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto border-transparent hover:border-slate-400">
+                      <h3 class="md:mt-4">
+                          <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-slate-900">
+                              <span class="absolute inset-0 -top-px"></span>Syntax </button>
+                      </h3>
+                      <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-slate-100 md:text-slate-500 md:group-hover:bg-slate-200"> Documentation</p>
+                      <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">Writing documentation is enough to make you rip your hair out without worrying about the design. Let us help you keep a few strands.</p>
+                  </div>
+                  <div class="group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto border-transparent hover:border-slate-400">
+                      <h3 class="md:mt-4">
+                          <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-slate-900">
+                              <span class="absolute inset-0 -top-px"></span>Salient </button>
+                      </h3>
+                      <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-slate-100 md:text-slate-500 md:group-hover:bg-slate-200"> SaaS marketing</p>
+                      <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">Every SaaS marketing site uses the same formula — a hero, feature sections, some testimonials, you know the drill. But some are prettier than others.</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="-mx-4 flex transition-transform duration-500" style="transform: translateX(0%);">
+          <div class="w-full flex-none sm:px-4">
+              <p class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden">We’ve actually published four info products ourselves and this landing page is honestly better than the sites we designed for all of those.</p>
+              <img src="https://source.unsplash.com/random" alt="Screenshot of the Primer template" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0 mx-auto">
+          </div>
+          <div class="w-full flex-none sm:px-4">
+              <p class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden">You’ve ordered your SM7B, boom arm, and a bunch of acoustic foam. With this template, you can finally stop procrastinating and record your first episode.</p>
+              <img src="static/image/preview.png" alt="Screenshot of the Transmit template" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0">
+          </div>
+          <div class="w-full flex-none sm:px-4">
+              <p class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden">Writing documentation is enough to make you rip your hair out without worrying about the design. Let us help you keep a few strands.</p>
+              <img src="static/image/preview.png" alt="Screenshot of the Syntax template" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0">
+          </div>
+          <div class="w-full flex-none sm:px-4">
+              <p class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden">Every SaaS marketing site uses the same formula — a hero, feature sections, some testimonials, you know the drill. But some are prettier than others. </p>
+              <img src="static/image/preview.png" alt="Screenshot of the Salient template" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0">
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- <div class="tom-destiny-inner">
     <section class="tom-destiny-topic tom-destiny-topic-grid">
         <h2 class="tom-destiny-topic-name">
             <a href="/">Latest</a>
@@ -58,5 +150,5 @@
             {% endfor %}
         </div>
     </section>
-</div>
+</div> -->
 {% endblock %}
