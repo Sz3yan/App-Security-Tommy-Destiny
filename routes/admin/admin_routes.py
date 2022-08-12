@@ -247,5 +247,5 @@ def policy():
     return render_template('admin_policy.html')
 
 
-while True:
-    schedule.run_pending()
+# while True:
+#     schedule.run_pending()

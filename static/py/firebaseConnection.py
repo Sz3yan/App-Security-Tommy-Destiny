@@ -109,7 +109,7 @@ class FirebaseClass:
 class FirebaseAdminClass(FirebaseClass):
     def __init__(self):
         super().__init__()
-        self.__firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate("Tommy-Destiny/static/serviceAccountKey.json"),{"databaseURL": os.getenv("DATABASE_URL")})
+        self.__firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate("static/serviceAccountKey.json"),{"databaseURL": os.getenv("DATABASE_URL")})
         self.__firebaseAdmin_db_reference = db.reference()
 
     # Get User

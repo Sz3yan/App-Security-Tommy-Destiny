@@ -70,14 +70,12 @@ def profile():
         # this will not hve any id
         user_ID = session["userID"]
         print(user_ID)
-
-<<<<<<< HEAD:Tommy-Destiny/routes/user/user_routes.py
+        
         userInfo = fa.get_user(user_ID)
         print(userInfo)
-=======
+        
         userInfo = firebase.get_user_info(user_ID)
->>>>>>> 872fd4be551a4d5e62bb927e43827426eb747cd4:routes/user/user_routes.py
-        # g.current_user = userInfo
+
         return render_template('profile.html')
     else:
         return redirect(url_for('user.index'))

@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class Config:
+class Config(object):
     """Base config."""
     SECRET_KEY = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
     SESSION_PERMANENT = True

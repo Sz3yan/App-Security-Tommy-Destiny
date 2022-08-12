@@ -1,3 +1,4 @@
+import imp
 import os
 
 from dotenv import load_dotenv
@@ -17,19 +18,22 @@ from routes.errors.error_routes import errors
 
 from mitigations.A7_Cross_site_scripting import CspClass
 
+from config import DevConfig, ProdConfig
+
 load_dotenv()
 
-
 app = Flask(__name__)
-app.config.from_object('config.DevConfig')
+app.config.from_object(DevConfig())
 
-# CspClass().return_csp_header("homeage")
+
+
+    # CspClass().return_csp_header("homeage")
 
 mail = Mail(app)
 jwt = JWTManager(app)
 csrf = CSRFProtect(app)
 sess = Session(app)
-talisman = Talisman(app, force_https=True, content_security_policy=False)  # enables HSTS
+# talisman = Talisman(app, force_https=True, content_security_policy=CspClass().return_csp_header("homeage"))  # enables HSTS
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 
 
@@ -39,7 +43,7 @@ app.register_blueprint(user)
 app.register_blueprint(errors)
 
 
-# prevent caching
+    # prevent caching
 @app.after_request
 def add_header(r):
     r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -49,5 +53,5 @@ def add_header(r):
     return r
 
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run
