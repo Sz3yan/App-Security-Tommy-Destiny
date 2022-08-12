@@ -58,7 +58,7 @@ def view_admin():
     return render_template('admin_viewsite.html')
 
 
-@admin.route("/posts")
+@admin.route("/posts", methods=['GET', 'POST'])
 def post():
     newPost = Post("title")
     new_id = newPost.get_id()
@@ -168,22 +168,13 @@ def editor_pages(id):
     return render_template('admin_editor.html')
 
 
-@admin.route("/tags")
-def tags():
-    return render_template('admin_tags.html')
-
-
 @admin.route("/members")
 def members():
     return render_template('admin_members.html')
 
 
-@admin.route("/settings")
-def settings():
-    return render_template('admin_settings.html')
 
-
-@admin.route("/audit_log")
+@admin.route("/auditlog")
 def audit_log():
     Admin_Logger.log_warning("view: audit_log")
     admin_logs = Admin_Logger.read_adminlog()
