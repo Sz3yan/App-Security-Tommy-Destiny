@@ -7,6 +7,7 @@ from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManage
 from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger, User_Logger
 from static.firebaseConnection import FirebaseClass
 from routes.admin.static.py.Post import Post, SubmitPostForm
+from collections import OrderedDict
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 
@@ -174,15 +175,29 @@ def members():
 
 
 
-@admin.route("/auditlog")
+@admin.route("/loggingMonitoring")
 def audit_log():
     admin_logs = Admin_Logger.read_adminlog()
     Admin_Logger.log_warning("Admin audit log: retrieved Admin logs")
 
+    tojsonAdminlog = {}
+
+    for i in admin_logs:
+        tojson = json.loads(admin_logs[i])
+        tojsonAdminlog[i] = tojson
+
+    print(tojsonAdminlog)
+
     user_logs = User_Logger.read_userlog()
     Admin_Logger.log_warning("Admin audit log: retrieved User logs")
 
-    return render_template('admin_audit_log.html', admin_logs=admin_logs, user_logs=user_logs)
+    tojsonUserlog = {}
+
+    for i in user_logs:
+        tojson = json.loads(user_logs[i])
+        tojsonUserlog[i] = tojson
+
+    return render_template('admin_loggingMonitoring.html', admin_logs=dict(reversed(list(tojsonAdminlog.items()))), user_logs=dict(reversed(list(tojsonUserlog.items()))), admin_count=len(admin_logs), user_count=len(user_logs))
 
 
 @admin.route("/policy")
