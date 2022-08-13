@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block title %}Tom Destiny - Post{% endblock %}
+{% extends "top4base.html" %}
+{% block title %}Tom Destiny - Top4Post{% endblock %}
 
 {% block css%}
     <style>
@@ -29,54 +29,8 @@
 {% block bodyContent %}
 <div class="bg-white">
     <div class="pt-6">
-        <nav aria-label="Breadcrumb">
-            <ol role="list" class="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-7xl lg:px-8">
-                <li>
-                    <div class="flex items-center">
-                        <a href="/" class="mr-2 text-sm font-medium text-gray-900"> Tommy Destiny </a>
-                        <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-5 text-gray-300">
-                            <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                        </svg>
-                    </div>
-                </li>
-                <li>
-                    <div class="flex items-center">
-                        <a href="/allposts" class="mr-2 text-sm font-medium text-gray-900"> All Posts </a>
-                        <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-5 text-gray-300">
-                            <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                        </svg>
-                    </div>
-                </li>
-                <li class="text-sm">
-                    <p href="" aria-current="page" class="font-medium text-gray-500 hover:text-gray-600">{{ title }}</p>
-                </li>
-            </ol>
-        </nav>
         <!-- Image gallery -->
-        <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
-            <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
-                <img src="https://source.unsplash.com/random"
-                    alt="Two each of gray, white, and black shirts laying flat."
-                    class="w-full h-full object-center object-cover">
-            </div>
-            <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
-                    <img src="https://source.unsplash.com/random" alt="Model wearing plain black basic tee."
-                        class="w-full h-full object-center object-cover">
-                </div>
-                <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
-                    <img src="https://source.unsplash.com/random" alt="Model wearing plain gray basic tee."
-                        class="w-full h-full object-center object-cover">
-                </div>
-            </div>
-            <div class="aspect-w-4 aspect-h-5 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
-                <img src="https://source.unsplash.com/random" alt="Model wearing plain white basic tee."
-                    class="w-full h-full object-center object-cover">
-            </div>
-        </div>
-
+        <img src="https://source.unsplash.com/random" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0 mx-auto">
 
         <div class="px-4 sm:px-6 md:px-8">
             <div class="max-w-3xl mx-auto">
@@ -174,38 +128,8 @@
                         </div>
                     </article>
                 </main>
-
-                <footer class="">
-                    <div class="relative">
-                        <section class="relative py-16">
-                            <h2 class="text-xl font-semibold text-slate-900 tracking-tight dark:text-white">Get all of
-                                our updates directly to your&nbsp;inbox.<br>Sign up for our newsletter.</h2>
-                            <div class="mt-5 max-w-md">
-                                <form action="https://app.convertkit.com/forms/3181881/subscriptions" method="post"
-                                    class="flex flex-wrap -mx-2">
-                                    <div class="px-2 grow-[9999] basis-64 mt-3">
-                                        <div class="group relative"><svg viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" aria-hidden="true"
-                                                class="w-6 h-full absolute inset-y-0 left-3 text-slate-400 pointer-events-none group-focus-within:text-sky-500 dark:group-focus-within:text-slate-400">
-                                                <path
-                                                    d="M5 7.92C5 6.86 5.865 6 6.931 6h10.138C18.135 6 19 6.86 19 7.92v8.16c0 1.06-.865 1.92-1.931 1.92H6.931A1.926 1.926 0 0 1 5 16.08V7.92Z">
-                                                </path>
-                                                <path d="m6 7 6 5 6-5"></path>
-                                            </svg><input type="email" name="email_address" required=""
-                                                aria-label="Email address"
-                                                class="appearance-none shadow rounded-md ring-1 ring-slate-900/5 leading-5 sm:text-sm border border-transparent py-2 placeholder:text-slate-400 pl-12 pr-3 block w-full text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white dark:bg-slate-700/20 dark:ring-slate-200/20 dark:focus:ring-sky-500 dark:text-white"
-                                                placeholder="Subscribe via email"></div>
-                                    </div>
-                                    <div class="px-2 grow flex mt-3"><button type="submit"
-                                            class="bg-sky-500 flex-auto shadow text-white rounded-md text-sm border-y border-transparent py-2 font-semibold px-3 hover:bg-sky-600 dark:hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-300 dark:focus:ring-offset-slate-900 dark:focus:ring-sky-700">Subscribe</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </section>
-                    </div>
-                </footer>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

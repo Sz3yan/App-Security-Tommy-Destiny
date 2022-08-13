@@ -1,13 +1,12 @@
 import sentry_sdk
-from flask import Flask
-from sentry_sdk.integrations.flask import FlaskIntegration
 
-from dotenv import load_dotenv
 from flask import Flask
+from config import DevConfig, ProdConfig
+from dotenv import load_dotenv
+from sentry_sdk.integrations.flask import FlaskIntegration
 from flask_jwt_extended import JWTManager
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from flask_mailman import Mail
 from flask_session import Session
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
@@ -19,19 +18,12 @@ from routes.errors.error_routes import errors
 
 from mitigations.A7_Cross_site_scripting import CspClass
 
-from config import DevConfig, ProdConfig
 
 load_dotenv()
 
 sentry_sdk.init(
     dsn="https://585c1767c8c84a8ab976b3af393fa29d@o1323719.ingest.sentry.io/6645595",
-    integrations=[
-        FlaskIntegration(),
-    ],
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
+    integrations=[FlaskIntegration()],
     traces_sample_rate=1.0
 )
 
@@ -39,10 +31,6 @@ app = Flask(__name__)
 app.config.from_object(DevConfig())
 
 
-
-# CspClass().return_csp_header("homeage")
-
-mail = Mail(app)
 jwt = JWTManager(app)
 csrf = CSRFProtect(app)
 sess = Session(app)

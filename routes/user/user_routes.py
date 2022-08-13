@@ -1,5 +1,7 @@
 import json
 
+from datetime import datetime
+
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
 from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
@@ -111,6 +113,42 @@ def signup():
     return render_template('signup.html', form=createUser)
 
 
+@user.route("/top4post/<id>")
+def top4post(id):
+    newPost = Post("title")
+    newPost.set_id(id)
+    aes_gcm = AES_GCM()
+
+    data = [{
+        "type": "header",
+        "data": {
+            "text": "Post title",
+        }
+    }]
+
+    try:
+        pull_post = FirebaseClass()
+
+        for i in pull_post.get_post().each():
+            if i.val()["_Post__id"] == id:
+                plaintext = i.val()["_Post__plaintext"]
+                title = i.val()["_Post__title"]
+                date = i.val()["_Post__published_at"]
+
+                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                User_Logger.log_info(f"User post: decrypted post {id}")
+
+                to_json = json.loads(decrypted)
+                data = to_json["blocks"]
+            else:
+                data = data
+    except:
+        User_Logger.log_exception("User post: No posts found")
+        return redirect(url_for("user.index"))
+
+    return render_template('top4post.html', id=id, data=data, title=title, date=date)
+
+
 @user.route("/post/<id>")
 def post(id):
     newPost = Post("title")
@@ -131,6 +169,7 @@ def post(id):
             if i.val()["_Post__id"] == id:
                 plaintext = i.val()["_Post__plaintext"]
                 title = i.val()["_Post__title"]
+                date = i.val()["_Post__published_at"]
 
                 decrypted = aes_gcm.decrypt(secret_key, plaintext)
                 User_Logger.log_info(f"User post: decrypted post {id}")
@@ -143,7 +182,7 @@ def post(id):
         User_Logger.log_exception("User post: No posts found")
         return redirect(url_for("user.index"))
 
-    return render_template('post.html', id=id, data=data, title=title)
+    return render_template('post.html', id=id, data=data, title=title, date=date)
 
 
 @user.route("/about")
@@ -162,3 +201,8 @@ def allposts():
         User_Logger.log_exception("User allposts: no posts found")
 
     return render_template("allposts.html", posts=posts)
+
+
+@user.route("/privacy-policy")
+def policy():
+    return render_template("policy.html")
