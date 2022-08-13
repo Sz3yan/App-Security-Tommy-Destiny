@@ -1,3 +1,7 @@
+import sentry_sdk
+from flask import Flask
+from sentry_sdk.integrations.flask import FlaskIntegration
+
 from dotenv import load_dotenv
 from flask import Flask
 from flask_jwt_extended import JWTManager
@@ -19,12 +23,24 @@ from config import DevConfig, ProdConfig
 
 load_dotenv()
 
+sentry_sdk.init(
+    dsn="https://585c1767c8c84a8ab976b3af393fa29d@o1323719.ingest.sentry.io/6645595",
+    integrations=[
+        FlaskIntegration(),
+    ],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0
+)
+
 app = Flask(__name__)
 app.config.from_object(DevConfig())
 
 
 
-    # CspClass().return_csp_header("homeage")
+# CspClass().return_csp_header("homeage")
 
 mail = Mail(app)
 jwt = JWTManager(app)
@@ -40,7 +56,7 @@ app.register_blueprint(user)
 app.register_blueprint(errors)
 
 
-    # prevent caching
+# prevent caching
 @app.after_request
 def add_header(r):
     r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -51,4 +67,4 @@ def add_header(r):
 
 
 if __name__ == "__main__":
-    app.run
+    app.run()

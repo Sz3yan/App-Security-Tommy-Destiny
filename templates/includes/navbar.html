@@ -5,41 +5,22 @@
 
             <div class="hidden lg:flex lg:items-center">
                 <a href="/about">About</a>
-
-<<<<<<< HEAD
-    <nav class="tom-destiny-head-menu">
-        <ul class="nav">
-            <li class="nav-environment"><a href="">4.0 Guide</a></li>
-            <li class="nav-about"><a href="/about">About</a></li>
-            <li class="nav-about"><a href="/pricing">Pricing</a></li>
-            {#{% if 'userID' in session %}
-                {% if g.current_user.get("Role") == "admin" %}
-            <!-- <li class="nav-about"><a href="/admin/dashboard">Admin</a></li> -->
-                {% endif %}
-            {% endif %}#}
-
-            <li class="nav-about"><a href="/admin/dashboard">Admin</a></li>
-        </ul>
-    </nav>
-=======
                 <a class="ml-8" href="/changelog">Changelog</a>
                 <div class="ml-2 hidden rounded-full bg-sky-500 px-1.5 py-0.5 text-xs text-white sm:block">New</div>
             </div>
->>>>>>> 2654e11c604ea87e090ee768f9a5f2e656e65252
 
-            <button type="button"
-                class="-my-1 ml-6 -mr-1 flex h-8 w-8 items-center justify-center lg:hidden">
+            <button type="button" class="-my-1 ml-6 -mr-1 flex h-8 w-8 items-center justify-center lg:hidden">
                 <span class="sr-only">Open
-                navigation</span>
+                    navigation</span>
                 <svg viewBox="0 0 24 24" class="h-6 w-6 stroke-slate-900">
                     <path d="M3.75 12h16.5M3.75 6.75h16.5M3.75 17.25h16.5" fill="none" stroke-width="1.5"
                         stroke-linecap="round"></path>
                 </svg>
             </button>
             <div class="hidden lg:ml-8 lg:flex lg:items-center lg:border-l lg:border-slate-900/15 lg:pl-8"><a
-                href="/login">Sign in</a><a
-                class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8"
-                href="/admin/dashboard"><span>Get all-access <span aria-hidden="true">→</span></span></a></div>
+                    href="/login">Sign in</a><a
+                    class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8"
+                    href="/admin/dashboard"><span>Get all-access <span aria-hidden="true">→</span></span></a></div>
         </div>
     </nav>
 </header>

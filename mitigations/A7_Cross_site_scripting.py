@@ -1,6 +1,6 @@
 from multiprocessing import set_forkserver_preload
 from flask_csp.csp import csp_header
-from static.py.firebaseConnection import FirebaseAdminClass
+from static.firebaseConnection import FirebaseAdminClass
 
 # <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://images.unsplash.com;">
 # @csp_header(CspClass().return_csp_header())

@@ -5,7 +5,7 @@ from functools import wraps
 from flask import Blueprint, redirect, render_template, request, url_for, g, session, abort
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
 from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger, User_Logger
-from static.py.firebaseConnection import FirebaseClass
+from static.firebaseConnection import FirebaseClass
 from routes.admin.static.py.Post import Post, SubmitPostForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
@@ -43,9 +43,10 @@ def admin_dashboard():
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
+        Admin_Logger.log_info("Admin dashboard: retrieved posts")
     except:
         posts = []
-        Admin_Logger.log_exception("No posts found")
+        Admin_Logger.log_exception("Admin dashboard: No posts found")
 
     admin_logs = Admin_Logger.read_adminlog()
     user_logs = User_Logger.read_userlog()
@@ -66,9 +67,10 @@ def post():
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
+        Admin_Logger.log_info("Admin posts: retrieved posts")
     except:
         posts = []
-        Admin_Logger.log_exception("No posts found")
+        Admin_Logger.log_exception("Admin posts: No posts found")
 
     return render_template('admin_post.html', id=new_id, posts=posts)
 
@@ -99,15 +101,14 @@ def editor_post(id):
                 plaintext = i.val()["_Post__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key, plaintext)
-                print("decrypted: ", decrypted)
+                Admin_Logger.log_info(f"Admin editor: decrypted post {id}")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
-                Admin_Logger.log_info(f"view: post_id {id}: ")
             else:
                 data = data
     except:
-        Admin_Logger.log_exception("No posts found")
+        Admin_Logger.log_exception("Admin editor: No posts found")
 
     submit_post = SubmitPostForm(request.form)
 
@@ -126,12 +127,10 @@ def editor_post(id):
             content_to_dict = json.loads(content_string)
             title = content_to_dict["blocks"][0]["data"]["text"]
         except:
-            Admin_Logger.log_exception("No title found, must change first")
             title = "title"
 
         encrypted_content = aes_gcm.encrypt(secret_key, content)
-        # print("encrypted_content: ", encrypted_content)
-        Admin_Logger.log_info(f"encrypted post_id {id}: " + encrypted_content)
+        Admin_Logger.log_info(f"Admin editor: encrypted post {id}")
 
         newPost.set_id(id)
         newPost.set_title(title)
@@ -141,13 +140,13 @@ def editor_post(id):
         length = 0
         for posts in createorupdate.get_post().each():
             length += 1
-            if posts.val()["_Post__id"] == id:  # false
+            if posts.val()["_Post__id"] == id:
                 createorupdate.update_post(id, newPost)
-                Admin_Logger.log_info(f"updated post_id {id}: " + encrypted_content)
+                Admin_Logger.log_info(f"Admin editor: update post {id}")
                 return redirect(url_for('admin.post'))
             elif length == len(createorupdate.get_post().each()):
                 createorupdate.create_post(newPost)
-                Admin_Logger.log_info(f"created post_id {id}: " + encrypted_content)
+                Admin_Logger.log_info(f"Admin editor: create post {id}")
                 return redirect(url_for('admin.post'))
 
         return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
@@ -159,7 +158,8 @@ def editor_post(id):
 def delete_page(id):
     deletepost = FirebaseClass()
     deletepost.delete_post(id)
-    Admin_Logger.log_info(f"deleted post_id {id}:")
+    Admin_Logger.log_info(f"Admin delete: delete post {id}")
+    
     return redirect(url_for('admin.post'))
 
 
@@ -176,21 +176,15 @@ def members():
 
 @admin.route("/auditlog")
 def audit_log():
-    Admin_Logger.log_warning("view: audit_log")
     admin_logs = Admin_Logger.read_adminlog()
-    print(admin_logs, "\n")
+    Admin_Logger.log_warning("Admin audit log: retrieved Admin logs")
 
     user_logs = User_Logger.read_userlog()
-    print(user_logs, "\n")
+    Admin_Logger.log_warning("Admin audit log: retrieved User logs")
 
     return render_template('admin_audit_log.html', admin_logs=admin_logs, user_logs=user_logs)
 
 
 @admin.route("/policy")
 def policy():
-    return render_template('admin_policy.html')
-
-
-# while True:
-#     schedule.run_pending()
     return render_template('admin_policy.html')
