@@ -97,6 +97,24 @@ class FirebaseClass:
             if i.val()["_Post__id"] == post_id:
                 self.__database.child("Post").child(i.key()).remove()
                 return "Post deleted"
+
+    def create_page(self, page_dict):
+        self.__database.child("Page").push(page_dict.__dict__)
+
+    def get_page(self):
+        return self.__database.child("Page").get()
+
+    def update_page(self, page_id, page_dict):
+        for i in self.__database.child("Page").get().each():
+            if i.val()["_Page__id"] == page_id:
+                self.__database.child("Page").child(i.key()).update(page_dict.__dict__)
+                return "Page updated"
+
+    def delete_page(self, page_id):
+        for i in self.__database.child("Page").get().each():
+            if i.val()["_Page__id"] == page_id:
+                self.__database.child("Page").child(i.key()).remove()
+                return "Page deleted"
     
     # Storage
     def get_image_url(self):
@@ -137,9 +155,6 @@ class FirebaseAdminClass(FirebaseClass):
     # Get Policy
     def fa_get_csp(self):
         return self.__firebaseAdmin_db_reference.child('Content_Security_Policy').get()
-    
-
-    
 
 
 # # # Test

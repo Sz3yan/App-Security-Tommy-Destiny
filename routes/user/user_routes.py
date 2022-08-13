@@ -10,9 +10,12 @@ from routes.user.static.py.Forms import CreateUser, LoginUser
 from routes.admin.static.py.Post import Post
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
+
 User_Logger = User_Logger()
+
 keymanagement = GoogleCloudKeyManagement()
-secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key_id"))
+secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "hsm_tommy"))
+secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "hsm_tommy1"))
 
 
 @user.route("/")
@@ -135,7 +138,7 @@ def top4post(id):
                 title = i.val()["_Post__title"]
                 date = i.val()["_Post__published_at"]
 
-                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
                 User_Logger.log_info(f"User post: decrypted post {id}")
 
                 to_json = json.loads(decrypted)
@@ -171,7 +174,7 @@ def post(id):
                 title = i.val()["_Post__title"]
                 date = i.val()["_Post__published_at"]
 
-                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
                 User_Logger.log_info(f"User post: decrypted post {id}")
 
                 to_json = json.loads(decrypted)
@@ -187,7 +190,33 @@ def post(id):
 
 @user.route("/about")
 def about():
-    return render_template("about.html")
+    data = [{
+        "type": "header",
+        "data": {
+            "text": "Page title",
+        }
+    }]
+
+    try:
+        aes_gcm = AES_GCM()
+        firebase = FirebaseClass()
+
+        for i in firebase.get_page().each():
+            if i.val()["_Page__id"] == "96e4d495-29bb-414a-a4ab-adb0a65debc8":
+                plaintext = i.val()["_Page__plaintext"]
+
+                decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
+                User_Logger.log_info(f"User post: decrypted page 96e4d495-29bb-414a-a4ab-adb0a65debc8")
+
+                to_json = json.loads(decrypted)
+                data = to_json["blocks"]
+            else:
+                data = data
+    except:
+        User_Logger.log_exception("User about: no page found")
+        return redirect(url_for("user.index"))
+
+    return render_template("about.html", data=data)
 
 
 @user.route("/allposts")
@@ -205,4 +234,30 @@ def allposts():
 
 @user.route("/privacy-policy")
 def policy():
-    return render_template("policy.html")
+    data = [{
+        "type": "header",
+        "data": {
+            "text": "Page title",
+        }
+    }]
+
+    try:
+        aes_gcm = AES_GCM()
+        firebase = FirebaseClass()
+
+        for i in firebase.get_page().each():
+            if i.val()["_Page__id"] == "70006058-1f60-4824-b77a-b63bc22342c1":
+                plaintext = i.val()["_Page__plaintext"]
+
+                decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
+                User_Logger.log_info(f"User post: decrypted page 70006058-1f60-4824-b77a-b63bc22342c1")
+
+                to_json = json.loads(decrypted)
+                data = to_json["blocks"]
+            else:
+                data = data
+    except:
+        User_Logger.log_exception("User about: no page found")
+        return redirect(url_for("user.index"))
+
+    return render_template("policy.html", data=data)

@@ -7,7 +7,8 @@ from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManage
 from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger, User_Logger
 from static.firebaseConnection import FirebaseClass
 from routes.admin.static.py.Post import Post, SubmitPostForm
-from collections import OrderedDict
+from routes.admin.static.py.Page import Page
+
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 
@@ -15,7 +16,9 @@ Admin_Logger = Admin_Logger()
 User_Logger = User_Logger()
 
 keymanagement = GoogleCloudKeyManagement()
-secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key_id"))
+secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "hsm_tommy"))
+secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "hsm_tommy1"))
+
 
 def admin_required(f):
     @wraps(f)
@@ -76,11 +79,6 @@ def post():
     return render_template('admin_post.html', id=new_id, posts=posts)
 
 
-@admin.route("/pages")
-def page():
-    return render_template('admin_pages.html')
-
-
 @admin.route("/editor/posts/<id>", methods=["GET", "POST"])
 def editor_post(id):
     newPost = Post("title")
@@ -101,7 +99,7 @@ def editor_post(id):
             if i.val()["_Post__id"] == id:
                 plaintext = i.val()["_Post__plaintext"]
 
-                decrypted = aes_gcm.decrypt(secret_key, plaintext)
+                decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
                 Admin_Logger.log_info(f"Admin editor: decrypted post {id}")
 
                 to_json = json.loads(decrypted)
@@ -130,7 +128,7 @@ def editor_post(id):
         except:
             title = "title"
 
-        encrypted_content = aes_gcm.encrypt(secret_key, content)
+        encrypted_content = aes_gcm.encrypt(secret_key_post, content)
         Admin_Logger.log_info(f"Admin editor: encrypted post {id}")
 
         newPost.set_id(id)
@@ -156,7 +154,7 @@ def editor_post(id):
 
 
 @admin.route("/delete/posts/<id>", methods=["GET", "POST"])
-def delete_page(id):
+def delete_post(id):
     deletepost = FirebaseClass()
     deletepost.delete_post(id)
     Admin_Logger.log_info(f"Admin delete: delete post {id}")
@@ -164,9 +162,104 @@ def delete_page(id):
     return redirect(url_for('admin.post'))
 
 
-@admin.route("/editor/pages/<id>", methods=["POST"])
+@admin.route("/pages", methods=['GET', 'POST'])
+def page():
+    newPage = Page("title")
+    new_id = newPage.get_id()
+
+    try:
+        firebase = FirebaseClass()
+        pages = [page.val() for page in firebase.get_page().each()]
+        Admin_Logger.log_info("Admin posts: retrieved pages")
+    except:
+        pages = []
+        Admin_Logger.log_exception("Admin posts: No page found")
+
+    return render_template('admin_pages.html', id=new_id, pages=pages)
+
+
+@admin.route("/editor/pages/<id>", methods=['GET', 'POST'])
 def editor_pages(id):
-    return render_template('admin_editor.html')
+    newPage = Page("title")
+    newPage.set_id(id)
+    aes_gcm = AES_GCM()
+
+    data = [{
+        "type": "header",
+        "data": {
+            "text": "Page title",
+        }
+    }]
+
+    try:
+        pull_page = FirebaseClass()
+
+        for i in pull_page.get_page().each():
+            if i.val()["_Page__id"] == id:
+                plaintext = i.val()["_Page__plaintext"]
+
+                decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
+                print(decrypted)
+                Admin_Logger.log_info(f"Admin editor: decrypted page {id}")
+
+                to_json = json.loads(decrypted)
+                data = to_json["blocks"]
+            else:
+                data = data
+    except:
+        Admin_Logger.log_exception("Admin editor: No page found")
+
+    submit_page = SubmitPostForm(request.form)
+
+    try:
+        hcontent_string = submit_page.content.data
+        hcontent_to_dict = json.loads(hcontent_string)
+        htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
+    except:
+        htitle = "Page title"
+
+    if request.method == "POST" and htitle != "Page title":
+        content = submit_page.content.data.encode("utf-8")
+
+        try:
+            content_string = submit_page.content.data
+            content_to_dict = json.loads(content_string)
+            title = content_to_dict["blocks"][0]["data"]["text"]
+        except:
+            title = "title"
+
+        encrypted_content = aes_gcm.encrypt(secret_key_page, content)
+        Admin_Logger.log_info(f"Admin editor: encrypted page {id}")
+
+        newPage.set_id(id)
+        newPage.set_title(title)
+        newPage.set_plaintext(encrypted_content)
+
+        createorupdate = FirebaseClass()
+        length = 0
+        for pages in createorupdate.get_page().each():
+            length += 1
+            if pages.val()["_Page__id"] == id:
+                createorupdate.update_page(id, newPage)
+                Admin_Logger.log_info(f"Admin editor: update page {id}")
+                return redirect(url_for('admin.page'))
+            elif length == len(createorupdate.get_page().each()):
+                createorupdate.create_page(newPage)
+                Admin_Logger.log_info(f"Admin editor: create page {id}")
+                return redirect(url_for('admin.page'))
+
+        return render_template('admin_editor_page.html', id=id, newPost=newPage, form=submit_page, data=data)
+
+    return render_template('admin_editor_page.html', id=id, newPost=newPage, form=submit_page, data=data)
+
+
+@admin.route("/delete/pages/<id>", methods=["GET", "POST"])
+def delete_page(id):
+    deletepage = FirebaseClass()
+    deletepage.delete_page(id)
+    Admin_Logger.log_info(f"Admin delete: delete page {id}")
+    
+    return redirect(url_for('admin.page'))
 
 
 @admin.route("/members")
