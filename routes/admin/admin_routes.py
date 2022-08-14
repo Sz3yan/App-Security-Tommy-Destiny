@@ -5,7 +5,7 @@ from functools import wraps
 from flask import Blueprint, redirect, render_template, request, url_for, g, session, abort
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
 from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger, User_Logger
-from static.firebaseConnection import FirebaseClass
+from static.firebaseConnection import FirebaseAdminClass, FirebaseClass
 from routes.admin.static.py.Post import Post, SubmitPostForm
 from routes.admin.static.py.Page import Page
 
@@ -106,6 +106,8 @@ def editor_post(id):
                 data = to_json["blocks"]
             else:
                 data = data
+
+        pull_post.delete_app()
     except:
         Admin_Logger.log_exception("Admin editor: No posts found")
 
@@ -262,12 +264,6 @@ def delete_page(id):
     return redirect(url_for('admin.page'))
 
 
-@admin.route("/members")
-def members():
-    return render_template('admin_members.html')
-
-
-
 @admin.route("/loggingMonitoring")
 def audit_log():
     admin_logs = Admin_Logger.read_adminlog()
@@ -278,8 +274,6 @@ def audit_log():
     for i in admin_logs:
         tojson = json.loads(admin_logs[i])
         tojsonAdminlog[i] = tojson
-
-    print(tojsonAdminlog)
 
     user_logs = User_Logger.read_userlog()
     Admin_Logger.log_warning("Admin audit log: retrieved User logs")
