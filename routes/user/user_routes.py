@@ -1,9 +1,4 @@
 import json
-import stripe
-# This is a public sample test API key.
-# Don’t submit any personally identifiable information in requests made with this key.
-# Sign in to see your own test API key embedded in code samples.
-stripe.api_key = 'sk_test_Ou1w6LVt3zmVipDVJsvMeQsc'
 
 from datetime import datetime
 
