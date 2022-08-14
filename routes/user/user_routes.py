@@ -74,13 +74,13 @@ def logout():
 @user.route('/profile')
 def profile():
     
-    fa = FirebaseAdminClass()
+    fa = FirebaseClass()
     if 'userID' in session:
         # this will not hve any id
         user_ID = session["userID"]
         print(user_ID)
         
-        userInfo = fa.get_user(user_ID)
+        userInfo = fa.get_user_info(user_ID)
         print(userInfo)
         return render_template('profile.html')
     else:
