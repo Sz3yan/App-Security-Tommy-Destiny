@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- EditorJs -->
+    <script src="https://cdn.jsdelivr.net/npm/codex.editor.header@2.0.4/dist/bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Image -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script><!-- Code -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script><!-- Embed -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script><!-- Table -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script><!-- Link -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script><!-- Warning -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script><!-- Image -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script><!-- Editor -->
+
+    <style>
+        form label {
+            display: none;
+        }
+    </style>
+</head>
+
+{% from "includes/formHelper.html" import render_field %}
+
+<body>
+    <div class="flex justify-center mx-auto">
+        <div class="flex items-center mt-32 w-1/2">
+            <div class="flex-1 min-w-0">
+                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">New Page</h2>
+            </div>
+            <div class="mt-5 flex lg:mt-0 lg:ml-4">
+                <span class="hidden sm:block ml-3">
+                    <a href="/admin/pages">
+                        <button type="button"
+                            class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <!-- Heroicon name: solid/link -->
+                            <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Back
+                        </button>
+                    </a>
+                </span>
+
+                <span class="hidden sm:block ml-3">
+                    <form method="POST" id="formdelete" action="/admin/delete/pages/{{ id }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <button
+                            class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <span><svg fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"
+                                    width="30px" height="30px">
+                                    <path
+                                        d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z" />
+                                </svg></span>
+                        </button>
+                    </form>
+                </span>
+
+                <span class="sm:ml-3">
+                    <form method="POST" id="form" onsubmit="savelah()">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        {{ render_field(form.content, id="hihi") }}
+                        <button type="submit"
+                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            title="Settings">
+                            Publish
+                        </button>
+                    </form>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mx-auto mt-10 w-1/2">
+        <div id="editorjs"></div>
+        <script>
+            var editor = new EditorJS({
+                holder: 'editorjs',
+                autofocus: true,
+
+                tools: {
+                    header: {
+                        class: Header,
+                        inlineToolbar: ['marker', 'link'],
+                        config: {
+                            placeholder: 'Header'
+                        },
+                        shortcut: 'CMD+SHIFT+H'
+                    },
+
+                    image: SimpleImage,
+
+                    list: {
+                        class: List,
+                        inlineToolbar: true,
+                        shortcut: 'CMD+SHIFT+L'
+                    },
+
+                    checklist: {
+                        class: Checklist,
+                        inlineToolbar: true,
+                    },
+
+                    quote: {
+                        class: Quote,
+                        inlineToolbar: true,
+                        config: {
+                            quotePlaceholder: 'Enter a quote',
+                            captionPlaceholder: 'Quote\'s author',
+                        },
+                        shortcut: 'CMD+SHIFT+O'
+                    },
+
+                    warning: Warning,
+
+                    marker: {
+                        class: Marker,
+                        shortcut: 'CMD+SHIFT+M'
+                    },
+
+                    delimiter: Delimiter,
+
+                    inlineCode: {
+                        class: InlineCode,
+                        shortcut: 'CMD+SHIFT+C'
+                    },
+
+                    linkTool: LinkTool,
+
+                    embed: Embed,
+
+                    table: {
+                        class: Table,
+                        inlineToolbar: true,
+                        shortcut: 'CMD+ALT+T'
+                    },
+
+                },
+
+                data: {
+                    blocks: [
+                        {% for block in data %}
+                          {{ block | tojson | safe }},
+            {% endfor %}
+                  ]
+              },
+
+            onChange: function(api, event) {
+                console.log('something changed', event);
+            }
+          });
+
+            function savelah() {
+                const hihi = document.getElementById('hihi');
+
+                editor.save().then((outputData) => {
+                    hihi.value = JSON.stringify(outputData);
+                }).catch((error) => {
+                    console.log('Saving failed: ', error)
+                });
+            }
+        </script>
+    </div>
+</body>
+
+</html>

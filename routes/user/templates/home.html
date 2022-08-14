@@ -2,153 +2,150 @@
 {% block title %}Tom Destiny - Home{% endblock %}
 
 {% block js %}
-
+<script src="https://cdn.jsdelivr.net/npm/codex.editor.header@2.0.4/dist/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Image -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script><!-- Code -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script><!-- Embed -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script><!-- Table -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script><!-- Link -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script><!-- Warning -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script><!-- Editor -->
 {% endblock %}
 
 {% block bodyContent %}
-
 <div class="relative -mt-[5.75rem] overflow-hidden pt-[5.75rem] pb-16">
-  <img src="/img/beams-home@95.jpg" alt="" class="absolute -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
-  <div class="relative mx-auto mt-16 grid w-full max-w-container grid-cols-1 px-4 sm:mt-20 sm:px-6 lg:px-8 xl:mt-32">
-      <div class="col-start-1 row-start-1 h-7 text-base font-semibold leading-7 text-sky-500" aria-hidden="true">By the makers of Tommy Destiny</div>
-      <h1 class="col-start-1 row-start-2 mt-4 max-w-[36rem] text-4xl font-extrabold tracking-tight text-slate-900 sm:text-7xl xl:max-w-[43.5rem]"> Stage 1: Building the foundation</h1>
-      <p class="col-start-1 row-start-3 mt-4 max-w-lg text-lg text-slate-700">Beautifully designed, expertly crafted components and templates, built by the makers of Tommy Destiny. Now, 1 admin many users. </p>
-      <div class="col-start-1 row-start-4 mt-10 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-            <a class="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-slate-900 text-white hover:bg-slate-700" href="/about">
+    <img src="/img/beams-home@95.jpg" alt=""
+        class="absolute -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
+    <div class="relative mx-auto mt-16 grid w-full max-w-container grid-cols-1 px-4 sm:mt-20 sm:px-6 lg:px-8 xl:mt-32">
+        <div class="col-start-1 row-start-1 h-7 text-base font-semibold leading-7 text-sky-500" aria-hidden="true">By
+            the makers of Tommy Destiny</div>
+        <h1
+            class="col-start-1 row-start-2 mt-4 max-w-[36rem] text-4xl font-extrabold tracking-tight text-slate-900 sm:text-7xl xl:max-w-[43.5rem]">
+            Stage 1: Building the foundation</h1>
+        <p class="col-start-1 row-start-3 mt-4 max-w-lg text-lg text-slate-700">Beautifully designed, expertly crafted
+            components and templates, built by the makers of Tommy Destiny. Now, 1 admin many users. </p>
+        <div class="col-start-1 row-start-4 mt-10 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+            <a class="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-slate-900 text-white hover:bg-slate-700"
+                href="/about">
                 <span>About <span aria-hidden="true" class="hidden text-slate-400 sm:inline">→</span>
                 </span>
             </a>
-            <a class="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-white/0 text-slate-900 ring-1 ring-slate-900/10 hover:bg-white/25 hover:ring-slate-900/15 " href="/changelog">
+            <a class="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-white/0 text-slate-900 ring-1 ring-slate-900/10 hover:bg-white/25 hover:ring-slate-900/15 "
+                href="/changelog">
                 <span>Changelog <span aria-hidden="true" class="hidden text-black/25 sm:inline">→</span>
                 </span>
             </a>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
 
 <section class="mt-32 w-full overflow-hidden">
-  <div class="mx-auto max-w-container px-4 sm:px-6 lg:px-8">
-      <div class="max-w-2xl">
-          <h2 class="text-base font-semibold leading-7 text-sky-500">Latest</h2>
-          <p class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900">Top 4 post</p>
-      </div>
-      <div class="max-w-xl">
-          <p class="mt-4 text-base leading-7 text-slate-700">Visually-stunning, easy to customize site templates built with React and Next.js. The perfect starting point for your next project and the ultimate resource for learning how experts build real websites with Tailwind CSS.</p>
-      </div>
-      <div class="mt-6">
-          <a class="text-base font-semibold text-sky-500 hover:text-slate-700" href="/allposts">Explore all posts <span aria-hidden="true">→</span>
-          </a>
-      </div>
-      <div class="-mx-4 mt-16 flex overflow-x-auto sm:-mx-6 lg:block">
-          <div class="min-w-full flex-none px-4 sm:px-6">
-              <div class="flex space-x-10 border-t border-slate-200 md:space-x-6 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
-                  <div class="group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto border-blue-500">
-                      <h3 class="md:mt-4">
-                          <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-blue-600">
-                              <span class="absolute inset-0 -top-px"></span>Primer </button>
-                      </h3>
-                      <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-blue-500 md:text-white"> Info product</p>
-                      <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">We’ve actually published four info products ourselves and this landing page is honestly better than the sites we designed for all of those.</p>
-                  </div>
-                  <div class="group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto border-transparent hover:border-slate-400">
-                      <h3 class="md:mt-4">
-                          <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-slate-900">
-                              <span class="absolute inset-0 -top-px"></span>Transmit </button>
-                      </h3>
-                      <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-slate-100 md:text-slate-500 md:group-hover:bg-slate-200"> Podcast</p>
-                      <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">You’ve ordered your SM7B, boom arm, and a bunch of acoustic foam. With this template, you can finally stop procrastinating and record your first episode.</p>
-                  </div>
-                  <div class="group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto border-transparent hover:border-slate-400">
-                      <h3 class="md:mt-4">
-                          <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-slate-900">
-                              <span class="absolute inset-0 -top-px"></span>Syntax </button>
-                      </h3>
-                      <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-slate-100 md:text-slate-500 md:group-hover:bg-slate-200"> Documentation</p>
-                      <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">Writing documentation is enough to make you rip your hair out without worrying about the design. Let us help you keep a few strands.</p>
-                  </div>
-                  <div class="group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto border-transparent hover:border-slate-400">
-                      <h3 class="md:mt-4">
-                          <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-slate-900">
-                              <span class="absolute inset-0 -top-px"></span>Salient </button>
-                      </h3>
-                      <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-slate-100 md:text-slate-500 md:group-hover:bg-slate-200"> SaaS marketing</p>
-                      <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">Every SaaS marketing site uses the same formula — a hero, feature sections, some testimonials, you know the drill. But some are prettier than others.</p>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="-mx-4 flex transition-transform duration-500" style="transform: translateX(0%);">
-          <div class="w-full flex-none sm:px-4">
-              <p class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden">We’ve actually published four info products ourselves and this landing page is honestly better than the sites we designed for all of those.</p>
-              <img src="https://source.unsplash.com/random" alt="Screenshot of the Primer template" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0 mx-auto">
-          </div>
-          <div class="w-full flex-none sm:px-4">
-              <p class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden">You’ve ordered your SM7B, boom arm, and a bunch of acoustic foam. With this template, you can finally stop procrastinating and record your first episode.</p>
-              <img src="static/image/preview.png" alt="Screenshot of the Transmit template" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0">
-          </div>
-          <div class="w-full flex-none sm:px-4">
-              <p class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden">Writing documentation is enough to make you rip your hair out without worrying about the design. Let us help you keep a few strands.</p>
-              <img src="static/image/preview.png" alt="Screenshot of the Syntax template" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0">
-          </div>
-          <div class="w-full flex-none sm:px-4">
-              <p class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden">Every SaaS marketing site uses the same formula — a hero, feature sections, some testimonials, you know the drill. But some are prettier than others. </p>
-              <img src="static/image/preview.png" alt="Screenshot of the Salient template" class="mt-10 aspect-[1216/640] sm:rounded-3xl md:mt-0">
-          </div>
-      </div>
-  </div>
-</section>
-
-<!-- <div class="tom-destiny-inner">
-    <section class="tom-destiny-topic tom-destiny-topic-grid">
-        <h2 class="tom-destiny-topic-name">
-            <a href="/">Latest</a>
-        </h2>
-
-        <div class="tom-destiny-topic-content">
-            <article class="tom-destiny-card post large">
-                <a class="tom-destiny-card-link" href="/view_post">
-                    <figure class="tom-destiny-card-image">
-                        <img src="https://images.unsplash.com/photo-1612892483236-52d32a0e0ac1?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDJ8fG1hcnN8ZW58MHx8fHwxNjQ2Mjc3NjQw&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="A Mars Rover Explored a Wasteland and Found an Oasis">
-                    </figure>
-
-                    <div class="tom-destiny-card-wrapper">
-                        <header class="tom-destiny-card-header">
-                            <h3 class="tom-destiny-card-title">A Mars Rover Explored a Wasteland and Found an Oasis</h3>
-                        </header>
-
-                        <div class="tom-destiny-card-excerpt">Maecenas consectetur pharetra nisi, vel congue ligula tempor quis.
-                            Sed turpis lorem, tempor varius pharetra pretium, varius at lorem. Nam viverra blandit massa
-                            id vehicula. Ut feugiat in erat vitae lacinia. Etiam tincidunt eros vitae neque iaculis
-                            elementum. Etiam vestibulum scelerisque nisl in placerat. Curabitur ultrices quam et ligula
-                            congue,</div>
-
-                        <footer class="tom-destiny-card-footer">
-                            <time class="tom-destiny-card-date" datetime="2022-03-03">Mar 3, 2022</time>
-                        </footer>
-                    </div>
-                </a>
-            </article>
-
-            {% for post in posts %}
-                <article class="tom-destiny-card post featured">
-                    <a class="tom-destiny-card-link" href="/post/{{ post['_Post__id'] }}">
-                        <figure class="tom-destiny-card-image">
-                            <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwxMTc3M3wwfDF8c2VhcmNofDE4fHxhcnR8ZW58MHx8fHwxNjQ2MjgwMTY5&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=2000" alt="How has this complete original been sidelined?">
-                        </figure>
-
-                        <div class="tom-destiny-card-wrapper">
-                            <header class="tom-destiny-card-header">
-                                <h3 class="tom-destiny-card-title">{{ post['_Post__title'] }}</h3>
-                            </header>
-
-                            <footer class="tom-destiny-card-footer">
-                                <div class="tom-destiny-card-date">{{ post['_Post__published_at'] }}</div>
-                            </footer>
-                        </div>
-                    </a>
-                </article>
-            {% endfor %}
+    <div class="mx-auto max-w-container px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl">
+            <h2 class="text-base font-semibold leading-7 text-sky-500">Latest</h2>
+            <p class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900">Top 4 post</p>
         </div>
-    </section>
-</div> -->
+        <div class="max-w-xl">
+            <p class="mt-4 text-base leading-7 text-slate-700">Visually-stunning, easy to customize site templates built
+                with React and Next.js. The perfect starting point for your next project and the ultimate resource for
+                learning how experts build real websites with Tailwind CSS.</p>
+        </div>
+        <div class="mt-6">
+            <a class="text-base font-semibold text-sky-500 hover:text-slate-700" href="/allposts">Explore all posts
+                <span aria-hidden="true">→</span>
+            </a>
+        </div>
+
+        <div class="-mx-4 mt-16 flex overflow-x-auto sm:-mx-6 lg:block">
+            <div class="min-w-full flex-none px-4 sm:px-6">
+                <div class="flex space-x-10 border-t border-slate-200 md:space-x-6 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
+                    <div id="defaultOpen" onclick="openCity(event, 'post1')" class="tablinks group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto hover:border-blue-500">
+                        <h3 class="md:mt-4">
+                            <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-blue-600">
+                                <span class="absolute inset-0 -top-px"></span> {{ posts[0]['_Post__title'] }} </button>
+                        </h3>
+                        <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-blue-500 md:text-white">Post Info</p>
+                        <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">We’ve actually published four info products ourselves and this landing page is honestly better than the sites we designed for all of those.</p>
+                    </div>
+
+                    <div onclick="openCity(event, 'post2')" class="tablinks group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto hover:border-blue-500">
+                        <h3 class="md:mt-4">
+                            <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-blue-600">
+                                <span class="absolute inset-0 -top-px"></span> {{ posts[1]['_Post__title'] }} </button>
+                        </h3>
+                        <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-blue-500 md:text-white">Post Info</p>
+                        <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">We’ve actually published four info products ourselves and this landing page is honestly better than the sites we designed for all of those.</p>
+                    </div>
+
+                    <div onclick="openCity(event, 'post3')" class="tablinks group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto hover:border-blue-500">
+                        <h3 class="md:mt-4">
+                            <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-blue-600">
+                                <span class="absolute inset-0 -top-px"></span> {{ posts[2]['_Post__title'] }} </button>
+                        </h3>
+                        <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-blue-500 md:text-white">Post Info</p>
+                        <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">We’ve actually published four info products ourselves and this landing page is honestly better than the sites we designed for all of those.</p>
+                    </div>
+
+                    <div onclick="openCity(event, 'post4')" class="tablinks group relative -mt-px flex flex-none flex-col items-start border-t pt-4 pb-6 text-left md:w-[35vw] md:pb-16 md:pt-8 lg:w-auto hover:border-blue-500">
+                        <h3 class="md:mt-4">
+                            <button type="button" class="text-base font-semibold leading-7 md:text-slate-900 text-blue-600">
+                                <span class="absolute inset-0 -top-px"></span> {{ posts[3]['_Post__title'] }} </button>
+                        </h3>
+                        <p class="text-sm leading-6 text-slate-600 md:order-first md:rounded-full md:px-2 md:text-xs md:font-semibold md:leading-7 md:bg-blue-500 md:text-white">Post Info</p>
+                        <p class="mt-2 hidden text-sm leading-6 text-slate-700 md:block">We’ve actually published four info products ourselves and this landing page is honestly better than the sites we designed for all of those.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="-mx-4 flex transition-transform duration-500" style="transform: translateX(0%);">
+        <div id="post1" class="tabcontent w-full flex-none sm:px-4">
+            <p onclick="this.parentElement.style.display='none'" class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden"></p>
+            <iframe class="w-full h-screen" src="/top4post/{{ posts[0]['_Post__id'] }}" frameborder="0" allowtransparency="true"></iframe>
+        </div>
+
+        <div id="post2" class="tabcontent w-full flex-none sm:px-4">
+            <p onclick="this.parentElement.style.display='none'" class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden"></p>
+            <iframe class="w-full h-screen" src="/top4post/{{ posts[1]['_Post__id'] }}" frameborder="0" allowtransparency="true"></iframe>
+        </div>
+
+        <div id="post3" class="tabcontent w-full flex-none sm:px-4">
+            <p onclick="this.parentElement.style.display='none'" class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden"></p>
+            <iframe class="w-full h-screen" src="/top4post/{{ posts[2]['_Post__id'] }}" frameborder="0" allowtransparency="true"></iframe>
+        </div>
+
+        <div id="post4" class="tabcontent w-full flex-none sm:px-4">
+            <p onclick="this.parentElement.style.display='none'" class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden"></p>
+            <iframe class="w-full h-screen" src="/top4post/{{ posts[3]['_Post__id'] }}" frameborder="0" allowtransparency="true"></iframe>
+        </div>
+
+        <script>
+            function openCity(evt, cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+    </div>
+</section>
 {% endblock %}

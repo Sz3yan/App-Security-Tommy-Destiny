@@ -97,6 +97,24 @@ class FirebaseClass:
             if i.val()["_Post__id"] == post_id:
                 self.__database.child("Post").child(i.key()).remove()
                 return "Post deleted"
+
+    def create_page(self, page_dict):
+        self.__database.child("Page").push(page_dict.__dict__)
+
+    def get_page(self):
+        return self.__database.child("Page").get()
+
+    def update_page(self, page_id, page_dict):
+        for i in self.__database.child("Page").get().each():
+            if i.val()["_Page__id"] == page_id:
+                self.__database.child("Page").child(i.key()).update(page_dict.__dict__)
+                return "Page updated"
+
+    def delete_page(self, page_id):
+        for i in self.__database.child("Page").get().each():
+            if i.val()["_Page__id"] == page_id:
+                self.__database.child("Page").child(i.key()).remove()
+                return "Page deleted"
     
     # Storage
     def get_image_url(self):
@@ -109,7 +127,9 @@ class FirebaseClass:
 class FirebaseAdminClass(FirebaseClass):
     def __init__(self):
         super().__init__()
-        self.__firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate("static/serviceAccountKey.json"),{"databaseURL": os.getenv("DATABASE_URL")})
+        path = os.path.dirname(os.path.abspath(__file__))
+        serviceAccountKey = os.path.join(path, "serviceAccountKey.json")
+        self.__firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate(serviceAccountKey),{"databaseURL": os.getenv("DATABASE_URL")})
         self.__firebaseAdmin_db_reference = db.reference()
 
     # Get User
@@ -135,38 +155,35 @@ class FirebaseAdminClass(FirebaseClass):
     # Get Policy
     def fa_get_csp(self):
         return self.__firebaseAdmin_db_reference.child('Content_Security_Policy').get()
+
+
+# # # Test
+# if __name__ == "__main__":
+#     fb = FirebaseClass()
+#     fba = FirebaseAdminClass()
+
+#     # fba.fa_create_csp('homeage',['hellp'], ['asdas','sadasdass'])
+#     # fba.fa_create_csp('login',['hellp'], ['asdas','sadasdass'])
+#     # fba.fa_create_csp()
+#     # print(fba.fa_get_csp())
+
+#     fb.create_user("YouKnow@gmail.com","Hello123456")
+#     fb.login_user("YouKnow@gmail.com","Hello123456")
+
+#     # auth.update_user(fb.get_user(), display_name="Your welcome")
+#     # print(fb.get_user())
     
-
-    
-
-
-# # Test
-if __name__ == "__main__":
-    fb = FirebaseClass()
-    fba = FirebaseAdminClass()
-
-    # fba.fa_create_csp('homeage',['hellp'], ['asdas','sadasdass'])
-    # fba.fa_create_csp('login',['hellp'], ['asdas','sadasdass'])
-    # fba.fa_create_csp()
-    # print(fba.fa_get_csp())
-
-    fb.create_user("YouKnow@gmail.com","Hello123456")
-    fb.login_user("YouKnow@gmail.com","Hello123456")
-
-    # auth.update_user(fb.get_user(), display_name="Your welcome")
-    # print(fb.get_user())
-    
-    # print(fba.get_user(fb.get_user()).uid)
-    # # print(fba.get_db())
+#     # print(fba.get_user(fb.get_user()).uid)
+#     # # print(fba.get_db())
 
 
 
 
 
-#     # fb.get_image_url()
-#     # fb.create_user("plshelpme@mail.com", "unknown")
-#     # fb.login_user("hai@mail.com", "unknown")
+# #     # fb.get_image_url()
+# #     # fb.create_user("plshelpme@mail.com", "unknown")
+# #     # fb.login_user("hai@mail.com", "unknown")
 
-#     pushorpull_post = FirebaseClass()
-#     for i in pushorpull_post.get_post().each():
-#         print(i.key())
+# #     pushorpull_post = FirebaseClass()
+# #     for i in pushorpull_post.get_post().each():
+# #         print(i.key())

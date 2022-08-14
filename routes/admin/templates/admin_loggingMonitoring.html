@@ -5,27 +5,18 @@
 </head>
 
 <body>
-    <!-- This example requires Tailwind CSS v2.0+ -->
-    <!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-gray-100">
-  <body class="h-full">
-  ```
--->
     <div class="min-h-full">
         <nav class="bg-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <img class="h-8 w-8" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                alt="Workflow">
+                            <a href="/"><img class="h-8 w-8"
+                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                                alt="Workflow"></a>
                         </div>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
-                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                                 <a href="/admin/dashboard"
                                     class="hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
                                     aria-current="page">Dashboard</a>
@@ -40,12 +31,9 @@
                                 <a href="/admin/pages"
                                     class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Pages</a>
 
-                                <a href="/admin/members"
-                                    class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Members</a>
-
-                                <a href="/admin/auditlog"
-                                    class="text-gray-300 bg-gray-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Audit
-                                    Logs</a>
+                                <a href="/admin/loggingMonitoring"
+                                    class="text-gray-300 bg-gray-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logs
+                                    and Monitoring</a>
                             </div>
                         </div>
                     </div>
@@ -109,20 +97,12 @@
                             class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                             aria-controls="mobile-menu" aria-expanded="false">
                             <span class="sr-only">Open main menu</span>
-                            <!--
-                Heroicon name: outline/menu
-  
-                Menu open: "hidden", Menu closed: "block"
-              -->
+
                             <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
-                            <!--
-                Heroicon name: outline/x
-  
-                Menu open: "block", Menu closed: "hidden"
-              -->
+
                             <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -150,12 +130,9 @@
                     <a href="/admin/pages"
                         class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Pages</a>
 
-                    <a href="/admin/members"
-                        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Members</a>
-
-                    <a href="/auditlog"
-                        class="text-gray-300 bg-gray-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Audit
-                        Logs</a>
+                    <a href="/loggingMonitoring"
+                        class="text-gray-300 bg-gray-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logs
+                        and Monitoring</a>
                 </div>
                 <div class="pt-4 pb-3 border-t border-gray-700">
                     <div class="flex items-center px-5">
@@ -197,7 +174,7 @@
 
         <header class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold text-gray-900">Audit log</h1>
+                <h1 class="text-3xl font-bold text-gray-900">Logs and Monitoring</h1>
             </div>
         </header>
         <main>
@@ -209,8 +186,8 @@
                             <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">
-                                        <span
-                                            class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">2,340</span>
+                                        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{
+                                            admin_count }}</span>
                                         <h3 class="text-base font-normal text-gray-500">Admin Logs</h3>
                                     </div>
                                     <div
@@ -228,8 +205,8 @@
                             <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">
-                                        <span
-                                            class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">5,355</span>
+                                        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{
+                                            user_count }}</span>
                                         <h3 class="text-base font-normal text-gray-500">User Logs</h3>
                                     </div>
                                     <div
@@ -271,17 +248,64 @@
                                     <div class="bg-white shadow sm:rounded-lg">
                                         <div class="px-4 py-5 sm:px-6">
                                             <h3 class="text-lg leading-6 font-medium text-gray-900">Admin Logs</h3>
-                                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
+                                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and
+                                                application. Latest 15 logs</p>
                                         </div>
                                         <div class="border-t border-gray-200">
-                                            <dl>
-                                                {% for logs in admin_logs %}
-                                                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                        <dt class="text-sm font-medium text-gray-500">{{ admin_logs[loop.index - 1][53:101] }}</dt>
-                                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ admin_logs[loop.index - 1][1:20] }}</dd>
-                                                    </div>
-                                                {% endfor %}
-                                            </dl>
+                                            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                                                <table class="w-full h-4 text-sm text-left text-gray-500 dark:text-gray-400">
+                                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                        <tr>
+                                                            <th scope="col" class="p-4">
+                                                                <div class="flex items-center">
+                                                                    <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                                    <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col" class="py-3 px-6">
+                                                                Level
+                                                            </th>
+                                                            <th scope="col" class="py-3 px-6">
+                                                                Timestamp
+                                                            </th>
+                                                            <th scope="col" class="py-3 px-6">
+                                                                Event
+                                                            </th>
+                                                            <th scope="col" class="py-3 px-6">
+                                                                Action
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="overflow-y-scroll" id="myTable">
+                                                        {% for logs in admin_logs %}
+                                                            {% if loop.index <= 15 %}
+                                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                                    <td class="p-4 w-4">
+                                                                        <div class="flex items-center">
+                                                                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td scope="row"
+                                                                        class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                        {{ admin_logs[(admin_logs | length) - loop.index]["levelname"] }}
+                                                                    </td>
+                                                                    <td class="py-4 px-6">
+                                                                        {{ admin_logs[(admin_logs | length) - loop.index]["created"]}}
+                                                                    </td>
+                                                                    <td class="py-4 px-6">
+                                                                        {{ admin_logs[(admin_logs | length) - loop.index]["message"]}}
+                                                                    </td>
+                                                                    <td class="py-4 px-6">
+                                                                        <a href="#"
+                                                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -296,24 +320,70 @@
                                     <div class="bg-white shadow sm:rounded-lg">
                                         <div class="px-4 py-5 sm:px-6">
                                             <h3 class="text-lg leading-6 font-medium text-gray-900">User Logs</h3>
-                                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
+                                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and
+                                                application. Latest 15 logs</p>
                                         </div>
                                         <div class="border-t border-gray-200">
-                                            <dl>
-                                                {% for logs in user_logs %}
-                                                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                        <dt class="text-sm font-medium text-gray-500">{{ user_logs[loop.index - 1][53:101] }}</dt>
-                                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ user_logs[loop.index - 1][1:20] }}</dd>
-                                                    </div>
-                                                {% endfor %}
-                                            </dl>
+                                            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                                                <table class="overflow-scroll w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                        <tr>
+                                                            <th scope="col" class="p-4">
+                                                                <div class="flex items-center">
+                                                                    <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                                    <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col" class="py-3 px-6">
+                                                                Level
+                                                            </th>
+                                                            <th scope="col" class="py-3 px-6">
+                                                                Timestamp
+                                                            </th>
+                                                            <th scope="col" class="py-3 px-6">
+                                                                Event
+                                                            </th>
+                                                            <th scope="col" class="py-3 px-6">
+                                                                Action
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="height: 1vh;">
+                                                        {% for logs in user_logs %}
+                                                            {% if loop.index <= 15 %}
+                                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                                    <td class="p-4 w-4">
+                                                                        <div class="flex items-center">
+                                                                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <th scope="row"
+                                                                        class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                        {{ user_logs[(user_logs | length) - loop.index]["levelname"] }}
+                                                                    </th>
+                                                                    <td class="py-4 px-6">
+                                                                        {{ user_logs[(user_logs | length) - loop.index]["created"]}}
+                                                                    </td>
+                                                                    <td class="py-4 px-6">
+                                                                        {{ user_logs[(user_logs | length) - loop.index]["message"]}}
+                                                                    </td>
+                                                                    <td class="py-4 px-6">
+                                                                        <a href="#"
+                                                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- /End replace -->
                         </div>
-
                     </div>
                 </div>
                 <!-- /End replace -->

@@ -11,21 +11,9 @@
 
     <body>
         <div class="mx-auto w-5/6">
-            <header>
-                {% block navbar %}
-                    {% include 'includes/navbar.html' %}
-                {% endblock %}
-            </header>
-
             <main >
                 {% block bodyContent %}{% endblock %}
             </main>
-
-            <footer>
-                {% block footer %}
-                    {% include 'includes/footer.html' %}
-                {% endblock %}
-            </footer>
         </div>
     </body>
 

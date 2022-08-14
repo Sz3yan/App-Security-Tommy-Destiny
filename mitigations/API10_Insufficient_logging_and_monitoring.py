@@ -1,5 +1,7 @@
 import logging
 import os
+import json
+from pythonjsonlogger import jsonlogger
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -40,8 +42,9 @@ class Admin_Logger(Logger):
         adminhandler = logging.FileHandler(logs_path + '/admin_log.log')
         adminhandler.setLevel(logging.INFO)
 
-        adminformatter = logging.Formatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
+        adminformatter = jsonlogger.JsonFormatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
         adminhandler.setFormatter(adminformatter)
+
         self.addHandler(adminhandler)
 
     def read_adminlog(self):
@@ -63,7 +66,7 @@ class User_Logger(Logger):
         userhandler = logging.FileHandler(logs_path + '/user_log.log')
         userhandler.setLevel(logging.INFO)
 
-        userformatter = logging.Formatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
+        userformatter = jsonlogger.JsonFormatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
         userhandler.setFormatter(userformatter)
         self.addHandler(userhandler)
 

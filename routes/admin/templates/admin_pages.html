@@ -11,17 +11,19 @@
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <a href="/"><img class="h-8 w-8" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                alt="Workflow"></a>
+                            <a href="/"><img class="h-8 w-8"
+                                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                                    alt="Workflow"></a>
                         </div>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
-                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                <a href="/admin/dashboard" class="hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                <a href="/admin/dashboard"
+                                    class="hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
                                     aria-current="page">Dashboard</a>
 
                                 <a href="/admin/viewsite"
-                                    class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">View Site</a>
+                                    class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">View
+                                    Site</a>
 
                                 <a href="/admin/posts"
                                     class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Posts</a>
@@ -29,11 +31,9 @@
                                 <a href="/admin/pages"
                                     class="text-gray-300 bg-gray-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Pages</a>
 
-                                <a href="/admin/members"
-                                    class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Members</a>
-
-                                <a href="/admin/auditlog"
-                                    class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Audit Logs</a>
+                                <a href="/admin/loggingMonitoring"
+                                    class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logs
+                                    and Monitoring</a>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,8 @@
                                     </button>
                                 </div>
 
-                                <div id="profile-drop" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                <div id="profile-drop"
+                                    class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
                                     tabindex="-1">
                                     <!-- Active: "bg-gray-100", Not Active: "" -->
@@ -115,11 +116,13 @@
             <div class="md:hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                    <a href="/admin/dashboard" class="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
+                    <a href="/admin/dashboard"
+                        class="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
                         aria-current="page">Dashboard</a>
 
                     <a href="/admin/viewsite"
-                        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">View Site</a>
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">View
+                        Site</a>
 
                     <a href="/admin/posts"
                         class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Posts</a>
@@ -127,11 +130,9 @@
                     <a href="/admin/pages"
                         class="text-gray-300 bg-gray-900 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Pages</a>
 
-                    <a href="/admin/members"
-                        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Members</a>
-
-                    <a href="/auditlog"
-                        class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Audit Logs</a>
+                    <a href="/admin/loggingMonitoring"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logs
+                        and Monitoring</a>
                 </div>
                 <div class="pt-4 pb-3 border-t border-gray-700">
                     <div class="flex items-center px-5">
@@ -243,9 +244,10 @@
                         </span>
 
                         <span class="sm:ml-3">
-                            <form method="POST" action="editor/posts/{{ id }}">
+                            <form method="POST" action="editor/pages/{{ id }}">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                                <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <!-- Heroicon name: solid/check -->
                                     <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -291,13 +293,11 @@
                     <div class="rounded-lg h-96">
                         <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" class="py-3 px-6">
                                             Title
-                                        </th>
-                                        <th scope="col" class="py-3 px-6">
-                                            Status
                                         </th>
                                         <th scope="col" class="py-3 px-6">
                                             Publish
@@ -311,25 +311,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <th scope="row"
-                                            class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            title
-                                        </th>
-                                        <td class="py-4 px-6">
-                                            status
-                                        </td>
-                                        <td class="py-4 px-6">
-                                            publish
-                                        </td>
-                                        <td class="py-4 px-6">
-                                            915
-                                        </td>
-                                        <td class="py-4 px-6 text-right">
-                                            <a href="/admin/pages"
-                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                        </td>
-                                    </tr>
+                                    {% for page in pages %}
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <th scope="row"
+                                                class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {{ page['_Page__title'] }}
+                                            </th>
+                                            <td class="py-4 px-6">
+                                                {{ page['_Page__published_at'] }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                915
+                                            </td>
+                                            <td class="py-4 px-6 text-right">
+                                                <a href="editor/pages/{{ page['_Page__id'] }}"
+                                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>

@@ -5,8 +5,10 @@ from functools import wraps
 from flask import Blueprint, redirect, render_template, request, url_for, g, session, abort
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
 from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger, User_Logger
-from static.py.firebaseConnection import FirebaseClass
+from static.firebaseConnection import FirebaseAdminClass, FirebaseClass
 from routes.admin.static.py.Post import Post, SubmitPostForm
+from routes.admin.static.py.Page import Page
+
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 
@@ -14,7 +16,9 @@ Admin_Logger = Admin_Logger()
 User_Logger = User_Logger()
 
 keymanagement = GoogleCloudKeyManagement()
-secret_key = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "key_id"))
+secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "hsm_tommy"))
+secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "hsm_tommy1"))
+
 
 def admin_required(f):
     @wraps(f)
@@ -43,9 +47,10 @@ def admin_dashboard():
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
+        Admin_Logger.log_info("Admin dashboard: retrieved posts")
     except:
         posts = []
-        Admin_Logger.log_exception("No posts found")
+        Admin_Logger.log_exception("Admin dashboard: No posts found")
 
     admin_logs = Admin_Logger.read_adminlog()
     user_logs = User_Logger.read_userlog()
@@ -66,16 +71,12 @@ def post():
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
+        Admin_Logger.log_info("Admin posts: retrieved posts")
     except:
         posts = []
-        Admin_Logger.log_exception("No posts found")
+        Admin_Logger.log_exception("Admin posts: No posts found")
 
     return render_template('admin_post.html', id=new_id, posts=posts)
-
-
-@admin.route("/pages")
-def page():
-    return render_template('admin_pages.html')
 
 
 @admin.route("/editor/posts/<id>", methods=["GET", "POST"])
@@ -98,16 +99,17 @@ def editor_post(id):
             if i.val()["_Post__id"] == id:
                 plaintext = i.val()["_Post__plaintext"]
 
-                decrypted = aes_gcm.decrypt(secret_key, plaintext)
-                print("decrypted: ", decrypted)
+                decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
+                Admin_Logger.log_info(f"Admin editor: decrypted post {id}")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
-                Admin_Logger.log_info(f"view: post_id {id}: ")
             else:
                 data = data
+
+        pull_post.delete_app()
     except:
-        Admin_Logger.log_exception("No posts found")
+        Admin_Logger.log_exception("Admin editor: No posts found")
 
     submit_post = SubmitPostForm(request.form)
 
@@ -126,12 +128,10 @@ def editor_post(id):
             content_to_dict = json.loads(content_string)
             title = content_to_dict["blocks"][0]["data"]["text"]
         except:
-            Admin_Logger.log_exception("No title found, must change first")
             title = "title"
 
-        encrypted_content = aes_gcm.encrypt(secret_key, content)
-        # print("encrypted_content: ", encrypted_content)
-        Admin_Logger.log_info(f"encrypted post_id {id}: " + encrypted_content)
+        encrypted_content = aes_gcm.encrypt(secret_key_post, content)
+        Admin_Logger.log_info(f"Admin editor: encrypted post {id}")
 
         newPost.set_id(id)
         newPost.set_title(title)
@@ -141,13 +141,13 @@ def editor_post(id):
         length = 0
         for posts in createorupdate.get_post().each():
             length += 1
-            if posts.val()["_Post__id"] == id:  # false
+            if posts.val()["_Post__id"] == id:
                 createorupdate.update_post(id, newPost)
-                Admin_Logger.log_info(f"updated post_id {id}: " + encrypted_content)
+                Admin_Logger.log_info(f"Admin editor: update post {id}")
                 return redirect(url_for('admin.post'))
             elif length == len(createorupdate.get_post().each()):
                 createorupdate.create_post(newPost)
-                Admin_Logger.log_info(f"created post_id {id}: " + encrypted_content)
+                Admin_Logger.log_info(f"Admin editor: create post {id}")
                 return redirect(url_for('admin.post'))
 
         return render_template('admin_editor.html', id=id, newPost=newPost, form=submit_post, data=data)
@@ -156,41 +156,137 @@ def editor_post(id):
 
 
 @admin.route("/delete/posts/<id>", methods=["GET", "POST"])
-def delete_page(id):
+def delete_post(id):
     deletepost = FirebaseClass()
     deletepost.delete_post(id)
-    Admin_Logger.log_info(f"deleted post_id {id}:")
+    Admin_Logger.log_info(f"Admin delete: delete post {id}")
+    
     return redirect(url_for('admin.post'))
 
 
-@admin.route("/editor/pages/<id>", methods=["POST"])
+@admin.route("/pages", methods=['GET', 'POST'])
+def page():
+    newPage = Page("title")
+    new_id = newPage.get_id()
+
+    try:
+        firebase = FirebaseClass()
+        pages = [page.val() for page in firebase.get_page().each()]
+        Admin_Logger.log_info("Admin posts: retrieved pages")
+    except:
+        pages = []
+        Admin_Logger.log_exception("Admin posts: No page found")
+
+    return render_template('admin_pages.html', id=new_id, pages=pages)
+
+
+@admin.route("/editor/pages/<id>", methods=['GET', 'POST'])
 def editor_pages(id):
-    return render_template('admin_editor.html')
+    newPage = Page("title")
+    newPage.set_id(id)
+    aes_gcm = AES_GCM()
+
+    data = [{
+        "type": "header",
+        "data": {
+            "text": "Page title",
+        }
+    }]
+
+    try:
+        pull_page = FirebaseClass()
+
+        for i in pull_page.get_page().each():
+            if i.val()["_Page__id"] == id:
+                plaintext = i.val()["_Page__plaintext"]
+
+                decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
+                print(decrypted)
+                Admin_Logger.log_info(f"Admin editor: decrypted page {id}")
+
+                to_json = json.loads(decrypted)
+                data = to_json["blocks"]
+            else:
+                data = data
+    except:
+        Admin_Logger.log_exception("Admin editor: No page found")
+
+    submit_page = SubmitPostForm(request.form)
+
+    try:
+        hcontent_string = submit_page.content.data
+        hcontent_to_dict = json.loads(hcontent_string)
+        htitle = hcontent_to_dict["blocks"][0]["data"]["text"]
+    except:
+        htitle = "Page title"
+
+    if request.method == "POST" and htitle != "Page title":
+        content = submit_page.content.data.encode("utf-8")
+
+        try:
+            content_string = submit_page.content.data
+            content_to_dict = json.loads(content_string)
+            title = content_to_dict["blocks"][0]["data"]["text"]
+        except:
+            title = "title"
+
+        encrypted_content = aes_gcm.encrypt(secret_key_page, content)
+        Admin_Logger.log_info(f"Admin editor: encrypted page {id}")
+
+        newPage.set_id(id)
+        newPage.set_title(title)
+        newPage.set_plaintext(encrypted_content)
+
+        createorupdate = FirebaseClass()
+        length = 0
+        for pages in createorupdate.get_page().each():
+            length += 1
+            if pages.val()["_Page__id"] == id:
+                createorupdate.update_page(id, newPage)
+                Admin_Logger.log_info(f"Admin editor: update page {id}")
+                return redirect(url_for('admin.page'))
+            elif length == len(createorupdate.get_page().each()):
+                createorupdate.create_page(newPage)
+                Admin_Logger.log_info(f"Admin editor: create page {id}")
+                return redirect(url_for('admin.page'))
+
+        return render_template('admin_editor_page.html', id=id, newPost=newPage, form=submit_page, data=data)
+
+    return render_template('admin_editor_page.html', id=id, newPost=newPage, form=submit_page, data=data)
 
 
-@admin.route("/members")
-def members():
-    return render_template('admin_members.html')
+@admin.route("/delete/pages/<id>", methods=["GET", "POST"])
+def delete_page(id):
+    deletepage = FirebaseClass()
+    deletepage.delete_page(id)
+    Admin_Logger.log_info(f"Admin delete: delete page {id}")
+    
+    return redirect(url_for('admin.page'))
 
 
-
-@admin.route("/auditlog")
+@admin.route("/loggingMonitoring")
 def audit_log():
-    Admin_Logger.log_warning("view: audit_log")
     admin_logs = Admin_Logger.read_adminlog()
-    print(admin_logs, "\n")
+    Admin_Logger.log_warning("Admin audit log: retrieved Admin logs")
+
+    tojsonAdminlog = {}
+
+    for i in admin_logs:
+        tojson = json.loads(admin_logs[i])
+        tojsonAdminlog[i] = tojson
 
     user_logs = User_Logger.read_userlog()
-    print(user_logs, "\n")
+    Admin_Logger.log_warning("Admin audit log: retrieved User logs")
 
-    return render_template('admin_audit_log.html', admin_logs=admin_logs, user_logs=user_logs)
+    tojsonUserlog = {}
+
+    for i in user_logs:
+        tojson = json.loads(user_logs[i])
+        tojsonUserlog[i] = tojson
+
+    return render_template('admin_loggingMonitoring.html', admin_logs=dict(reversed(list(tojsonAdminlog.items()))), user_logs=dict(reversed(list(tojsonUserlog.items()))), admin_count=len(admin_logs), user_count=len(user_logs))
 
 
 @admin.route("/policy")
 def policy():
-    return render_template('admin_policy.html')
-
-
-# while True:
-#     schedule.run_pending()
     return render_template('admin_policy.html')
