@@ -100,7 +100,7 @@ def editor_post(id):
                 plaintext = i.val()["_Post__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
-                Admin_Logger.log_info(f"Admin editor: decrypted post {id}")
+                Admin_Logger.log_info(f"Admin editor: decrypted post {id} with hsm_tommy key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
@@ -131,7 +131,7 @@ def editor_post(id):
             title = "title"
 
         encrypted_content = aes_gcm.encrypt(secret_key_post, content)
-        Admin_Logger.log_info(f"Admin editor: encrypted post {id}")
+        Admin_Logger.log_info(f"Admin editor: encrypted post {id} with hsm_tommy key")
 
         newPost.set_id(id)
         newPost.set_title(title)
@@ -202,7 +202,7 @@ def editor_pages(id):
 
                 decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
                 print(decrypted)
-                Admin_Logger.log_info(f"Admin editor: decrypted page {id}")
+                Admin_Logger.log_info(f"Admin editor: decrypted page {id} with hsm_tommy1 key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
@@ -231,7 +231,7 @@ def editor_pages(id):
             title = "title"
 
         encrypted_content = aes_gcm.encrypt(secret_key_page, content)
-        Admin_Logger.log_info(f"Admin editor: encrypted page {id}")
+        Admin_Logger.log_info(f"Admin editor: encrypted page {id} with hsm_tommy1 key")
 
         newPage.set_id(id)
         newPage.set_title(title)

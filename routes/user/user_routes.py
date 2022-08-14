@@ -1,4 +1,9 @@
 import json
+import stripe
+# This is a public sample test API key.
+# Don’t submit any personally identifiable information in requests made with this key.
+# Sign in to see your own test API key embedded in code samples.
+stripe.api_key = 'sk_test_Ou1w6LVt3zmVipDVJsvMeQsc'
 
 from datetime import datetime
 
@@ -87,11 +92,6 @@ def profile():
         return redirect(url_for('user.index'))
 
 
-@user.route("/payment")
-def payment():
-    return render_template("payment.html")
-
-
 @user.route("/signup", methods=["POST", "GET"])
 def signup():
     User_Logger.log_info("User signup: access signup page")
@@ -136,7 +136,7 @@ def top4post(id):
                 date = i.val()["_Post__published_at"]
 
                 decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
-                User_Logger.log_info(f"User post: decrypted post {id}")
+                User_Logger.log_info(f"User post: decrypted post {id} with hsm_tommy key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
@@ -172,7 +172,7 @@ def post(id):
                 date = i.val()["_Post__published_at"]
 
                 decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
-                User_Logger.log_info(f"User post: decrypted post {id}")
+                User_Logger.log_info(f"User post: decrypted post {id} with hsm_tommy key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
@@ -203,7 +203,7 @@ def about():
                 plaintext = i.val()["_Page__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
-                User_Logger.log_info(f"User post: decrypted page 96e4d495-29bb-414a-a4ab-adb0a65debc8")
+                User_Logger.log_info(f"User post: decrypted About page with hsm_tommy1 key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
@@ -247,7 +247,7 @@ def policy():
                 plaintext = i.val()["_Page__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
-                User_Logger.log_info(f"User post: decrypted page 70006058-1f60-4824-b77a-b63bc22342c1")
+                User_Logger.log_info(f"User post: decrypted Privacy-Policy page with hsm_tommy1 key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
