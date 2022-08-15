@@ -130,7 +130,11 @@ class FirebaseAdminClass(FirebaseClass):
         super().__init__()
         path = os.path.dirname(os.path.abspath(__file__))
         serviceAccountKey = os.path.join(path, "serviceAccountKey.json")
-        self.__firebaseAdmin = firebase_admin.initialize_app(credentials.Certificate(serviceAccountKey),{"databaseURL": os.getenv("DATABASE_URL")})
+        try:
+            firebase_admin.initialize_app(credentials.Certificate(serviceAccountKey),{"databaseURL": os.getenv("DATABASE_URL")})
+        except:
+            pass
+        
         self.__firebaseAdmin_db_reference = db.reference()
 
     # Get User

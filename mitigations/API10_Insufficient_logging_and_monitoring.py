@@ -89,12 +89,3 @@ class User_Logger(Logger):
 
 #     b = User_Logger()
 #     b.log_info("sdfsdfgs")  
-
-import logging
-import google.cloud.logging
-
-service_key_path = "/Users/YP/Documents/NYP_Applications_Security_Project/Assignments/Tommy-Destiny/google.json"
-client = google.cloud.logging.Client.from_service_account_json(service_key_path)
-
-client.setup_logging()
-logging.warning("This is a warning!")

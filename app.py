@@ -17,7 +17,6 @@ from routes.user.user_routes import user
 from routes.errors.error_routes import errors
 
 from mitigations.A7_Cross_site_scripting import CspClass
-# from werkzeug.exceptions import MethodNotAllowed
 
 
 load_dotenv()
@@ -36,6 +35,7 @@ app.config.from_object(DevConfig())
 jwt = JWTManager(app)
 csrf = CSRFProtect(app)
 sess = Session(app)
+
 
 """
     https://cdn.tailwindcss.com
@@ -66,7 +66,7 @@ sess = Session(app)
 """
 
 talisman = Talisman(app, 
-    force_https=True, 
+    force_https=False, 
     force_https_permanent=True,
     content_security_policy=False, # for now
     # content_security_policy=CSP,
@@ -88,6 +88,7 @@ app.register_blueprint(admin)
 app.register_blueprint(user)
 app.register_blueprint(errors)
 
+csrf.exempt(api)
 
 # prevent caching
 @app.after_request

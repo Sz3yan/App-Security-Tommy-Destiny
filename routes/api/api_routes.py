@@ -1,48 +1,46 @@
-from email import message
-import json
+# from crypt import methods
+# from email import message
+# import json
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import  jwt_required, create_access_token
+from flask_jwt_extended import  jwt_required, create_access_token, get_jwt_identity
 from static.firebaseConnection import FirebaseAdminClass, FirebaseClass
 from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
-import jwt
-# from app import app
+from datetime import timedelta
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
 @api.route("/login", methods=["POST", "GET"])
 def api_login():
-    print(request.method)
-    if request.is_json:
+    
+    if request.is_json and request.method == "POST":
         try:
             email = request.json['email']
             password = request.json['password']
 
-            if not FirebaseClass().login_user(email, password):
-                userID = FirebaseClass().get_user()
-                User_Logger.log_info("User Login Successful")
-                return jsonify(message="Login Successfully", access_token=FirebaseClass().get_user_token()), 200
+            fb = FirebaseClass()
+
+            if not fb.login_user(email, password):
+                userID = fb.get_user()
+                User_Logger().log_info("User Login Successful")
+                access_token = create_access_token(identity=userID, fresh=timedelta(hours=1), expires_delta=timedelta(hours=1))
+                return jsonify(message="Login Successfully", access_token=access_token), 200
             else:
-                User_Logger.log_info("User Login Failed")
+                User_Logger().log_info("User Login Failed")
                 return jsonify(message="Invalid email or password"), 401
         except:
-            return jsonify(message="Invalid key")
+            return jsonify(message="Invalid value")
     else:
-        if request.method == "POST":
-            email = request.form["email"]
-            password = request.form["password"]
-
-            return jsonify(message=f"d")
-        else:
-            email = request.form["email"]
-            password = request.form["password"]
-
-            return jsonify(message=f"{email}, {password}")
+        return jsonify(message="Request shall be in a JSON format.")
             
 
-
-@api.route("/favourites")
-def api_favourite():
-    pass
+@api.route("/userInfo", methods=["POST","GET"])
+@jwt_required(fresh=True)
+def user_info():
+    fba = FirebaseAdminClass()
+    userInfo = fba.fa_get_user(get_jwt_identity())
+    infoDict = {"UserID":get_jwt_identity(), "Email": userInfo.email, "Name": userInfo.display_name, "Phone Number": userInfo.phone_number}
+    
+    return jsonify(userInfo=infoDict)
 
 
 @api.route("/users")
