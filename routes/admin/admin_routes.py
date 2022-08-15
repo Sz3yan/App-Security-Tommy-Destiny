@@ -3,7 +3,7 @@ import os
 from functools import wraps
 
 from flask import Blueprint, redirect, render_template, request, url_for, g, session, abort
-from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
+from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement, GoogleSecretManager
 from mitigations.API10_Insufficient_logging_and_monitoring import Admin_Logger, User_Logger
 from static.firebaseConnection import FirebaseAdminClass, FirebaseClass
 from routes.admin.static.py.Post import Post, SubmitPostForm
@@ -15,9 +15,11 @@ admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templ
 Admin_Logger = Admin_Logger()
 User_Logger = User_Logger()
 
+googlesecretmanager = GoogleSecretManager()
+
 keymanagement = GoogleCloudKeyManagement()
-secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "hsm_tommy"))
-secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", "hsm_tommy1"))
+secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy", "1")))
+secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy1", "1")))
 
 
 def admin_required(f):
