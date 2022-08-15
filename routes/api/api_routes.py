@@ -9,7 +9,7 @@ import jwt
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
-@api.route("/api/login", methods=["POST"])
+@api.route("/login", methods=["POST, GET"])
 def api_login():
     if request.is_json:
         try:
@@ -27,12 +27,12 @@ def api_login():
             return jsonify(message="Invalid key")
 
 
-@api.route("/api/favourites")
+@api.route("/favourites")
 def api_favourite():
     pass
 
 
-@api.route("/api/users")
+@api.route("/users")
 def api_users():
     isAdmin = request.args.get('isAdmin')
     name = request.args.get("name")
