@@ -4,7 +4,7 @@ from datetime import timedelta
 class Config(object):
     """Base Flask configuration"""
     SECRET_KEY = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
-    SESSION_PERMANENT = True
+    SESSION_PERMANENT = False
     SESSION_TYPE = 'filesystem'
     SESSION_FILE_THRESHOLD = 100
     PERMANENT_SESSION_LIFETIME = timedelta(hours=1)
