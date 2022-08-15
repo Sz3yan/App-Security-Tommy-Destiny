@@ -1,6 +1,6 @@
 import sentry_sdk
 
-from flask import Flask
+from flask import Flask, jsonify, request
 from config import DevConfig, ProdConfig
 from dotenv import load_dotenv
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -11,13 +11,15 @@ from flask_session import Session
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
 
-from routes.api.api_routes import api
+# from routes.api.api_routes import api
 from routes.admin.admin_routes import admin
 from routes.user.user_routes import user
 from routes.errors.error_routes import errors
 
 from mitigations.A7_Cross_site_scripting import CspClass
+from werkzeug.exceptions import MethodNotAllowed
 
+MethodNotAllowed(valid_methods=["api_login","api_users"])
 
 load_dotenv()
 
@@ -37,12 +39,23 @@ sess = Session(app)
 # talisman = Talisman(app, force_https=True, content_security_policy=CspClass().return_csp_header("homeage"))  # enables HSTS
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
 
+# @app.route("/api/login", methods=["POST"])
+# def api_login():
+#     if request.is_json:
+#         print("Hello")
+#         return jsonify(user="h")
+#     else:
+#         print("dsasfd")
+#         return jsonify(user="d")
 
-app.register_blueprint(api)
+# app.register_blueprint(api)
 app.register_blueprint(admin)
 app.register_blueprint(user)
 app.register_blueprint(errors)
 
+app.add_url_rule("/api/users", endpoint="apiUsers")
+app.add_url_rule("/api/login", endpoint="apiLogin")
+app.add_url_rule("/login", endpoint="login")
 
 # prevent caching
 @app.after_request
@@ -52,6 +65,22 @@ def add_header(r):
     r.headers["Expires"] = "0"
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
+
+@app.errorhandler(404)
+@app.errorhandler(405)
+def api_error(errorCode):
+    if request.path.startswith('/api'):
+        return jsonify(error=str(errorCode)), errorCode.code
+
+@app.endpoint("apiLogin")
+@app.route("/api/login", methods=["POST"])
+def api_login():
+    if request.method == "POST":
+        print("Hello")
+        return jsonify(user="h")
+    else:
+        print("dsasfd")
+        return jsonify(user="d")
 
 
 if __name__ == "__main__":

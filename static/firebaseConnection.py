@@ -1,3 +1,4 @@
+from typing_extensions import Self
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials, auth, db, exceptions
@@ -41,7 +42,7 @@ class FirebaseClass:
     def login_user(self, email, password):
         try:
             user = self.__auth.sign_in_with_email_and_password(email, password)
-            pprint(user)
+            # pprint(user)
             self.__User_ID = user["localId"]
             self.__User_Token = user['idToken']
         except:
@@ -134,15 +135,14 @@ class FirebaseAdminClass(FirebaseClass):
 
     # Get User
     def fa_get_user(self, UserID):
-        # if auth.UserNotFoundError(message="User not found"):
-        #     return auth.UserNotFoundError(message="User not found")
-        # elif exceptions.FirebaseError(message="Unable to connect to firebase"):
-        #     return exceptions.FirebaseError(message="Unable to connect to firebase")
-        # else:
             try:
                 return auth.get_user(UserID)
             except ValueError:
                 return "Invalid User ID"
+    
+    # Verify User Firebase JWT Token
+    def verify_firebase_token(self,token):
+        return auth.verify_id_token(token)
     
     # Get Post
     def fa_get_post(self):
@@ -157,24 +157,26 @@ class FirebaseAdminClass(FirebaseClass):
         return self.__firebaseAdmin_db_reference.child('Content_Security_Policy').get()
 
 
-# # # Test
-# if __name__ == "__main__":
-#     fb = FirebaseClass()
-#     fba = FirebaseAdminClass()
+# Test
+if __name__ == "__main__":
+    fb = FirebaseClass()
+    fba = FirebaseAdminClass()
 
-#     # fba.fa_create_csp('homeage',['hellp'], ['asdas','sadasdass'])
-#     # fba.fa_create_csp('login',['hellp'], ['asdas','sadasdass'])
-#     # fba.fa_create_csp()
-#     # print(fba.fa_get_csp())
+    # fba.fa_create_csp('homeage',['hellp'], ['asdas','sadasdass'])
+    # fba.fa_create_csp('login',['hellp'], ['asdas','sadasdass'])
+    # fba.fa_create_csp()
+    # print(fba.fa_get_csp())
 
-#     fb.create_user("YouKnow@gmail.com","Hello123456")
-#     fb.login_user("YouKnow@gmail.com","Hello123456")
+    # fb.create_user("YouKnow@gmail.com","Hello123456")
+    fb.login_user("YouKnow@gmail.com","Hello123456")
 
-#     # auth.update_user(fb.get_user(), display_name="Your welcome")
-#     # print(fb.get_user())
+    # auth.update_user(fb.get_user(), display_name="Your welcome")
+    # print(fb.get_user())
     
-#     # print(fba.get_user(fb.get_user()).uid)
-#     # # print(fba.get_db())
+    print(fba.verify_firebase_token(fb.get_user_token()))
+    # print(fba.fa_get_user(fb.get_user()))
+    # print(fba.fa_get_user(fb.get_user()).metadata)
+    # print(fba.get_db())
 
 
 

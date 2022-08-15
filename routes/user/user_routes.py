@@ -2,7 +2,8 @@ import json
 
 from datetime import datetime
 
-from flask import Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify
+from flask_jwt_extended import create_access_token
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement
 from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
 from static.firebaseConnection import FirebaseClass, FirebaseAdminClass
@@ -20,6 +21,7 @@ secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-
 
 @user.route("/")
 def index():
+    print("Hello")
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
@@ -36,6 +38,7 @@ def pricing():
     return render_template("pricing.html")
 
 
+@user.endpoint("login")
 @user.route("/login", methods=["POST", "GET"])
 def login():
     User_Logger.log_info("User login: access login page")
