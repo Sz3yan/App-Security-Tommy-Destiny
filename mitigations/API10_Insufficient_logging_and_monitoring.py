@@ -1,91 +1,43 @@
-import logging
 import os
-import json
-from pythonjsonlogger import jsonlogger
+import logging
+import google.cloud.logging
 
-path = os.path.dirname(os.path.abspath(__file__))
-
-# create a folder for logs
-if not os.path.exists(path + '/logs'):
-    os.makedirs(path + '/logs')
-
-logs_path = path + '/logs'
+from google.cloud.logging.handlers import CloudLoggingHandler
+from google.cloud.logging_v2.handlers import setup_logging
 
 
-class Logger(logging.Logger):
-    def __init__(self, name):
-        super().__init__(name)
-        self.setLevel(logging.INFO)
-
-    def log_info(self, message):
-        self.info(message)
-
-    def log_error(self, message):
-        self.error(message)
-
-    def log_debug(self, message):
-        self.debug(message)
-
-    def log_warning(self, message):
-        self.warning(message)
-
-    def log_critical(self, message):
-        self.critical(message)
-
-    def log_exception(self, message):
-        self.exception(message)
-
-
-class Admin_Logger(Logger):
+class GoogleCloudLogging:
     def __init__(self):
-        super().__init__(__name__)
-        adminhandler = logging.FileHandler(logs_path + '/admin_log.log')
-        adminhandler.setLevel(logging.INFO)
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/Users/YP/Documents/NYP_Applications_Security_Project/Assignments/Tommy-Destiny/google.json'
+        self.__client = google.cloud.logging.Client()
 
-        adminformatter = jsonlogger.JsonFormatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
-        adminhandler.setFormatter(adminformatter)
+        # explicitly set up a CloudLoggingHandler to send logs over the network
+        self.__handler = CloudLoggingHandler(self.__client)
+        setup_logging(self.__handler)
 
-        self.addHandler(adminhandler)
+    def write_entry_debug(self, message):
+        return logging.debug(message)
 
-    def read_adminlog(self):
-        array = []
-        with open(logs_path + '/admin_log.log', 'r') as f:
-            for line in f:
-                array.append(line)
+    def write_entry_info(self, message):
+        return logging.info(message)
 
-        dictionary = {}
-        for i in range(len(array)):
-            dictionary[i] = array[i]
+    def write_entry_warning(self, message):
+        return logging.warning(message)
 
-        return dictionary
+    def write_entry_error(self, message):
+        return logging.error(message)
 
+    def write_entry_critical(self, message):
+        return logging.critical(message)
 
-class User_Logger(Logger):
-    def __init__(self):
-        super().__init__(__name__)
-        userhandler = logging.FileHandler(logs_path + '/user_log.log')
-        userhandler.setLevel(logging.INFO)
+    def write_entry_exception(self, message):
+        return logging.exception(message)
 
-        userformatter = jsonlogger.JsonFormatter('[%(asctime)s %(created)f] [%(levelname)s] %(message)s [%(filename)s %(module)s %(funcName)s %(lineno)d]')
-        userhandler.setFormatter(userformatter)
-        self.addHandler(userhandler)
-
-    def read_userlog(self):
-        array = []
-        with open(logs_path + '/user_log.log', 'r') as f:
-            for line in f:
-                array.append(line)
-
-        dictionary = {}
-        for i in range(len(array)):
-            dictionary[i] = array[i]
-
-        return dictionary
+    def readlogs(self):
+        return self.__client.list_entries()
 
 
-# if __name__ == "__main__":
-#     a = Admin_Logger()
-#     a.log_info("today very tired")
+# if __name__ == '__main__':
+#     gcl = GoogleCloudLogging()
+#     gcl.readlogs()
 
-#     b = User_Logger()
-#     b.log_info("sdfsdfgs")  

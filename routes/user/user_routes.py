@@ -5,14 +5,14 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify
 from flask_jwt_extended import create_access_token
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement, GoogleSecretManager
-from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
+from mitigations.API10_Insufficient_logging_and_monitoring import GoogleCloudLogging
 from static.firebaseConnection import FirebaseClass, FirebaseAdminClass
 from routes.user.static.py.Forms import CreateUser, LoginUser
 from routes.admin.static.py.Post import Post
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 
-User_Logger = User_Logger()
+write_logs = GoogleCloudLogging()
 
 googlesecretmanager = GoogleSecretManager()
 
@@ -27,10 +27,10 @@ def index():
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
-        User_Logger.log_info("User home: retrieved posts")
+        write_logs.write_entry_info("User home: retrieved posts")
     except:
         posts = []
-        User_Logger.log_exception("User home: no posts found")
+        write_logs.write_entry_exception("User home: no posts found")
 
     return render_template('home.html', posts=posts)
 
@@ -42,7 +42,7 @@ def pricing():
 
 @user.route("/login", methods=["POST", "GET"])
 def login():
-    User_Logger.log_info("User login: access login page")
+    write_logs.write_entry_info("User login: access login page")
 
     firebase = FirebaseClass()
     loginUser = LoginUser(request.form)
@@ -58,10 +58,10 @@ def login():
             if not firebase.login_user(email, password):
                 userID = firebase.get_user()
                 session['userID'] = userID
-                User_Logger.log_info("User login: login successful, session created")
+                write_logs.write_entry_info("User login: login successful, session created")
                 return redirect(url_for("user.profile"))
             else:
-                User_Logger.log_warning("User login: login failed")
+                write_logs.write_entry_warning("User login: login failed")
                 return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
     return render_template('login.html', form=loginUser, message="")
@@ -72,7 +72,7 @@ def logout():
     # remove the username from the session if it is there
     session.pop('userID', None)
 
-    User_Logger.log_info("User logout: logout successful, session removed")
+    write_logs.write_entry_info("User logout: logout successful, session removed")
     return redirect(url_for('user.index'))
 
 
@@ -94,7 +94,7 @@ def profile():
 
 @user.route("/signup", methods=["POST", "GET"])
 def signup():
-    User_Logger.log_info("User signup: access signup page")
+    write_logs.write_entry_info("User signup: access signup page")
 
     firebase = FirebaseClass()
     createUser = CreateUser(request.form)
@@ -106,9 +106,10 @@ def signup():
 
         if not firebase.create_user(email, password):
             firebase.create_user_info(username, phno, "customer")
-            User_Logger.log_info("User signup: signup successful, user created")
+            write_logs.write_entry_info("User signup: signup successful, user created")
+            return render_template('login.html')
         else:
-            User_Logger.log_warning("User signup: signup failed")
+            write_logs.write_entry_warning("User signup: signup failed")
             return render_template('signup.html', form=createUser, message=str(firebase.create_user(email, password)))
     return render_template('signup.html', form=createUser)
 
@@ -136,14 +137,14 @@ def top4post(id):
                 date = i.val()["_Post__published_at"]
 
                 decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
-                User_Logger.log_info(f"User post: decrypted post {id} with hsm_tommy key")
+                write_logs.write_entry_info(f"User post: decrypted post {id} with hsm_tommy key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
             else:
                 data = data
     except:
-        User_Logger.log_exception("User post: No posts found")
+        write_logs.write_entry_exception("User post: No posts found")
         return redirect(url_for("user.index"))
 
     return render_template('top4post.html', id=id, data=data, title=title, date=date)
@@ -172,14 +173,14 @@ def post(id):
                 date = i.val()["_Post__published_at"]
 
                 decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
-                User_Logger.log_info(f"User post: decrypted post {id} with hsm_tommy key")
+                write_logs.write_entry_info(f"User post: decrypted post {id} with hsm_tommy key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
             else:
                 data = data
     except:
-        User_Logger.log_exception("User post: No posts found")
+        write_logs.write_entry_exception("User post: No posts found")
         return redirect(url_for("user.index"))
 
     return render_template('post.html', id=id, data=data, title=title, date=date)
@@ -203,14 +204,14 @@ def about():
                 plaintext = i.val()["_Page__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
-                User_Logger.log_info(f"User post: decrypted About page with hsm_tommy1 key")
+                write_logs.write_entry_info(f"User post: decrypted About page with hsm_tommy1 key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
             else:
                 data = data
     except:
-        User_Logger.log_exception("User about: no page found")
+        write_logs.write_entry_exception("User about: no page found")
         return redirect(url_for("user.index"))
 
     return render_template("about.html", data=data)
@@ -221,10 +222,10 @@ def allposts():
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
-        User_Logger.log_info("User allposts: retrieved posts")
+        write_logs.write_entry_info("User allposts: retrieved posts")
     except:
         posts = []
-        User_Logger.log_exception("User allposts: no posts found")
+        write_logs.write_entry_exception("User allposts: no posts found")
 
     return render_template("allposts.html", posts=posts)
 
@@ -247,14 +248,14 @@ def policy():
                 plaintext = i.val()["_Page__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
-                User_Logger.log_info(f"User post: decrypted Privacy-Policy page with hsm_tommy1 key")
+                write_logs.write_entry_info(f"User post: decrypted Privacy-Policy page with hsm_tommy1 key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
             else:
                 data = data
     except:
-        User_Logger.log_exception("User about: no page found")
+        write_logs.write_entry_exception("User about: no page found")
         return redirect(url_for("user.index"))
 
     return render_template("policy.html", data=data)

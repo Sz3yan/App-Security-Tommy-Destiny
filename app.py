@@ -1,6 +1,6 @@
 import sentry_sdk
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session, g
 from config import DevConfig, ProdConfig
 from dotenv import load_dotenv
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -15,6 +15,7 @@ from routes.api.api_routes import api
 from routes.admin.admin_routes import admin
 from routes.user.user_routes import user
 from routes.errors.error_routes import errors
+from static.firebaseConnection import FirebaseClass
 
 from mitigations.A7_Cross_site_scripting import CspClass
 
@@ -109,6 +110,16 @@ def api_error(errorCode):
     if request.path.startswith('/api'):
         return jsonify(error=str(errorCode)), errorCode.code
 
+
+
+@app.before_request
+def before_request():
+    if 'userID' in session:
+        firebase = FirebaseClass() # this will not hve any id
+        user_ID = session["userID"]
+
+        userInfo = firebase.get_user_info(user_ID)
+        g.current_user = userInfo
 
 
 if __name__ == "__main__":
