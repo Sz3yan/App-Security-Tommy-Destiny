@@ -3,8 +3,10 @@ import time
 import datetime
 import base64
 import hashlib
+import google_crc32c
 
 from google.cloud import kms
+from google.cloud import secretmanager
 from google.protobuf import duration_pb2
 from Cryptodome.Cipher import AES
 from Cryptodome.Random import get_random_bytes
@@ -86,8 +88,103 @@ class GoogleCloudKeyManagement:
 
         key_name = client.crypto_key_path(project_id, location_id, key_ring_id, key_id)
         retrieved_key = client.get_crypto_key(request={'name': key_name})
-        # print('Retrieved key: {}'.format(retrieved_key.name))
         return retrieved_key
+
+
+class GoogleSecretManager:
+    def __init__(self):
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google.json"
+
+    def create_secret(self, project_id, secret_id):
+        """
+        Create a new secret with the given name. A secret is a logical wrapper
+        around a collection of secret versions. Secret versions hold the actual
+        secret material.
+        """
+
+        client = secretmanager.SecretManagerServiceClient()
+
+        parent = f"projects/{project_id}"
+
+        # Create the secret.
+        response = client.create_secret(
+            request={
+                "parent": parent,
+                "secret_id": secret_id,
+                "secret": {"replication": {"automatic": {}}},
+            }
+        )
+
+        # Print the new secret name.
+        print("Created secret: {}".format(response.name))
+
+    def add_secret_version(self, project_id, secret_id, payload):
+        """
+        Add a new secret version to the given secret with the provided payload.
+        """
+        client = secretmanager.SecretManagerServiceClient()
+
+        parent = client.secret_path(project_id, secret_id)
+
+        # Convert the string payload into a bytes. This step can be omitted if you
+        # pass in bytes instead of a str for the payload argument.
+        payload = payload.encode("UTF-8")
+
+        # Calculate payload checksum. Passing a checksum in add-version request
+
+        crc32c = google_crc32c.Checksum()
+        crc32c.update(payload)
+
+        # Add the secret version.
+        response = client.add_secret_version(
+            request={
+                "parent": parent,
+                "payload": {"data": payload, "data_crc32c": int(crc32c.hexdigest(), 16)},
+            }
+        )
+
+        # Print the new secret version name.
+        print("Added secret version: {}".format(response.name))
+
+    def get_secret_payload(self, project_id, secret_id, version_id):
+        """
+        Get the payload of the given secret version.
+        """
+
+        # Import the Secret Manager client library.
+        from google.cloud import secretmanager
+
+        # Create the Secret Manager client.
+        client = secretmanager.SecretManagerServiceClient()
+
+        name = client.secret_version_path(project_id, secret_id, version_id)
+        response = client.access_secret_version(request={"name": name})
+        payload = response.payload.data.decode("UTF-8")
+
+        return payload
+
+    def list_secrets(self, project_id):
+        """
+        List all secrets in the given project.
+        """
+        client = secretmanager.SecretManagerServiceClient()
+
+        parent = f"projects/{project_id}"
+
+        # List all secrets.
+        for secret in client.list_secrets(request={"parent": parent}):
+            print("Found secret: {}".format(secret.name))
+
+    def delete_secret(self, project_id, secret_id):
+        """
+        Delete the secret with the given name and all of its versions.
+        """
+        client = secretmanager.SecretManagerServiceClient()
+
+        name = client.secret_path(project_id, secret_id)
+
+        # Delete the secret.
+        client.delete_secret(request={"name": name})
 
 
 class AES_GCM:
@@ -156,4 +253,3 @@ class Argon2ID:
             return self.hasher.verify(hash, password)
         except exceptions.VerifyMismatchError:
             return "The secret does not match the hash"
-            
