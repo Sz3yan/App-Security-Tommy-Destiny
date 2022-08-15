@@ -243,7 +243,7 @@ class Argon2ID:
         - parallelism for the number of threads to run the algorithm
     """
     def __init__(self):
-        self.hasher = PasswordHasher(time_cost=20, memory_cost=65536 , parallelism=4, type=Type.ID)
+        self.hasher = PasswordHasher(time_cost=4, memory_cost=32 , parallelism=4, hash_len=32, type=Type.ID)
 
     def hash_password(self, password):
         return self.hasher.hash(password)
