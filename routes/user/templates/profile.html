@@ -2,7 +2,6 @@
 {% block title %}Sign up {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="../static/css/signup.css">
     <style>
         label {
             display: none;
@@ -16,10 +15,10 @@
 <br>
 <div class="container-login">
   <div class="col">
-      <h1>Welcome {{ g.current_user.get("Name") }}</h1>
+      <h1>Welcome {{ userinfo["Name"] }}</h1>
   </div>
     <div class="col">
-      <p>phonenumber: {{ g.current_user.get("Phone number") }}</p>
+      <p>phonenumber: {{ userinfo["Phone number"] }}</p>
   </div>
 </div>
 

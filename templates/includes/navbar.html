@@ -18,10 +18,16 @@
                         stroke-linecap="round"></path>
                 </svg>
             </button>
-            <div class="hidden lg:ml-8 lg:flex lg:items-center lg:border-l lg:border-slate-900/15 lg:pl-8"><a
-                    href="/login">Sign in</a><a
-                    class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8"
-                    href="/admin/dashboard"><span>Get all-access <span aria-hidden="true">→</span></span></a></div>
+
+            <div class="hidden lg:ml-8 lg:flex lg:items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
+                {% if session["userID"] %}
+                    <a href="/logout">Sign out</a>
+                {% else %}
+                    <a href="/login">Sign in</a>
+                {% endif %}
+
+                <a class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8"
+                    href="/admin/dashboard"><span>Admin Access <span aria-hidden="true">→</span></span></a></div>
         </div>
     </nav>
 </header>

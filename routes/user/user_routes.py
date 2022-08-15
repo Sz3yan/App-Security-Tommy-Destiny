@@ -82,7 +82,7 @@ def profile():
         
         userInfo = fa.get_user_info(user_ID)
         print(userInfo)
-        return render_template('profile.html')
+        return render_template('profile.html', userinfo=userInfo)
     else:
         return redirect(url_for('user.index'))
 
