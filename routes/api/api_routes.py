@@ -9,9 +9,9 @@ import jwt
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
-
-@api.route("/login", methods=["POST, GET"])
+@api.route("/login", methods=["POST", "GET"])
 def api_login():
+    print(request.method)
     if request.is_json:
         try:
             email = request.json['email']
@@ -26,6 +26,18 @@ def api_login():
                 return jsonify(message="Invalid email or password"), 401
         except:
             return jsonify(message="Invalid key")
+    else:
+        if request.method == "POST":
+            email = request.form["email"]
+            password = request.form["password"]
+
+            return jsonify(message=f"d")
+        else:
+            email = request.form["email"]
+            password = request.form["password"]
+
+            return jsonify(message=f"{email}, {password}")
+            
 
 
 @api.route("/favourites")
@@ -37,6 +49,7 @@ def api_favourite():
 def api_users():
     if request.is_json:
         name = request.json["user"]
+        isAdmin = False
     else:
         isAdmin = request.args.get('isAdmin')
         name = request.args.get("name")

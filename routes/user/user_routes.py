@@ -38,21 +38,13 @@ def pricing():
     return render_template("pricing.html")
 
 
-# @user.endpoint("login")
 @user.route("/login", methods=["POST", "GET"])
 def login():
     User_Logger.log_info("User login: access login page")
 
     firebase = FirebaseClass()
     loginUser = LoginUser(request.form)
-
-    if request.is_json:
-        if request.method == "POST":
-            email = request.json['email']
-            password = request.json['password']
-            return jsonify(message=f"{email}, {password}")
-        else:
-            return jsonify(message="TRUE")
+    
     if "userID" in session:
         return redirect(url_for('user.profile'))
     else:

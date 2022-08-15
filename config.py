@@ -5,7 +5,7 @@ class Config(object):
     """Base Flask configuration"""
     SECRET_KEY = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
     JWT_SECRET_KEY = 'VG9tbXlEZXN0aW55and0c2VjcmV0a2V5c2VjdXJldmVyaWZpY2F0aW9u'
-    SESSION_PERMANENT = True
+    SESSION_PERMANENT = False
     SESSION_TYPE = 'filesystem'
     SESSION_FILE_THRESHOLD = 100
     PERMANENT_SESSION_LIFETIME = timedelta(hours=1)
