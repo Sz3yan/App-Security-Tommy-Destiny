@@ -18,11 +18,9 @@ def api_login():
 
             if not fb.login_user(email, password):
                 userID = fb.get_user()
-                User_Logger().log_info("User Login Successful")
                 access_token = create_access_token(identity=userID, fresh=timedelta(hours=1), expires_delta=timedelta(hours=1))
                 return jsonify(message="Login Successfully", access_token=access_token), 200
             else:
-                User_Logger().log_info("User Login Failed")
                 return jsonify(message="Invalid email or password"), 401
         except:
             return jsonify(message="Invalid value")
