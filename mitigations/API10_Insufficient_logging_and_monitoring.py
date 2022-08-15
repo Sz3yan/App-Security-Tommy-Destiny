@@ -35,6 +35,3 @@ class GoogleCloudLogging:
 
     def write_entry_exception(self, message):
         return logging.exception(message)
-
-    def readlogs(self):
-        return self.__client.list_entries()

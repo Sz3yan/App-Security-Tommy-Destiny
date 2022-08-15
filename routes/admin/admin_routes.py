@@ -43,21 +43,24 @@ def admin_required(f):
 @admin.route("/dashboard")
 @admin_required
 def admin_dashboard():
-    labels = [1,2,3,4,5,6,7,8,9,10]
-    values = [514, 1433, 1687, 2711, 3715, 4184, 4398, 5322, 510, 975, 975, 1395, 1395, 1860, 2070, 2490]
-
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
         write_logs.write_entry_info("Admin dashboard: retrieved posts")
+
     except:
         posts = []
         write_logs.write_entry_exception("Admin dashboard: No posts found")
 
-    admin_logs = write_logs.read_adminlog()
-    user_logs = write_logs.read_userlog()
+    try:
+        firebase = FirebaseClass()
+        pages = [page.val() for page in firebase.get_page().each()]
+        write_logs.write_entry_info("Admin posts: retrieved pages")
+    except:
+        pages = []
+        write_logs.write_entry_exception("Admin posts: No page found")
     
-    return render_template('admin_dashboard.html',labels=labels, values=values, posts=posts, admin_logs=admin_logs, user_logs=user_logs)
+    return render_template('admin_dashboard.html', posts=posts, pages=pages, countposts=len(posts), countpages=len(pages))
 
 
 @admin.route("/viewsite")
@@ -271,30 +274,6 @@ def delete_page(id):
     write_logs.write_entry_info(f"Admin delete: delete page {id}")
     
     return redirect(url_for('admin.page'))
-
-
-# @admin.route("/loggingMonitoring")
-# @admin_required
-# def audit_log():
-    # admin_logs = write_logs.read_adminlog()
-    # write_logs.write_entry_warning("Admin audit log: retrieved Admin logs")
-
-    # tojsonAdminlog = {}
-
-    # for i in admin_logs:
-    #     tojson = json.loads(admin_logs[i])
-    #     tojsonAdminlog[i] = tojson
-
-    # user_logs = write_logs.read_userlog()
-    # write_logs.write_entry_warning("Admin audit log: retrieved User logs")
-
-    # tojsonUserlog = {}
-
-    # for i in user_logs:
-    #     tojson = json.loads(user_logs[i])
-    #     tojsonUserlog[i] = tojson
-
-    # return render_template('admin_loggingMonitoring.html', admin_logs=dict(reversed(list(tojsonAdminlog.items()))), user_logs=dict(reversed(list(tojsonUserlog.items()))), admin_count=len(admin_logs), user_count=len(user_logs))
 
 
 @admin.route("/policy")

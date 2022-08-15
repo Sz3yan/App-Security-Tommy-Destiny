@@ -28,8 +28,8 @@
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
                                     <span
-                                        class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">2,340</span>
-                                    <h3 class="text-base font-normal text-gray-500">Admin Logs</h3>
+                                        class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ countposts }}</span>
+                                    <h3 class="text-base font-normal text-gray-500">Posts</h3>
                                 </div>
                                 <div
                                     class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
@@ -47,8 +47,8 @@
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
                                     <span
-                                        class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">5,355</span>
-                                    <h3 class="text-base font-normal text-gray-500">User Logs</h3>
+                                        class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ countpages }}</span>
+                                    <h3 class="text-base font-normal text-gray-500">Pages</h3>
                                 </div>
                                 <div
                                     class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
@@ -133,6 +133,64 @@
                                                     </td>
                                                     <td class="py-4 px-6 text-right">
                                                         <a href="editor/posts/{{ post['_Post__id'] }}"
+                                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+        
+                            </div>
+                        </div>
+                        <!-- /End replace -->
+                    </div>
+                </div>
+            </div>
+            <!-- /End replace -->
+        </div>
+
+        <div class="max-w-7xl mx-auto">
+            <!-- Replace with your content -->
+            <div class="px-4 py-6 sm:px-0">
+                <div class="rounded-lg h-96">
+                    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        <!-- Replace with your content -->
+                        <div class="px-4 py-6 sm:px-0">
+                            <div class="rounded-lg h-96">
+                                <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                <th scope="col" class="py-3 px-6">
+                                                    Page Title
+                                                </th>
+                                                <th scope="col" class="py-3 px-6">
+                                                    Publish
+                                                </th>
+                                                <th scope="col" class="py-3 px-6">
+                                                    Views
+                                                </th>
+                                                <th scope="col" class="py-3 px-6">
+                                                    <span class="sr-only">Edit</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for page in pages %}
+                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                    <th scope="row"
+                                                        class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        {{ page['_Page__title'] }}
+                                                    </th>
+                                                    <td class="py-4 px-6">
+                                                        {{ page['_Page__published_at'] }}
+                                                    </td>
+                                                    <td class="py-4 px-6">
+                                                        915
+                                                    </td>
+                                                    <td class="py-4 px-6 text-right">
+                                                        <a href="editor/pages/{{ page['_Page__id'] }}"
                                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                                                     </td>
                                                 </tr>
