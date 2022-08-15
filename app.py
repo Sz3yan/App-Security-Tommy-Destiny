@@ -11,15 +11,14 @@ from flask_session import Session
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
 
-# from routes.api.api_routes import api
+from routes.api.api_routes import api
 from routes.admin.admin_routes import admin
 from routes.user.user_routes import user
 from routes.errors.error_routes import errors
 
 from mitigations.A7_Cross_site_scripting import CspClass
-from werkzeug.exceptions import MethodNotAllowed
+# from werkzeug.exceptions import MethodNotAllowed
 
-MethodNotAllowed(valid_methods=["api_login","api_users"])
 
 load_dotenv()
 
@@ -37,7 +36,7 @@ jwt = JWTManager(app)
 csrf = CSRFProtect(app)
 sess = Session(app)
 # talisman = Talisman(app, force_https=True, content_security_policy=CspClass().return_csp_header("homeage"))  # enables HSTS
-limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per second"])
+limiter = Limiter(app, key_func=get_remote_address, default_limits=["75 per second"])
 
 # @app.route("/api/login", methods=["POST"])
 # def api_login():
@@ -48,14 +47,14 @@ limiter = Limiter(app, key_func=get_remote_address, default_limits=["50 per seco
 #         print("dsasfd")
 #         return jsonify(user="d")
 
-# app.register_blueprint(api)
+app.register_blueprint(api)
 app.register_blueprint(admin)
 app.register_blueprint(user)
 app.register_blueprint(errors)
 
-app.add_url_rule("/api/users", endpoint="apiUsers")
-app.add_url_rule("/api/login", endpoint="apiLogin")
-app.add_url_rule("/login", endpoint="login")
+# app.add_url_rule("/api/users", endpoint="apiUsers")
+# app.add_url_rule("/api/login", endpoint="apiLogin")
+# app.add_url_rule("/login", endpoint="login")
 
 # prevent caching
 @app.after_request
@@ -72,15 +71,15 @@ def api_error(errorCode):
     if request.path.startswith('/api'):
         return jsonify(error=str(errorCode)), errorCode.code
 
-@app.endpoint("apiLogin")
-@app.route("/api/login", methods=["POST"])
-def api_login():
-    if request.method == "POST":
-        print("Hello")
-        return jsonify(user="h")
-    else:
-        print("dsasfd")
-        return jsonify(user="d")
+# @app.endpoint("apiLogin")
+# @app.route("/api/login", methods=["POST"])
+# def api_login():
+#     if request.method == "POST":
+#         print("Hello")
+#         return jsonify(user="h")
+#     else:
+#         print("dsasfd")
+#         return jsonify(user="d")
 
 
 if __name__ == "__main__":

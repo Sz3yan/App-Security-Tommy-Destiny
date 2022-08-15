@@ -21,8 +21,6 @@
 
 {% block bodyContent %}
 <div class="relative -mt-[5.75rem] overflow-hidden pt-[5.75rem] pb-16">
-    <img src="/img/beams-home@95.jpg" alt=""
-        class="absolute -top-[1rem] left-1/2 -ml-[40rem] w-[163.125rem] max-w-none sm:-ml-[67.5rem]">
     <div class="relative mx-auto mt-16 grid w-full max-w-container grid-cols-1 px-4 sm:mt-20 sm:px-6 lg:px-8 xl:mt-32">
         <div class="col-start-1 row-start-1 h-7 text-base font-semibold leading-7 text-sky-500" aria-hidden="true">By
             the makers of Tommy Destiny</div>
@@ -110,21 +108,25 @@
     <div class="-mx-4 flex transition-transform duration-500" style="transform: translateX(0%);">
         <div id="post1" class="tabcontent w-full flex-none sm:px-4">
             <p onclick="this.parentElement.style.display='none'" class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden"></p>
-            <iframe class="w-full h-screen" src="/top4post/{{ posts[0]['_Post__id'] }}" frameborder="0" allowtransparency="true"></iframe>
+            <img class="sm:rounded-3xl md:mt-0 mx-auto" src="https://source.unsplash.com/i1TP8hZX8c4"/>
+            <iframe class="w-full h-screen overflow-y" src="/top4post/{{ posts[0]['_Post__id'] }}" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
         </div>
 
         <div id="post2" class="tabcontent w-full flex-none sm:px-4">
             <p onclick="this.parentElement.style.display='none'" class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden"></p>
+            <img class="sm:rounded-3xl md:mt-0 mx-auto" src="https://source.unsplash.com/Bt_J-VvC9-A"/>
             <iframe class="w-full h-screen" src="/top4post/{{ posts[1]['_Post__id'] }}" frameborder="0" allowtransparency="true"></iframe>
         </div>
 
         <div id="post3" class="tabcontent w-full flex-none sm:px-4">
             <p onclick="this.parentElement.style.display='none'" class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden"></p>
+            <img class="sm:rounded-3xl md:mt-0 mx-auto" src="https://source.unsplash.com/JBghIzjbuLs"/>
             <iframe class="w-full h-screen" src="/top4post/{{ posts[2]['_Post__id'] }}" frameborder="0" allowtransparency="true"></iframe>
         </div>
 
         <div id="post4" class="tabcontent w-full flex-none sm:px-4">
             <p onclick="this.parentElement.style.display='none'" class="px-4 text-sm leading-6 text-slate-700 sm:px-0 md:hidden"></p>
+            <img class="sm:rounded-3xl md:mt-0 mx-auto" src="https://source.unsplash.com/b2qszO9C7sw"/>
             <iframe class="w-full h-screen" src="/top4post/{{ posts[3]['_Post__id'] }}" frameborder="0" allowtransparency="true"></iframe>
         </div>
 

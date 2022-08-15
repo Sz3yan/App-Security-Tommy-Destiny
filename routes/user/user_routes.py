@@ -38,13 +38,21 @@ def pricing():
     return render_template("pricing.html")
 
 
-@user.endpoint("login")
+# @user.endpoint("login")
 @user.route("/login", methods=["POST", "GET"])
 def login():
     User_Logger.log_info("User login: access login page")
 
     firebase = FirebaseClass()
     loginUser = LoginUser(request.form)
+
+    if request.is_json:
+        if request.method == "POST":
+            email = request.json['email']
+            password = request.json['password']
+            return jsonify(message=f"{email}, {password}")
+        else:
+            return jsonify(message="TRUE")
     if "userID" in session:
         return redirect(url_for('user.profile'))
     else:
@@ -77,22 +85,17 @@ def logout():
 @user.route('/profile')
 def profile():
     
-    fa = FirebaseAdminClass()
+    fa = FirebaseClass()
     if 'userID' in session:
         # this will not hve any id
         user_ID = session["userID"]
         print(user_ID)
         
-        userInfo = fa.get_user(user_ID)
+        userInfo = fa.get_user_info(user_ID)
         print(userInfo)
-        return render_template('profile.html')
+        return render_template('profile.html', userinfo=userInfo)
     else:
         return redirect(url_for('user.index'))
-
-
-@user.route("/payment")
-def payment():
-    return render_template("payment.html")
 
 
 @user.route("/signup", methods=["POST", "GET"])
@@ -139,7 +142,7 @@ def top4post(id):
                 date = i.val()["_Post__published_at"]
 
                 decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
-                User_Logger.log_info(f"User post: decrypted post {id}")
+                User_Logger.log_info(f"User post: decrypted post {id} with hsm_tommy key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
@@ -175,7 +178,7 @@ def post(id):
                 date = i.val()["_Post__published_at"]
 
                 decrypted = aes_gcm.decrypt(secret_key_post, plaintext)
-                User_Logger.log_info(f"User post: decrypted post {id}")
+                User_Logger.log_info(f"User post: decrypted post {id} with hsm_tommy key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
@@ -206,7 +209,7 @@ def about():
                 plaintext = i.val()["_Page__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
-                User_Logger.log_info(f"User post: decrypted page 96e4d495-29bb-414a-a4ab-adb0a65debc8")
+                User_Logger.log_info(f"User post: decrypted About page with hsm_tommy1 key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
@@ -250,7 +253,7 @@ def policy():
                 plaintext = i.val()["_Page__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
-                User_Logger.log_info(f"User post: decrypted page 70006058-1f60-4824-b77a-b63bc22342c1")
+                User_Logger.log_info(f"User post: decrypted Privacy-Policy page with hsm_tommy1 key")
 
                 to_json = json.loads(decrypted)
                 data = to_json["blocks"]
