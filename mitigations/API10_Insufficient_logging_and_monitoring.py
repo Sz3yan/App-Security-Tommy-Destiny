@@ -93,7 +93,7 @@ class User_Logger(Logger):
 import logging
 import google.cloud.logging
 
-service_key_path = "/Users/sz3yan/Tommy-Destiny/google.json"
+service_key_path = "google.json"
 client = google.cloud.logging.Client.from_service_account_json(service_key_path)
 
 client.setup_logging()
