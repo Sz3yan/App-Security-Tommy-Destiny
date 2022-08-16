@@ -6,12 +6,9 @@ from datetime import timedelta
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
-FirebaseClass()
-fba = FirebaseAdminClass()
-
 @api.route("/login", methods=["POST", "GET"])
 def api_login():
-    
+    fba = FirebaseAdminClass()
     if request.is_json and request.method == "POST":
         try:
             email = request.json['email']
@@ -32,6 +29,7 @@ def api_login():
 
 @api.route("/userCreate", methods=["POST"])
 def api_create_user():
+    fba = FirebaseAdminClass()
     if request.is_json and request.method == "POST":
         try:
             email = request.json['email']
@@ -61,7 +59,7 @@ def referesh_token():
 @api.route("/userInfo", methods=["POST","GET"])
 @jwt_required(fresh=True)
 def user_info():
-    
+    fba = FirebaseAdminClass()
     userInfo = fba.fa_get_user(get_jwt_identity())
     infoDict = {"UserID":get_jwt_identity(), "Email": userInfo["UI1"].email, "Name": userInfo["UI2"][get_jwt_identity()]["Name"], "Phone Number": userInfo["UI2"][get_jwt_identity()]["Phone number"]}
     
