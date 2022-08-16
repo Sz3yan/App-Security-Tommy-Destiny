@@ -1,29 +1,26 @@
 import json
 
-from datetime import datetime
-
-from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_jwt_extended import create_access_token
-from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement, GoogleSecretManager
-from mitigations.API10_Insufficient_logging_and_monitoring import GoogleCloudLogging
-from static.firebaseConnection import FirebaseClass, FirebaseAdminClass
+from static.firebaseConnection import FirebaseClass
 from routes.user.static.py.Forms import CreateUser, LoginUser
 from routes.admin.static.py.Post import Post
+from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement, GoogleSecretManager
+from mitigations.API10_Insufficient_logging_and_monitoring import GoogleCloudLogging
+
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 
 write_logs = GoogleCloudLogging()
-
 googlesecretmanager = GoogleSecretManager()
-
 keymanagement = GoogleCloudKeyManagement()
+
 secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy", "1")))
 secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy1", "1")))
 
 
 @user.route("/")
 def index():
-    
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
@@ -33,11 +30,6 @@ def index():
         write_logs.write_entry_exception("User home: no posts found")
 
     return render_template('home.html', posts=posts)
-
-
-@user.route("/pricing")
-def pricing():
-    return render_template("pricing.html")
 
 
 @user.route("/login", methods=["POST", "GET"])
@@ -185,6 +177,11 @@ def post(id):
 
     return render_template('post.html', id=id, data=data, title=title, date=date)
 
+
+@user.route("/pricing")
+def pricing():
+    return render_template("pricing.html")
+    
 
 @user.route("/about")
 def about():

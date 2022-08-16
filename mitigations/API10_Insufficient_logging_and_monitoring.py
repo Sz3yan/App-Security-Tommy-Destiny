@@ -1,7 +1,7 @@
 import os
+import pathlib
 import logging
 import google.cloud.logging
-import pathlib
 
 from google.cloud.logging.handlers import CloudLoggingHandler
 from google.cloud.logging_v2.handlers import setup_logging

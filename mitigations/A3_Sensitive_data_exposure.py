@@ -150,11 +150,6 @@ class GoogleSecretManager:
         """
         Get the payload of the given secret version.
         """
-
-        # Import the Secret Manager client library.
-        from google.cloud import secretmanager
-
-        # Create the Secret Manager client.
         client = secretmanager.SecretManagerServiceClient()
 
         name = client.secret_version_path(project_id, secret_id, version_id)
@@ -239,11 +234,19 @@ class Argon2ID:
     """
         provides a balanced approach to resisting both side-channel and GPU-based attacks
         - time_cost for the cpu to run the algorithm
-        - memory_cost for the memory to run the algorithm
+        - salt_len for the length of the salt
+        - hash_len for the length of the hash
         - parallelism for the number of threads to run the algorithm
+        - memory_cost for the memory to run the algorithm
     """
     def __init__(self):
-        self.hasher = PasswordHasher(time_cost=4, memory_cost=32 , parallelism=4, hash_len=32, type=Type.ID)
+        self.hasher = PasswordHasher(
+            time_cost=4,
+            salt_len=64,
+            hash_len=64,
+            parallelism=4,
+            memory_cost=64*1024,
+            type=Type.ID)
 
     def hash_password(self, password):
         return self.hasher.hash(password)

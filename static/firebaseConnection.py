@@ -1,11 +1,9 @@
-from typing_extensions import Self
+import os
 import pyrebase
 import firebase_admin
-from firebase_admin import credentials, auth, db, exceptions
-import os
-from dotenv import load_dotenv
-from pprint import pprint
 
+from firebase_admin import credentials, auth, db, exceptions
+from dotenv import load_dotenv
 
 
 load_dotenv()
@@ -42,7 +40,6 @@ class FirebaseClass:
     def login_user(self, email, password):
         try:
             user = self.__auth.sign_in_with_email_and_password(email, password)
-            # pprint(user)
             self.__User_ID = user["localId"]
             self.__User_Token = user['idToken']
         except:
@@ -58,27 +55,14 @@ class FirebaseClass:
         for i in users:
             if i.key() == User_ID:
                 return i.val()
-        # for user in users.each():
-        #     userval = user.val()
-        #     print(users)
-        #     print(user)
-        #     print(userval)
-            #print("Username =", userval.get("Name")) how to get stuff from firebase
-            # return userval
 
     def get_user(self):
-        # if userId != "" and self.__User_ID == "":
-        #     users = self.__database.child("User").get(userId)
-        #     for user in users.each():
-        #         userkey = user.key()
-        #         return userkey
-        #     self.__User_ID = userId
-        # else:
         User_ID = self.__User_ID
         return User_ID
 
     def get_user_token(self):
         return self.__User_Token
+
 
     # Blog Post
     def create_post(self, post_dict):
@@ -99,6 +83,8 @@ class FirebaseClass:
                 self.__database.child("Post").child(i.key()).remove()
                 return "Post deleted"
 
+
+    # Page
     def create_page(self, page_dict):
         self.__database.child("Page").push(page_dict.__dict__)
 
@@ -116,13 +102,6 @@ class FirebaseClass:
             if i.val()["_Page__id"] == page_id:
                 self.__database.child("Page").child(i.key()).remove()
                 return "Page deleted"
-    
-    # Storage
-    def get_image_url(self):
-        print(self.__storage.child("image").get_url(None))
-
-    def upload_image(self, stoarge_path, local_image_path):
-        self.__storage.child("image").child(stoarge_path).put(local_image_path)
 
 
 class FirebaseAdminClass(FirebaseClass):
@@ -182,11 +161,6 @@ if __name__ == "__main__":
     # print(fba.fa_get_user(fb.get_user()).metadata)
     # print(fba.get_db())
 
-
-
-
-
-# #     # fb.get_image_url()
 # #     # fb.create_user("plshelpme@mail.com", "unknown")
 # #     # fb.login_user("hai@mail.com", "unknown")
 
