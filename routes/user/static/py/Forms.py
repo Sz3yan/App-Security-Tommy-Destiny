@@ -13,6 +13,7 @@ class CreateUser(Form):
                         render_kw={"placeholder": "Password"})
     confirm_password = PasswordField([validators.Length(min=8, max=15), validators.Regexp(regex="(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}"),validators.EqualTo('register_password', message='Passwords must match'),
                         validators.DataRequired()], render_kw={"placeholder": "Confirm Password"})
+    recaptcha = RecaptchaField()
 
 class TwoFactorAuth(Form):
     phno = StringField([validators.Length(min=1, max=20), validators.DataRequired()], render_kw={"placeholder": "Phone Number"})
