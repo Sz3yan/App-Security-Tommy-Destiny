@@ -1,3 +1,4 @@
+import os
 import sentry_sdk
 
 from flask import Flask, jsonify, request, session, g
@@ -80,4 +81,4 @@ def before_request():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
