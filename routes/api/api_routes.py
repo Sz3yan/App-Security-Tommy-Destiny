@@ -45,7 +45,8 @@ def user_info():
     return jsonify(userInfo=infoDict)
 
 
-@api.route("/users")
+@api.route("/updateUserInfo", methods=["PUT"])
+@jwt_required(fresh=True)
 def api_users():
     if request.is_json:
         name = request.json["user"]
