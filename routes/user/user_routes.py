@@ -140,7 +140,7 @@ def signup():
         if not firebase.create_user(email, password):
             firebase.create_user_info(username, phno, "customer")
             write_logs.write_entry_info("User signup: signup successful, user created")
-            return render_template('login.html')
+            return redirect(url_for("user.login"))
         else:
             write_logs.write_entry_warning("User signup: signup failed")
             return render_template('signup.html', form=createUser, message=str(firebase.create_user(email, password)))
