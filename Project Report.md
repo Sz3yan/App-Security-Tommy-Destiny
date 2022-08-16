@@ -77,3 +77,20 @@ Tommy Destiny is a powerful app for Tommy to publish content, share, and grow a 
         - For example, if I want to know when an audit log records a particular data-access message, you can create a log-based alert that matches the message and notifies you when it appears.
 - sentry io for monitoring
 - Google Cloud Run monitoring
+
+
+## Yee Ping
+- 
+
+
+
+
+## Stefanie
+
+- 
+
+
+
+## Mizuki
+- 
+
