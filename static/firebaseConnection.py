@@ -137,32 +137,3 @@ class FirebaseAdminClass(FirebaseClass):
     # Get Policy
     def fa_get_csp(self):
         return self.__firebaseAdmin_db_reference.child('Content_Security_Policy').get()
-
-
-# Test
-if __name__ == "__main__":
-    fb = FirebaseClass()
-    fba = FirebaseAdminClass()
-
-    # fba.fa_create_csp('homeage',['hellp'], ['asdas','sadasdass'])
-    # fba.fa_create_csp('login',['hellp'], ['asdas','sadasdass'])
-    # fba.fa_create_csp()
-    # print(fba.fa_get_csp())
-
-    # fb.create_user("YouKnow@gmail.com","Hello123456")
-    # fb.login_user("YouKnow@gmail.com","Hello123456")
-
-    # auth.update_user(fb.get_user(), display_name="Your welcome")
-    # print(fb.get_user())
-    
-    # print(fba.verify_firebase_token(fb.get_user_token()))
-    # print(fba.fa_get_user(fb.get_user()))
-    # print(fba.fa_get_user(fb.get_user()).metadata)
-    # print(fba.get_db())
-
-# #     # fb.create_user("plshelpme@mail.com", "unknown")
-# #     # fb.login_user("hai@mail.com", "unknown")
-
-# #     pushorpull_post = FirebaseClass()
-# #     for i in pushorpull_post.get_post().each():
-# #         print(i.key())
