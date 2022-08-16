@@ -1,12 +1,14 @@
 import json
+import random
 
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_jwt_extended import create_access_token
 from static.firebaseConnection import FirebaseClass
-from routes.user.static.py.Forms import CreateUser, LoginUser
+from routes.user.static.py.Forms import CreateUser, LoginUser, TwoFactorAuth, EnterOTP
 from routes.admin.static.py.Post import Post
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement, GoogleSecretManager
 from mitigations.API10_Insufficient_logging_and_monitoring import GoogleCloudLogging
+from twilio.rest import Client
 
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
@@ -18,6 +20,9 @@ keymanagement = GoogleCloudKeyManagement()
 secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy", "1")))
 secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy1", "1")))
 
+recapcha_public_key = googlesecretmanager.get_secret_payload("tommy-destiny", "recaptcha-public-key", "1")
+twilio_account_sid = googlesecretmanager.get_secret_payload("tommy-destiny", "twilio_account_sid", "1")
+twilio_auth_token = googlesecretmanager.get_secret_payload("tommy-destiny", "twilio_auth_token", "1")
 
 @user.route("/")
 def index():
@@ -56,7 +61,43 @@ def login():
                 write_logs.write_entry_warning("User login: login failed")
                 return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
-    return render_template('login.html', form=loginUser, message="")
+    return render_template('login.html', form=loginUser, message="", recapcha_public_key=recapcha_public_key)
+
+@user.route('/2FA', methods=["POST", "GET"])
+def twoFactorAuth():
+    twoFactorAuth = TwoFactorAuth(request.form)
+    if request.method == "POST" and twoFactorAuth.validate():
+        phno = twoFactorAuth.phno.data
+
+    else:
+        return render_template('2FA.html', form=twoFactorAuth)
+    return render_template('2FA.html', form=twoFactorAuth)
+
+
+@user.route('/enterOTP', methods=["POST", "GET"])
+def enterOTP():
+    enterOTP = EnterOTP(request.form)
+    if request.method == "POST" and enterOTP.validate():
+       otp = enterOTP.otp.data
+       phno = request.form['phno']
+       num = getOTPTwilio(phno)
+       
+    else:
+        return render_template('enterOTP.html', form= enterOTP)
+    return render_template('enterOTP.html', form= enterOTP)
+
+
+def getOTPTwilio(phno):
+    client = Client(twilio_account_sid, twilio_auth_token)
+    otp = random.randrange(100000,999999)
+    body = 'Your OTP is ' + str(otp)
+    message = client.messages.create(from_='+16506681171', body=body, to=phno)
+
+    if message.sid:
+        return True
+    else:
+        return False
+    #TWILIO_VERIFY_SERVICE_ID = 'VAe790e68f842cb1f0f9e2bcf1714c0e62'
 
 
 @user.route('/logout')
