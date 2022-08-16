@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import  jwt_required, create_access_token, create_refresh_token, get_jwt_identity
-from static.firebaseConnection import FirebaseAdminClass
+from static.firebaseConnection import FirebaseAdminClass, FirebaseClass
 # from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
 from datetime import timedelta
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
+FirebaseClass()
 fba = FirebaseAdminClass()
 
 @api.route("/login", methods=["POST", "GET"])
@@ -28,7 +29,7 @@ def api_login():
     else:
         return jsonify(message="Please send request with JSON and POST method")
 
-        
+
 @api.route("/userCreate", methods=["POST"])
 def api_create_user():
     if request.is_json and request.method == "POST":
