@@ -39,6 +39,7 @@ talisman = Talisman(app,
     content_security_policy=FirebaseAdminClass().fa_get_csp()["homepage"], # for now
     # content_security_policy=CSP,
     # content_security_policy_nonce_in=["script-src"],
+    # content_security_policy=False,
     strict_transport_security=True,
     strict_transport_security_preload=True,
     strict_transport_security_max_age=31536000, 

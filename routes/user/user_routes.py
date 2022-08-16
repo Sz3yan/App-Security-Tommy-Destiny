@@ -18,6 +18,8 @@ keymanagement = GoogleCloudKeyManagement()
 secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy", "1")))
 secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy1", "1")))
 
+recapcha_public_key = googlesecretmanager.get_secret_payload("tommy-destiny", "recaptcha-public-key", "1")
+
 
 @user.route("/")
 def index():
@@ -56,7 +58,7 @@ def login():
                 write_logs.write_entry_warning("User login: login failed")
                 return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
-    return render_template('login.html', form=loginUser, message="")
+    return render_template('login.html', form=loginUser, message="", recapcha_public_key=recapcha_public_key)
 
 
 @user.route('/logout')
