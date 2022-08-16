@@ -1,6 +1,6 @@
 from flask_wtf import RecaptchaField
-from wtforms import Form, StringField, validators
-from wtforms.fields import PasswordField
+from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, HiddenField, validators
+from wtforms.fields import DateField, FloatField, IntegerField, PasswordField, BooleanField, FileField
 from wtforms.validators import ValidationError, NumberRange
 from flask_wtf.csrf import CSRFProtect
 
