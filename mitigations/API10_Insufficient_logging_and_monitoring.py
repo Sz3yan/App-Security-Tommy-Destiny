@@ -1,4 +1,5 @@
 import os
+import pathlib
 import logging
 import google.cloud.logging
 
@@ -8,7 +9,9 @@ from google.cloud.logging_v2.handlers import setup_logging
 
 class GoogleCloudLogging:
     def __init__(self):
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/Users/YP/Documents/NYP_Applications_Security_Project/Assignments/Tommy-Destiny/google.json'
+        path = pathlib.Path(__file__).parent.parent.absolute()
+        path = os.path.join(path, 'google.json')
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = path
         self.__client = google.cloud.logging.Client()
 
         # explicitly set up a CloudLoggingHandler to send logs over the network
@@ -32,12 +35,3 @@ class GoogleCloudLogging:
 
     def write_entry_exception(self, message):
         return logging.exception(message)
-
-    def readlogs(self):
-        return self.__client.list_entries()
-
-
-# if __name__ == '__main__':
-#     gcl = GoogleCloudLogging()
-#     gcl.readlogs()
-

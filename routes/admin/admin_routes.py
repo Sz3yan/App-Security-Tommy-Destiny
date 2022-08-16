@@ -1,22 +1,20 @@
 import json
-import os
-from functools import wraps
 
-from flask import Blueprint, redirect, render_template, request, url_for, g, session, abort
-from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement, GoogleSecretManager
-from mitigations.API10_Insufficient_logging_and_monitoring import GoogleCloudLogging
-from static.firebaseConnection import FirebaseAdminClass, FirebaseClass
+from functools import wraps
+from flask import Blueprint, redirect, render_template, request, url_for, g, session
+from static.firebaseConnection import FirebaseClass
 from routes.admin.static.py.Post import Post, SubmitPostForm
 from routes.admin.static.py.Page import Page
+from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement, GoogleSecretManager
+from mitigations.API10_Insufficient_logging_and_monitoring import GoogleCloudLogging
 
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates', static_folder='static')
 
 write_logs = GoogleCloudLogging()
-
 googlesecretmanager = GoogleSecretManager()
-
 keymanagement = GoogleCloudKeyManagement()
+
 secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy", "1")))
 secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy1", "1")))
 
@@ -30,7 +28,6 @@ def admin_required(f):
             userInfo = firebase.get_user_info(user_ID)
             g.current_user = userInfo
             if g.current_user.get("Role") == "admin":
-                print(g.current_user.get("Role"))
                 return f(*args, **kwargs)
             else:
                 return redirect(url_for("user.index"))
@@ -43,21 +40,24 @@ def admin_required(f):
 @admin.route("/dashboard")
 @admin_required
 def admin_dashboard():
-    labels = [1,2,3,4,5,6,7,8,9,10]
-    values = [514, 1433, 1687, 2711, 3715, 4184, 4398, 5322, 510, 975, 975, 1395, 1395, 1860, 2070, 2490]
-
     try:
         firebase = FirebaseClass()
         posts = [post.val() for post in firebase.get_post().each()]
         write_logs.write_entry_info("Admin dashboard: retrieved posts")
+
     except:
         posts = []
         write_logs.write_entry_exception("Admin dashboard: No posts found")
 
-    admin_logs = write_logs.read_adminlog()
-    user_logs = write_logs.read_userlog()
+    try:
+        firebase = FirebaseClass()
+        pages = [page.val() for page in firebase.get_page().each()]
+        write_logs.write_entry_info("Admin posts: retrieved pages")
+    except:
+        pages = []
+        write_logs.write_entry_exception("Admin posts: No page found")
     
-    return render_template('admin_dashboard.html',labels=labels, values=values, posts=posts, admin_logs=admin_logs, user_logs=user_logs)
+    return render_template('admin_dashboard.html', posts=posts, pages=pages, countposts=len(posts), countpages=len(pages))
 
 
 @admin.route("/viewsite")
@@ -209,7 +209,6 @@ def editor_pages(id):
                 plaintext = i.val()["_Page__plaintext"]
 
                 decrypted = aes_gcm.decrypt(secret_key_page, plaintext)
-                print(decrypted)
                 write_logs.write_entry_info(f"Admin editor: decrypted page {id} with hsm_tommy1 key")
 
                 to_json = json.loads(decrypted)
@@ -271,33 +270,3 @@ def delete_page(id):
     write_logs.write_entry_info(f"Admin delete: delete page {id}")
     
     return redirect(url_for('admin.page'))
-
-
-# @admin.route("/loggingMonitoring")
-# @admin_required
-# def audit_log():
-    # admin_logs = write_logs.read_adminlog()
-    # write_logs.write_entry_warning("Admin audit log: retrieved Admin logs")
-
-    # tojsonAdminlog = {}
-
-    # for i in admin_logs:
-    #     tojson = json.loads(admin_logs[i])
-    #     tojsonAdminlog[i] = tojson
-
-    # user_logs = write_logs.read_userlog()
-    # write_logs.write_entry_warning("Admin audit log: retrieved User logs")
-
-    # tojsonUserlog = {}
-
-    # for i in user_logs:
-    #     tojson = json.loads(user_logs[i])
-    #     tojsonUserlog[i] = tojson
-
-    # return render_template('admin_loggingMonitoring.html', admin_logs=dict(reversed(list(tojsonAdminlog.items()))), user_logs=dict(reversed(list(tojsonUserlog.items()))), admin_count=len(admin_logs), user_count=len(user_logs))
-
-
-@admin.route("/policy")
-@admin_required
-def policy():
-    return render_template('admin_policy.html')

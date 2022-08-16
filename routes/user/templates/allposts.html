@@ -22,7 +22,7 @@
     <div class="mt-16 flex border-t border-slate-200 sm:space-x-10 md:grid md:grid-cols-3 md:gap-x-8 md:space-x-0"
         role="tablist" aria-orientation="horizontal">
         <div>
-            <div class="relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-indigo-500">
+            <div onclick="openCity(event, 'free')" class="tablinks relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-indigo-500">
                 <h3><button
                     class="whitespace-nowrap text-sm font-semibold leading-7 sm:text-base [&amp;:not(:focus-visible)]:focus:outline-none text-indigo-600"
                     id="headlessui-tabs-tab-13" role="tab" type="button" aria-selected="true" tabindex="0"
@@ -35,8 +35,7 @@
         </div>
         <div class="w-10 min-w-[1rem] shrink sm:hidden" aria-hidden="true"></div>
         <div>
-            <div
-                class="relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-transparent hover:border-slate-400">
+            <div onclick="openCity(event, 'upcoming')" class="tablinks relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-transparent hover:border-slate-400">
                 <h3><button
                     class="whitespace-nowrap text-sm font-semibold leading-7 sm:text-base [&amp;:not(:focus-visible)]:focus:outline-none text-slate-900"
                     id="headlessui-tabs-tab-14" role="tab" type="button" aria-selected="false" tabindex="-1"><span
@@ -48,8 +47,7 @@
         </div>
         <div class="w-10 min-w-[1rem] shrink sm:hidden" aria-hidden="true"></div>
         <div>
-            <div
-                class="relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-transparent hover:border-slate-400">
+            <div onclick="openCity(event, 'paid')" class="tablinks relative -mt-px border-t pt-4 pb-6 text-left md:pb-10 md:pt-8 border-transparent hover:border-slate-400">
                 <h3><button
                     class="whitespace-nowrap text-sm font-semibold leading-7 sm:text-base [&amp;:not(:focus-visible)]:focus:outline-none text-slate-900"
                     id="headlessui-tabs-tab-15" role="tab" type="button" aria-selected="false" tabindex="-1"><span
@@ -59,8 +57,9 @@
             </div>
         </div>
     </div>
+
     <div>
-        <div id="headlessui-tabs-panel-16" role="tabpanel" aria-labelledby="headlessui-tabs-tab-13" tabindex="0">
+        <div id="free" class="tabcontent" d="headlessui-tabs-panel-16" role="tabpanel" aria-labelledby="headlessui-tabs-tab-13" tabindex="0">
             <p class="text-sm leading-6 text-slate-700 md:hidden">Form layouts, tables, modal dialogs — everything you
                 need to build beautiful responsive web applications.
             </p>
@@ -74,7 +73,7 @@
                                 </div>
                                 <h4 class="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600"><a href="/post/{{ post['_Post__id'] }}"><span class="absolute -inset-2.5 z-10"></span><span class="relative">{{ post['_Post__title'] }}</span></a>
                                 </h4>
-                                <p class="relative mt-1.5 text-xs font-medium text-slate-500">{{ post['_Post__published_at'] }}</p>
+                                <p class="relative mt-1.5 text-xs font-medium text-slate-500">{{ post['_Post__published_at'][0:-7] }}</p>
                             </div>
                         </li>
                     {% endfor %}
@@ -82,5 +81,50 @@
             </div>
         </div>
     </div>
+
+    <div>
+        <div id="upcoming" class="tabcontent" d="headlessui-tabs-panel-16" role="tabpanel" aria-labelledby="headlessui-tabs-tab-13" tabindex="0">
+            <p class="text-sm leading-6 text-slate-700 md:hidden">Form layouts, tables, modal dialogs — everything you
+                need to build beautiful responsive web applications.
+            </p>
+            <div class="relative mt-10 md:mt-0">
+                <ul class="grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <p>upcoming</p>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div id="paid" class="tabcontent" d="headlessui-tabs-panel-16" role="tabpanel" aria-labelledby="headlessui-tabs-tab-13" tabindex="0">
+            <p class="text-sm leading-6 text-slate-700 md:hidden">Form layouts, tables, modal dialogs — everything you
+                need to build beautiful responsive web applications.
+            </p>
+            <div class="relative mt-10 md:mt-0">
+                <ul class="grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <p>Paid</p>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
 </section>
 {% endblock %}
