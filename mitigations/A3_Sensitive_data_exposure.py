@@ -11,8 +11,6 @@ from google.protobuf import duration_pb2
 from Cryptodome.Cipher import AES
 from Cryptodome.Random import get_random_bytes
 
-from argon2 import PasswordHasher, Type, exceptions
-
 
 class GoogleCloudKeyManagement:
     def __init__(self):
@@ -228,31 +226,3 @@ class AES_GCM:
 
     def get_secret_key(self, password, salt):
         return hashlib.pbkdf2_hmac(self.HASH_NAME, password.encode(), salt, self.ITERATION_COUNT, self.KEY_LENGTH)
-
-
-class Argon2ID:
-    """
-        provides a balanced approach to resisting both side-channel and GPU-based attacks
-        - time_cost for the cpu to run the algorithm
-        - salt_len for the length of the salt
-        - hash_len for the length of the hash
-        - parallelism for the number of threads to run the algorithm
-        - memory_cost for the memory to run the algorithm
-    """
-    def __init__(self):
-        self.hasher = PasswordHasher(
-            time_cost=4,
-            salt_len=64,
-            hash_len=64,
-            parallelism=4,
-            memory_cost=64*1024,
-            type=Type.ID)
-
-    def hash_password(self, password):
-        return self.hasher.hash(password)
-
-    def verify_password(self, hash, password):
-        try:
-            return self.hasher.verify(hash, password)
-        except exceptions.VerifyMismatchError:
-            return "The secret does not match the hash"
