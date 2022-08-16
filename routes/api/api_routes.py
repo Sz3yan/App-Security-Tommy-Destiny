@@ -29,16 +29,23 @@ def api_login():
 
 @api.route("/userCreate", methods=["POST"])
 def api_create_user():
-    fba = FirebaseAdminClass()
+    fb = FirebaseClass()
     if request.is_json and request.method == "POST":
         try:
             email = request.json['email']
             password = request.json['password']
-            name = request.json['name']
-            phone_num = request.json['phone_num']
+            try:
+                name = request.json['name']
+            except:
+                name=""
+
+            try:
+                phone_num = request.json['phone_num']
+            except:
+                phone_num = ""
             if email != "" and password != "":
-                fba.create_user(email, password)
-                fba.create_user_info(name,phone_num)
+                fb.create_user(email, password)
+                fb.create_user_info(name,phone_num)
 
                 return jsonify(message="User has been created. Please procced to login."),200
             else:
