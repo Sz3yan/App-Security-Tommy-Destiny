@@ -51,7 +51,6 @@ class FirebaseClass:
 
     def get_user_info(self, User_ID):
         users = self.__database.child("User").get().each()
-        print(User_ID )
         for i in users:
             if i.key() == User_ID:
                 return i.val()
