@@ -27,8 +27,8 @@ def api_login():
             return jsonify(message="Invalid value")
     else:
         return jsonify(message="Please send request with JSON and POST method")
-  
-            
+
+        
 @api.route("/userCreate", methods=["POST"])
 def api_create_user():
     if request.is_json and request.method == "POST":
