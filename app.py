@@ -15,7 +15,7 @@ from routes.api.api_routes import api
 from routes.admin.admin_routes import admin
 from routes.user.user_routes import user
 from routes.errors.error_routes import errors
-from static.firebaseConnection import FirebaseClass
+from static.firebaseConnection import FirebaseClass, FirebaseAdminClass
 
 from mitigations.A7_Cross_site_scripting import CspClass
 
@@ -69,7 +69,7 @@ sess = Session(app)
 talisman = Talisman(app, 
     force_https=False, 
     force_https_permanent=True,
-    content_security_policy=False, # for now
+    content_security_policy=FirebaseAdminClass().fa_get_csp()["homepage"], # for now
     # content_security_policy=CSP,
     # content_security_policy_nonce_in=["script-src"],
     strict_transport_security=True,
@@ -106,6 +106,8 @@ def add_header(r):
 @app.errorhandler(404)
 @app.errorhandler(405)
 @app.errorhandler(413)
+@app.errorhandler(429)
+@app.errorhandler(500)
 def api_error(errorCode):
     if request.path.startswith('/api'):
         return jsonify(error=str(errorCode)), errorCode.code

@@ -134,13 +134,13 @@ class FirebaseAdminClass(FirebaseClass):
             firebase_admin.initialize_app(credentials.Certificate(serviceAccountKey),{"databaseURL": os.getenv("DATABASE_URL")})
         except:
             pass
-        
+
         self.__firebaseAdmin_db_reference = db.reference()
 
     # Get User
     def fa_get_user(self, UserID):
             try:
-                return auth.get_user(UserID)
+                return {"UI1":auth.get_user(UserID), "UI2":self.__firebaseAdmin_db_reference.child("User").get()}
             except ValueError:
                 return "Invalid User ID"
     
@@ -172,12 +172,12 @@ if __name__ == "__main__":
     # print(fba.fa_get_csp())
 
     # fb.create_user("YouKnow@gmail.com","Hello123456")
-    fb.login_user("YouKnow@gmail.com","Hello123456")
+    # fb.login_user("YouKnow@gmail.com","Hello123456")
 
     # auth.update_user(fb.get_user(), display_name="Your welcome")
     # print(fb.get_user())
     
-    print(fba.verify_firebase_token(fb.get_user_token()))
+    # print(fba.verify_firebase_token(fb.get_user_token()))
     # print(fba.fa_get_user(fb.get_user()))
     # print(fba.fa_get_user(fb.get_user()).metadata)
     # print(fba.get_db())

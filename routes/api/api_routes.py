@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import  jwt_required, create_access_token, get_jwt_identity
+from flask_jwt_extended import  jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from static.firebaseConnection import FirebaseAdminClass, FirebaseClass
 # from mitigations.API10_Insufficient_logging_and_monitoring import User_Logger
 from datetime import timedelta
@@ -19,7 +19,8 @@ def api_login():
             if not fb.login_user(email, password):
                 userID = fb.get_user()
                 access_token = create_access_token(identity=userID, fresh=timedelta(hours=1), expires_delta=timedelta(hours=1))
-                return jsonify(message="Login Successfully", access_token=access_token), 200
+                refresh_token = create_refresh_token(identity=userID, expires_delta=timedelta(hours=30))
+                return jsonify(message="Login Successfully", access_token=access_token, refresh_token=refresh_token), 200
             else:
                 return jsonify(message="Invalid email or password"), 401
         except:
@@ -28,12 +29,18 @@ def api_login():
         return jsonify(message="Request shall be in a JSON format.")
             
 
+@api.route("/refershToken", methods=["POST"])
+@jwt_required(refresh=True)
+def referesh_token():
+    return jsonify(access_token=create_access_token(identity=get_jwt_identity(), fresh=timedelta(hours=1), expires_delta=timedelta(hours=1)))
+
+
 @api.route("/userInfo", methods=["POST","GET"])
 @jwt_required(fresh=True)
 def user_info():
     fba = FirebaseAdminClass()
     userInfo = fba.fa_get_user(get_jwt_identity())
-    infoDict = {"UserID":get_jwt_identity(), "Email": userInfo.email, "Name": userInfo.display_name, "Phone Number": userInfo.phone_number}
+    infoDict = {"UserID":get_jwt_identity(), "Email": userInfo["UI1"].email, "Name": userInfo["UI2"][get_jwt_identity()]["Name"], "Phone Number": userInfo["UI2"][get_jwt_identity()]["Phone number"]}
     
     return jsonify(userInfo=infoDict)
 
