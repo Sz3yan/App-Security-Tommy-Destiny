@@ -26,8 +26,30 @@ def api_login():
         except:
             return jsonify(message="Invalid value")
     else:
-        return jsonify(message="Request shall be sent in JSON format.")
+        return jsonify(message="Please send request with JSON and POST method")
+  
             
+@api.route("/userCreate", methods=["POST"])
+def api_create_user():
+    if request.is_json and request.method == "POST":
+        try:
+            email = request.json['email']
+            password = request.json['password']
+            name = request.json['name']
+            phone_num = request.json['phone_num']
+            if email != "" and password != "":
+                fba.create_user(email, password)
+                fba.create_user_info(name,phone_num)
+
+                return jsonify(message="User has been created. Please procced to login."),200
+            else:
+                return jsonify(message="Please input email and password before sending the request.")
+
+        except:
+            return jsonify(error="error has occured")
+    else:
+        return jsonify(message="Please send request with JSON and POST method")
+
 
 @api.route("/refershToken", methods=["POST"])
 @jwt_required(refresh=True)
