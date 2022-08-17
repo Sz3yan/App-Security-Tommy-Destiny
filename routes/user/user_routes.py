@@ -1,14 +1,15 @@
 import json
-import random
 
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_jwt_extended import create_access_token
-from static.firebaseConnection import FirebaseClass
+from ..api.api_routes import user_info
+from static.firebaseConnection import FirebaseClass, FirebaseAdminClass
 from routes.user.static.py.Forms import CreateUser, LoginUser, TwoFactorAuth, EnterOTP
 from routes.admin.static.py.Post import Post
 from mitigations.A3_Sensitive_data_exposure import AES_GCM, GoogleCloudKeyManagement, GoogleSecretManager
 from mitigations.API10_Insufficient_logging_and_monitoring import GoogleCloudLogging
-from twilio.rest import Client
+from mitigations.A2_Broken_authentication import getOTPTwilio
+
 
 
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
@@ -56,10 +57,10 @@ def login():
                 userID = firebase.get_user()
                 session['userID'] = userID
                 write_logs.write_entry_info("User login: login successful, session created")
-                return redirect(url_for("user.profile"))
+                return redirect(url_for("user.profile")) #redirect(url_for("user.2FA"))
             else:
                 write_logs.write_entry_warning("User login: login failed")
-                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)), recapcha_public_key=recapcha_public_key)
+                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
 
     return render_template('login.html', form=loginUser, message="", recapcha_public_key=recapcha_public_key)
 
@@ -77,27 +78,20 @@ def twoFactorAuth():
 @user.route('/enterOTP', methods=["POST", "GET"])
 def enterOTP():
     enterOTP = EnterOTP(request.form)
+    fba = FirebaseAdminClass()
+    user_ID = session["userID"]
+    userInfo = fba.fa_get_user(user_ID)
+    phno = userInfo["UI2"][user_ID]["Phone number"]
+    num = getOTPTwilio(phno)
     if request.method == "POST" and enterOTP.validate():
-       otp = enterOTP.otp.data
-       phno = request.form['phno']
-       num = getOTPTwilio(phno)
-       
-    else:
-        return render_template('enterOTP.html', form= enterOTP)
-    return render_template('enterOTP.html', form= enterOTP)
-
-
-def getOTPTwilio(phno):
-    client = Client(twilio_account_sid, twilio_auth_token)
-    otp = random.randrange(100000,999999)
-    body = 'Your OTP is ' + str(otp)
-    message = client.messages.create(from_='+16506681171', body=body, to=phno)
-
-    if message.sid:
-        return True
-    else:
-        return False
-    #TWILIO_VERIFY_SERVICE_ID = 'VAe790e68f842cb1f0f9e2bcf1714c0e62'
+        otp = enterOTP.otp.data
+        if num != "" and otp == num:
+            
+            return redirect(url_for("user.enterOTP"))
+        #else:
+            #return render_template('enterOTP.html', form=enterOTP, message="Invalid OTP")
+    return render_template('enterOTP.html', form=enterOTP)
+    
 
 
 @user.route('/logout')
