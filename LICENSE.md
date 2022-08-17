@@ -1,4 +1,4 @@
-MT License
+MIT License
 
 Copyright (c) 2022 Sz3yan, YeePingCyber, smizrx, StefanieRachel.
 
