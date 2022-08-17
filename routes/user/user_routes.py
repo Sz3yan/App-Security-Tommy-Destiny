@@ -59,7 +59,7 @@ def login():
                 return redirect(url_for("user.profile"))
             else:
                 write_logs.write_entry_warning("User login: login failed")
-                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)))
+                return render_template('login.html', form=loginUser, message=str(firebase.login_user(email, password)), recapcha_public_key=recapcha_public_key)
 
     return render_template('login.html', form=loginUser, message="", recapcha_public_key=recapcha_public_key)
 
