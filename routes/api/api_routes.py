@@ -44,10 +44,12 @@ def api_create_user():
             except:
                 phone_num = ""
             if email != "" and password != "":
-                fb.create_user(email, password)
-                fb.create_user_info(name,phone_num)
-
-                return jsonify(message="User has been created. Please procced to login."),200
+                if not fb.create_user(email, password):
+                    fb.create_user_info(name,phone_num)
+                    return jsonify(message="User has been created. Please procced to login."),200
+                else:
+                    return jsonify(message="Dupilcate user")
+                
             else:
                 return jsonify(message="Please input email and password before sending the request.")
 
