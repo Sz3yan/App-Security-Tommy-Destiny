@@ -1,9 +1,15 @@
-from twilio.rest import Client
 import random
 
+from mitigations.A3_Sensitive_data_exposure import GoogleSecretManager
+from twilio.rest import Client
+
+
+googlesecretmanager = GoogleSecretManager()
+
+twilio_account_sid = googlesecretmanager.get_secret_payload("tommy-destiny", "twilio_account_sid", "1")
+twilio_auth_token = googlesecretmanager.get_secret_payload("tommy-destiny", "twilio_auth_token", "1")
+
 def getOTPTwilio(phno):
-    twilio_account_sid = 'ACa38acb2c03e6b35c1bd7ba00fbdcd1a2'
-    twilio_auth_token = '5cce5cb9b1b2aaea8db39e183ff24629'
     client = Client(twilio_account_sid, twilio_auth_token)
     otp = random.randrange(100000,999999)
     body = 'Your OTP is ' + str(otp)

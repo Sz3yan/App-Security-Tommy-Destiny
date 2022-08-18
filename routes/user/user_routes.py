@@ -11,7 +11,6 @@ from mitigations.API10_Insufficient_logging_and_monitoring import GoogleCloudLog
 from mitigations.A2_Broken_authentication import getOTPTwilio
 
 
-
 user = Blueprint('user', __name__, template_folder="templates", static_folder='static')
 
 write_logs = GoogleCloudLogging()
@@ -22,8 +21,7 @@ secret_key_post = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-
 secret_key_page = str(keymanagement.retrieve_key("tommy-destiny", "global", "my-key-ring", googlesecretmanager.get_secret_payload("tommy-destiny", "hsm_tommy1", "1")))
 
 recapcha_public_key = googlesecretmanager.get_secret_payload("tommy-destiny", "recaptcha-public-key", "1")
-twilio_account_sid = googlesecretmanager.get_secret_payload("tommy-destiny", "twilio_account_sid", "1")
-twilio_auth_token = googlesecretmanager.get_secret_payload("tommy-destiny", "twilio_auth_token", "1")
+
 
 @user.route("/")
 def index():

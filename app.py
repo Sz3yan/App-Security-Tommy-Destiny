@@ -15,7 +15,6 @@ from routes.admin.admin_routes import admin
 from routes.user.user_routes import user
 from routes.errors.error_routes import errors
 from static.firebaseConnection import FirebaseClass, FirebaseAdminClass
-from mitigations.A7_Cross_site_scripting import CspClass
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 
@@ -26,7 +25,7 @@ sentry_sdk.init(
 )
 
 app = Flask(__name__)
-app.config.from_object(DevConfig())
+app.config.from_object(ProdConfig())
 
 
 jwt = JWTManager(app)
@@ -37,9 +36,6 @@ talisman = Talisman(app,
     force_https=False, 
     force_https_permanent=True,
     content_security_policy=FirebaseAdminClass().fa_get_csp()["homepage"], # for now
-    # content_security_policy=CSP,
-    # content_security_policy_nonce_in=["script-src"],
-    # content_security_policy=False,
     strict_transport_security=True,
     strict_transport_security_preload=True,
     strict_transport_security_max_age=31536000, 
