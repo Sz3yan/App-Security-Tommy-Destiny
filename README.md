@@ -1,5 +1,8 @@
 # NYP Y2S1 Application Security
 
+source_code https://github.com/Sz3yan/Tommy-Destiny
+hosted on https://tommy-destiny.herokuapp.com
+
 ### Background
 Tommy Destiny is a powerful app for Tommy to publish content, and grow a business around their content. It is equipped with modern tools to easily create, update and manage pages and posts catered for its audience.  
 
